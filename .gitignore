@@ -1,2 +1,6 @@
 .idea
 venv
+.python-version
+.env
+.vscode
+account
