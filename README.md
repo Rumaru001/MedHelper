@@ -18,12 +18,20 @@ NULP student project
   poetry env use 3.8
   poetry shell
   ```
-  4. install requirements
+  4. Install requirements for pyhton
   ```
   poetry self update
   poetry install
   ```
-  5. Run project
+  5. Install requirements for react
+  ```
+  yarn install
+  ```
+  6. Build react project
+  ```
+  npm run build
+  ```
+  7. Run project
   ```
   python manage.py migrate
   python manage.py runserver
