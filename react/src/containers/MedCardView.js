@@ -32,6 +32,8 @@ const data_hardcode = {
   ],
 };
 
+const filters_names = ["specification", "name", "tag"];
+
 export default class MedCard extends React.Component {
   constructor(props) {
     super(props);
@@ -41,68 +43,61 @@ export default class MedCard extends React.Component {
     this.state = {
       assignments: data,
       filteredAssignments: data,
-      filters: {
-        specification: [
-          ...new Set(
-            data.map((elem) => {
-              return elem.specification;
-            })
-          ),
-        ],
-        name: [
-          ...new Set(
-            data.map((elem) => {
-              return elem.name;
-            })
-          ),
-        ],
-        tag:
-          "tag" in data
-            ? [
-                ...new Set(
-                  data.map((elem) => {
-                    return elem.tag;
-                  })
-                ),
-              ]
-            : [],
-      },
+      filters: filters_names.map((field) => {
+        return { [field]: this.createFilters(field, data) };
+      }),
     };
+    console.log(this.state.filters);
   }
 
-  customFilter = (data, index, key, newFilters) => {
-    if (index < 0) return data;
-    return this.customFilter(
-      data.filter((elem) => {
-        console.log(newFilters[key[index]].includes(elem[key[index]]));
-        console.log(elem[key[index]], newFilters[key[index]]);
-        return elem[key[index]] === undefined
+  createFilters = (field, data) => {
+    //console.log(data, field);
+    if (data.length < 1) return [];
+    return [field] in data[0]
+      ? [
+          ...new Set(
+            data.map((elem) => {
+              //console.log(elem.field);
+              return elem[field];
+            })
+          ),
+        ]
+      : [];
+  };
+
+  customFilter = (data, filters) => {
+    console.log("Filtering assignments with next filters", filters);
+    filters.forEach((filter_elem, index) => {
+      data = data.filter((elem) => {
+        // console.log("Filtering", elem[filters_names[index]], filter_elem);
+        // console.log("Data: ", data);
+        return elem[filters_names[index]] === undefined
           ? true
-          : newFilters[key[index]].includes(elem[key[index]]);
-      }),
-      index - 1,
-      key,
-      newFilters
-    );
+          : filter_elem[filters_names[index]].includes(
+              elem[filters_names[index]]
+            );
+      });
+    });
+    return data;
   };
 
   filterAssignments = (newFilters) => {
-    Object.keys(newFilters).forEach((key) => {
-      if (newFilters[key].length < 1) {
-        newFilters[key] = this.state.filters[key];
-        console.log(`All object is added to filter type:`, key);
+    console.log(`New Filters`, newFilters);
+    newFilters.forEach((filter, index) => {
+      if (filter[filters_names[index]].length < 1) {
+        newFilters[index] = this.state.filters[index];
+        console.log(
+          `All object is restore for filter type:`,
+          filters_names[index]
+        );
       }
     });
-
-    console.log(`New Filters`, newFilters);
 
     this.setState(
       {
         ...this.state,
         filteredAssignments: this.customFilter(
           this.state.assignments,
-          Object.keys(newFilters).length - 1,
-          Object.keys(newFilters),
           newFilters
         ),
       },
