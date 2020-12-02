@@ -1,3 +1,8 @@
+html {
+  --lh: 1.4rem;
+  line-height: var(--lh);
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -10,6 +15,54 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.vh-100-c {
+  min-height: 100vh !important;
+  height: auto;
+}
+
+#page-content-wrapper {
+  text-align: center;
+}
+
+.logo:hover {
+  color: rgb(199, 199, 199);
+  text-decoration: none !important;
+}
+
+.child-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.optionsIcon {
+  position: relative;
+  float: right;
+  max-height: 40px;
+  padding: 10px;
+  margin-right: 5px;
+  cursor: pointer;
+  opacity: 0.9;
+}
+.optionsIcon:hover {
+  opacity: 0.55;
+}
+.dropdown-wrapper {
+  position: relative;
+  float: right;
+  max-height: 40px;
+  max-width: 50px;
+}
+.left-5 {
+  left: -5px !important;
+}
+
+.addbtn-assignment {
+  font-weight: bold;
+  width: 75%;
+  height: 50px;
 }
 
 @media (min-width: 992px) {
@@ -27,20 +80,6 @@ code {
   .flex-direction-column {
     flex-direction: column !important;
   }
-}
-
-.vh-100-c {
-  min-height: 100vh !important;
-  height: auto;
-}
-
-#page-content-wrapper {
-  text-align: center;
-}
-
-.logo:hover {
-  color: rgb(199, 199, 199);
-  text-decoration: none !important;
 }
 
 @media (max-width: 992px) {
@@ -74,10 +113,19 @@ code {
     transform: translate(0);
     transition: left 0.5s, transform 0.8s;
   }
+  .mobile {
+    margin-bottom: 3rem !important;
+  }
 }
 
-.child-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.faster {
+  animation-duration: 370ms !important;
+}
+
+.w-80 {
+  width: 80%;
+}
+.w-20 {
+  width: 20%;
+  max-width: 40px;
 }
