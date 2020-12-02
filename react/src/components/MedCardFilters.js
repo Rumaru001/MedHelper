@@ -25,7 +25,7 @@ export class MedCardFilters extends React.Component {
   render() {
     return (
       <>
-        <div class="container my-4 py-2">
+        <div class="w-100 my-4 mb-auto mobile pb-4">
           {this.props.data.map((filter, index) => {
             var name = Object.keys(filter)[0];
             //console.log("Filters", filter, name);

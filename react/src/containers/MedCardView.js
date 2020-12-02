@@ -6,48 +6,55 @@ import { SideNavBar } from "../components/SideBar.js";
 const data_hardcode = {
   assignments: [
     {
+      id: 0,
       name: "Name",
       specification: "specification",
       text:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      date: "01/03/03",
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      date: "01-12-2020",
       creator: "Name Surame",
     },
     {
+      id: 1,
       name: "Name",
       specification: "specification1",
       text:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      date: "02/03/03",
+      date: "05-11-2020",
       creator: "Name Surame",
     },
     {
+      id: 2,
       name: "Name1",
       specification: "specification",
       text:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      date: "03/03/03",
-      creator: "Name Surame",
+      date: "04-12-2019",
+      creator: "Name Surame1",
     },
   ],
 };
 
-const filters_names = ["specification", "name", "tag"];
+const filters_names = ["specification", "name", "tag", "creator"];
 
 export default class MedCard extends React.Component {
   constructor(props) {
     super(props);
 
     var data = data_hardcode.assignments;
-
+    var filters = filters_names.map((field) => {
+      return { [field]: this.createFilters(field, data) };
+    });
+    var dateFilter = { startTime: "1900-01-01", endTime: new Date() };
     this.state = {
       assignments: data,
       filteredAssignments: data,
-      filters: filters_names.map((field) => {
-        return { [field]: this.createFilters(field, data) };
-      }),
+      filters: [...filters],
+      defaultFilters: [...filters],
+      dateFilters: { ...dateFilter },
+      defaultDateFilters: { ...dateFilter },
     };
-    console.log(this.state.filters);
+    console.log(this.state.defaultFilters);
   }
 
   createFilters = (field, data) => {
@@ -65,8 +72,16 @@ export default class MedCard extends React.Component {
       : [];
   };
 
-  customFilter = (data, filters) => {
-    console.log("Filtering assignments with next filters", filters);
+  customFilter = (
+    data = this.state.assignments,
+    filters = this.state.filters,
+    dateFilters = this.state.dateFilters
+  ) => {
+    console.log(
+      "Filtering assignments with next filters",
+      filters,
+      dateFilters
+    );
     filters.forEach((filter_elem, index) => {
       data = data.filter((elem) => {
         // console.log("Filtering", elem[filters_names[index]], filter_elem);
@@ -78,6 +93,28 @@ export default class MedCard extends React.Component {
             );
       });
     });
+
+    var from = new Date(dateFilters.endTime);
+    var till = new Date(dateFilters.startTime);
+
+    console.log(from, till);
+
+    data = data.filter((elem) => {
+      var date = new Date(elem.date);
+      console.log(date, from <= date, date <= till);
+      return !(from <= date) && !(date <= till);
+    });
+
+    this.setState(
+      {
+        ...this.state,
+        filteredAssignments: data,
+      },
+      () => {
+        console.log(`Assignments updated`, this.state.filteredAssignments);
+      }
+    );
+
     return data;
   };
 
@@ -85,7 +122,7 @@ export default class MedCard extends React.Component {
     console.log(`New Filters`, newFilters);
     newFilters.forEach((filter, index) => {
       if (filter[filters_names[index]].length < 1) {
-        newFilters[index] = this.state.filters[index];
+        newFilters[index] = this.state.defaultFilters[index];
         console.log(
           `All object is restore for filter type:`,
           filters_names[index]
@@ -96,13 +133,40 @@ export default class MedCard extends React.Component {
     this.setState(
       {
         ...this.state,
-        filteredAssignments: this.customFilter(
-          this.state.assignments,
-          newFilters
-        ),
+        filters: newFilters,
       },
       () => {
-        console.log(`Filtered state `, this.state.filteredAssignments);
+        console.log(`FiltersUpdated`, this.state.filters);
+        this.customFilter();
+      }
+    );
+  };
+
+  filterByDate = (dateFilter) => {
+    var key = Object.keys(dateFilter);
+    var dateFromState = this.state.dateFilters;
+    dateFromState[key] = dateFilter[key];
+
+    this.setState(
+      {
+        ...this.state,
+        dateFilters: dateFromState,
+      },
+      () => {
+        console.log(`DateFilterUpdated`, this.state.dateFilters);
+        this.customFilter();
+      }
+    );
+  };
+
+  restoreDefaultDateFilter = () => {
+    this.setState(
+      {
+        ...this.state,
+        dateFilters: { ...this.state.defaultDateFilters },
+      },
+      () => {
+        this.customFilter();
       }
     );
   };
@@ -111,8 +175,10 @@ export default class MedCard extends React.Component {
     return (
       <>
         <SideNavBar
-          filters={this.state.filters}
+          filters={this.state.defaultFilters}
           onFilterChange={this.filterAssignments}
+          onDateFilterChange={this.filterByDate}
+          restoreDateFilter={this.restoreDefaultDateFilter}
         />
         <Container fluid className="vh-100-c">
           <Row>
