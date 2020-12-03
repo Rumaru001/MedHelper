@@ -1,21 +1,24 @@
 import React from "react";
 import { Card, Container, Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import OptionDropdown from "../components/optionButton";
 
-const options = [
-  { link: "/assignment/", name: "" },
-  { link: "", name: "" },
-];
+export function deleteAssignment(id) {
+  if (confirm(`Do you really want to delete assignment with name ${id}?`)) {
+    //send get delete request
+  }
+  var user_id = 0;
+  return <Redirect to={`/${user_id}/medical_card`} />;
+}
 
-export default class Assignment extends React.Component {
+export class Assignment extends React.Component {
   manageTextLenght = (text) => {
     return text.length < 700 ? text : `${text.slice(0, 700 - 5)}...`;
   };
 
   render() {
     return (
-      <Card className="mx-4 my-5 text-left shadow-sm animate__animated animate__backInRight">
+      <Card className="mx-4 my-5 text-left shadow-sm animate__animated animate__backInRight faster">
         <Card.Body>
           <Link
             to={`/assignment/${this.props.assignment.id}`}
@@ -32,8 +35,10 @@ export default class Assignment extends React.Component {
                   Edit
                 </Link>
                 <Link
-                  to={`/assignment/${this.props.assignment.id}/delete`}
                   className="dropdown-item"
+                  onClick={() => {
+                    deleteAssignment(this.props.assignment.id);
+                  }}
                 >
                   Delete
                 </Link>
