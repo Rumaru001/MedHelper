@@ -1,7 +1,7 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import Assignment from "../components/Assignment.js";
-import { SideNavBar } from "../components/SideBar.js";
+import Base from "../components/Base";
+import { Assignment } from "../components/Assignment.js";
+import { Filters } from "../components/Filters";
 
 const data_hardcode = {
   assignments: [
@@ -174,29 +174,30 @@ export default class MedCard extends React.Component {
   render() {
     return (
       <>
-        <SideNavBar
-          filters={this.state.defaultFilters}
-          onFilterChange={this.filterAssignments}
-          onDateFilterChange={this.filterByDate}
-          restoreDateFilter={this.restoreDefaultDateFilter}
-        />
-        <Container fluid className="vh-100-c">
-          <Row>
-            <Col xs={3} id="sidebar-wrapper"></Col>
-            <Col xs={9} id="page-content-wrapper">
-              <p class="h1 m-4 mt-5">Assignments</p>
+        <Base
+          sidebar={
+            <Filters
+              filters={this.state.defaultFilters}
+              onFilterChange={this.filterAssignments}
+              onDateFilterChange={this.filterByDate}
+              restoreDateFilter={this.restoreDefaultDateFilter}
+            />
+          }
+          main={
+            <>
+              <p class="h1 m-4 mt-5 text-center">Assignments</p>
               {this.state.filteredAssignments.length > 0 ? (
                 this.state.filteredAssignments.map((assignment, i) => {
                   return <Assignment key={i} assignment={assignment} />;
                 })
               ) : (
-                <p class="h4 mt-5 pt-4 text-secondary">
+                <p class="h4 mt-5 pt-4 text-secondary text-center">
                   No assignments found 🙁
                 </p>
               )}
-            </Col>
-          </Row>
-        </Container>
+            </>
+          }
+        />
       </>
     );
   }

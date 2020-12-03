@@ -40,7 +40,7 @@ export class DatePicker extends React.Component {
             <input
               type="date"
               name="date"
-              class="form-control"
+              class="form-control datePicker"
               value={this.state.date}
               placeholder="yyyy-mm-dd"
               onChange={(e) => {
@@ -67,7 +67,6 @@ export class DatePicker extends React.Component {
             >
               x
             </Button>
-            
           </div>
         </div>
       </>
