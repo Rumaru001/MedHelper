@@ -1,32 +1,43 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.contrib.auth.forms import UserCreationForm
-
-from .forms import PatientRegisterForm, DoctorRegisterForm
-
-
-# Create your views here.
-def index(request):
-    return HttpResponse('hello it`s me')
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
+from rest_framework import authentication, permissions
+from account.models import User
+from .serializers import PatientRegistrationSerializer, DoctorRegistrationSerializer, UserLoginSerializer
 
 
-def register(request):
-    return render(request, 'register.html')
+class PatientRegistration(APIView):
+    permission_classes = (IsAuthenticated, )
+    renderer_classes = (JSONRenderer,)
+    serializer_class = PatientRegistrationSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-def register_page(request):
-    form = PatientRegisterForm()
-    context = {'form': form}
+class DoctorRegistration(APIView):
+    permission_classes = (IsAuthenticated,)
+    renderer_classes = (JSONRenderer,)
+    serializer_class = DoctorRegistrationSerializer
 
-    if request.method == 'POST':
-        form = PatientRegisterForm(request.POST)
-        if form.is_valid():
-            form.save()
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    return render(request, 'PatientRegister.html', context)
 
+class UserLogin(APIView):
+    permission_classes = [IsAuthenticated]
+    renderer_classes = (JSONRenderer,)
+    serializer_class = UserLoginSerializer
 
-def login_page(request):
-    context = {}
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-    return render(request, 'login.html', context)
