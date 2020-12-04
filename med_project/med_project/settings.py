@@ -124,8 +124,11 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAdminUser',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-    )
+        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'account.backends.JWTAuthentication',
+    ),
+    'EXCEPTION_HANDLER': 'account.core.exceptions.core_exception_handler',
+    'NON_FIELD_ERRORS_KEY': 'error',
 }
 
 from datetime import timedelta

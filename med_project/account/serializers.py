@@ -1,62 +1,80 @@
-from django.contrib.auth import authenticate
-from django.contrib.auth.models import update_last_login
 from rest_framework import serializers
-from rest_framework_jwt.settings import api_settings
-from .models import User, UserProfile
+from django.contrib.auth import authenticate
 
-JWT_PAYLOAD_HANDLER = api_settings.JWT_PAYLOAD_HANDLER
-JWT_ENCODE_HANDLER = api_settings.JWT_ENCODE_HANDLER
+from .models import User
 
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserProfile
-        fields = ('first_name', 'last_name', 'phone_number', 'gender')
+class RegistrationSerializer(serializers.ModelSerializer):
+    """Serializers registration requests and creates a new user."""
 
+    password = serializers.CharField(
+        max_length=128,
+        min_length=8,
+        write_only=True
+    )
 
-class UserRegistrationSerializer(serializers.ModelSerializer):
-    profile = UserSerializer(required=False)
+    token = serializers.CharField(max_length=255, read_only=True)
 
     class Meta:
         model = User
-        fields = ('email', 'password', 'profile')
-        extra_kwargs = {'password': {'write_only': True}}
+        # List all of the fields that could possibly be included in a request
+        # or response, including fields specified explicitly above.
+        fields = ['email', 'password', 'token']
 
     def create(self, validated_data):
-        profile_data = validated_data.pop('profile')
-        user = User.objects.create_user(**validated_data)
-        UserProfile.objects.create(
-            user=user,
-            first_name=profile_data['first_name'],
-            last_name=profile_data['last_name'],
-            phone_number=profile_data['phone_number'],
-            gender=profile_data['gender']
-        )
-        return user
+        return User.objects.create_user(**validated_data)
 
 
-class UserLoginSerializer(serializers.Serializer):
+class LoginSerializer(serializers.Serializer):
     email = serializers.CharField(max_length=255)
     password = serializers.CharField(max_length=128, write_only=True)
     token = serializers.CharField(max_length=255, read_only=True)
 
     def validate(self, data):
-        email = data.get("email", None)
-        password = data.get("password", None)
-        user = authenticate(email=email, password=password)
+        # The `validate` method is where we make sure that the current
+        # instance of `LoginSerializer` has "valid". In the case of logging a
+        # user in, this means validating that they've provided an email
+        # and password and that this combination matches one of the users in
+        # our database.
+        email = data.get('email', None)
+        password = data.get('password', None)
+
+        # Raise an exception if an
+        # email is not provided.
+        if email is None:
+            raise serializers.ValidationError(
+                'An email address is required to log in.'
+            )
+
+        # Raise an exception if a
+        # password is not provided.
+        if password is None:
+            raise serializers.ValidationError(
+                'A password is required to log in.'
+            )
+
+        # The `authenticate` method checks for a user
+        # that matches this email/password combination.
+        user = authenticate(username=email, password=password)
+
+        # If no user was found matching this email/password combination then
+        # `authenticate` will return `None`. Raise an exception in this case.
         if user is None:
             raise serializers.ValidationError(
-                'A user with this email and password is not found.'
+                'A user with this email and password was not found.'
             )
-        try:
-            payload = JWT_PAYLOAD_HANDLER(user)
-            jwt_token = JWT_ENCODE_HANDLER(payload)
-            update_last_login(None, user)
-        except User.DoesNotExist:
+
+        # The purpose of this flag is to tell us whether the user has
+        # been banned or deactivated. Raise an exception in this case.
+        if not user.is_active:
             raise serializers.ValidationError(
-                'User with given email and password does not exists'
+                'This user has been deactivated.'
             )
+
+        # The `validate` method should return a dictionary of validated data.
+        # This is the data that is passed to the `create` and `update` methods
+        # that we will see later on.
         return {
             'email': user.email,
-            'token': jwt_token
+            'token': user.token
         }
