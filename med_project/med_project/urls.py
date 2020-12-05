@@ -4,8 +4,6 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('rest-auth/', include('rest_auth.urls')),
-    # path('rest-auth/registration/', include('rest_auth.registration.urls')),
     path('', TemplateView.as_view(template_name="index.html")),
-    path('', include('account.urls')),
+    path('api/auth/', include('account.urls')),
 ]

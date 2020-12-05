@@ -13,13 +13,13 @@ class RegistrationSerializer(serializers.ModelSerializer):
         write_only=True
     )
 
-    token = serializers.CharField(max_length=255, read_only=True)
+    # token = serializers.CharField(max_length=255, read_only=True)
 
     class Meta:
         model = User
         # List all of the fields that could possibly be included in a request
         # or response, including fields specified explicitly above.
-        fields = ['email', 'password', 'token']
+        fields = ('email', 'password')
 
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
