@@ -96,8 +96,8 @@ export default class MedCardAdd extends React.Component {
                         </InputGroup.Prepend>
 
                         <Form.Control as="select" required>
-                          {server.specifications.forEach((element) => {
-                            <option>{element}</option>;
+                          {server.specifications.map((element) => {
+                            return <option>{element}</option>;
                           })}
                         </Form.Control>
                       </InputGroup>
