@@ -22,7 +22,8 @@ class Register extends Component {
         try {
             const response = await axiosInstance.post('/register/', {
                 email: this.state.email,
-                password: this.state.password
+                password: this.state.password,
+                password2: this.state.password2
             });
             return response;
         } catch (error) {
@@ -46,6 +47,12 @@ class Register extends Component {
                     <label>
                         Password:
                         <input name="password" type="password" value={this.state.password}
+                               onChange={this.handleChange}/>
+                        {/*{this.state.errors.password ? this.state.errors.password : null}*/}
+                    </label>
+                    <label>
+                        Password2:
+                        <input name="password2" type="password" value={this.state.password2}
                                onChange={this.handleChange}/>
                         {/*{this.state.errors.password ? this.state.errors.password : null}*/}
                     </label>

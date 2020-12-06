@@ -6,27 +6,6 @@ from django.contrib.auth.password_validation import validate_password
 from .models import User
 
 
-class RegistrationSerializer(serializers.ModelSerializer):
-    """Serializers registration requests and creates a new user."""
-
-    password = serializers.CharField(
-        max_length=128,
-        min_length=8,
-        write_only=True
-    )
-
-    # token = serializers.CharField(max_length=255, read_only=True)
-
-    class Meta:
-        model = User
-        # List all of the fields that could possibly be included in a request
-        # or response, including fields specified explicitly above.
-        fields = ('email', 'password')
-
-    def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
-
-
 class RegisterSerializer(serializers.ModelSerializer):
     """Serializers registration requests and creates a new user."""
 
@@ -67,6 +46,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class ChangePasswordSerializer(serializers.ModelSerializer):
+    """Serializers for changing a user's password."""
     password = serializers.CharField(
         write_only=True, required=True,
         #validators=[validate_password]
@@ -102,58 +82,3 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
-
-
-class LoginSerializer(serializers.Serializer):
-    email = serializers.CharField(max_length=255)
-    password = serializers.CharField(max_length=128, write_only=True)
-    token = serializers.CharField(max_length=255, read_only=True)
-
-    def validate(self, data):
-        # The `validate` method is where we make sure that the current
-        # instance of `LoginSerializer` has "valid". In the case of logging a
-        # user in, this means validating that they've provided an email
-        # and password and that this combination matches one of the users in
-        # our database.
-        email = data.get('email', None)
-        password = data.get('password', None)
-
-        # Raise an exception if an
-        # email is not provided.
-        if email is None:
-            raise serializers.ValidationError(
-                'An email address is required to log in.'
-            )
-
-        # Raise an exception if a
-        # password is not provided.
-        if password is None:
-            raise serializers.ValidationError(
-                'A password is required to log in.'
-            )
-
-        # The `authenticate` method checks for a user
-        # that matches this email/password combination.
-        user = authenticate(username=email, password=password)
-
-        # If no user was found matching this email/password combination then
-        # `authenticate` will return `None`. Raise an exception in this case.
-        if user is None:
-            raise serializers.ValidationError(
-                'A user with this email and password was not found.'
-            )
-
-        # The purpose of this flag is to tell us whether the user has
-        # been banned or deactivated. Raise an exception in this case.
-        if not user.is_active:
-            raise serializers.ValidationError(
-                'This user has been deactivated.'
-            )
-
-        # The `validate` method should return a dictionary of validated data.
-        # This is the data that is passed to the `create` and `update` methods
-        # that we will see later on.
-        return {
-            'email': user.email,
-            'token': user.token
-        }

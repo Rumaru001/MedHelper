@@ -4,17 +4,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import UpdateAPIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from .permissions import IsOwner
 from .models import User
-from .renderers import UserJSONRenderer
 from .serializers import (
-    RegistrationSerializer, LoginSerializer,
     RegisterSerializer, ChangePasswordSerializer)
 
 
 class RegistrationAPIView(APIView):
-    # Allow any user (authenticated or not) to hit this endpoint.
     permission_classes = (AllowAny,)
-    # renderer_classes = (UserJSONRenderer,)
     authentication_classes = ()
     serializer_class = RegisterSerializer
 
@@ -29,20 +26,6 @@ class RegistrationAPIView(APIView):
         serializer.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-class LoginAPIView(APIView):
-    permission_classes = (AllowAny,)
-    # renderer_classes = (UserJSONRenderer,)
-    serializer_class = LoginSerializer
-
-    def post(self, request):
-        user = User(email=self.request.user)
-
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class LogoutApiView(APIView):
@@ -60,12 +43,12 @@ class LogoutApiView(APIView):
 
 class ChangePasswordView(UpdateAPIView):
     queryset = User.objects.all()
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsOwner,)
     serializer_class = ChangePasswordSerializer
 
 
 class HelloWorldView(APIView):
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request):
         return Response({"hello": "world"}, status=status.HTTP_200_OK)
