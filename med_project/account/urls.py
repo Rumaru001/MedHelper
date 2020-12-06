@@ -5,7 +5,8 @@ from rest_framework_simplejwt import views as jwt_views
 
 from .views import (
     RegistrationAPIView, LoginAPIView,
-    HelloWorldView, LogoutApiView)
+    HelloWorldView, LogoutApiView,
+    ChangePasswordView)
 
 urlpatterns = [
     # path('register/', RegistrationAPIView.as_view()),
@@ -16,4 +17,5 @@ urlpatterns = [
     path('register/', RegistrationAPIView.as_view(), name='register'),
     path('hello/', HelloWorldView.as_view(), name='hello_world'),
     path('logout/', LogoutApiView.as_view(), name='logout'),
+    path('change_password/<int:pk>/', ChangePasswordView.as_view(), name='auth_change_password'),
 ]

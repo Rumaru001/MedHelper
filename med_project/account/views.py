@@ -2,10 +2,13 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.generics import UpdateAPIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import User
 from .renderers import UserJSONRenderer
-from .serializers import RegistrationSerializer, LoginSerializer
+from .serializers import (
+    RegistrationSerializer, LoginSerializer,
+    RegisterSerializer, ChangePasswordSerializer)
 
 
 class RegistrationAPIView(APIView):
@@ -13,7 +16,7 @@ class RegistrationAPIView(APIView):
     permission_classes = (AllowAny,)
     # renderer_classes = (UserJSONRenderer,)
     authentication_classes = ()
-    serializer_class = RegistrationSerializer
+    serializer_class = RegisterSerializer
 
     def post(self, request):
         user = User(email=self.request.user)
@@ -53,6 +56,12 @@ class LogoutApiView(APIView):
             return Response(status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class ChangePasswordView(UpdateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ChangePasswordSerializer
 
 
 class HelloWorldView(APIView):
