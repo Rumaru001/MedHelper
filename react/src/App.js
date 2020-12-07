@@ -4,18 +4,29 @@ import HomePage from "./containers/HomeView";
 import MedCardAdd from "./containers/MedCradAddView";
 import MedCardEdit from "./containers/MedCradEditView";
 import MedCardAssignment from "./containers/MedCardAssignmentView";
-import { Route, Switch } from "react-router-dom";
+import Register from "./components/Register";
+import Login from "./components/Login";
+import Hello from "./components/Hello";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {Component} from "react";
 
-function App() {
-  return (
-    <Switch>
-      <Route exact path="/" component={HomePage} />
-      <Route path="/:user_id/medical_card" component={MedCard} />
-      <Route path="/assignment/add" component={MedCardAdd} />
-      <Route path="/assignment/:id/edit" component={MedCardEdit} />
-      <Route path="/assignment/:id" component={MedCardAssignment} />
-    </Switch>
-  );
+class App extends Component {
+    render() {
+        return (
+            <BrowserRouter>
+                <Switch>
+                    <Route exact path="/" component={HomePage}/>
+                    <Route path="/:user_id/medical_card" component={MedCard}/>
+                    <Route path="/assignment/add" component={MedCardAdd}/>
+                    <Route path="/assignment/:id/edit" component={MedCardEdit}/>
+                    <Route path="/assignment/:id" component={MedCardAssignment}/>
+                    <Route exact path="/login/" component={Login}/>
+                    <Route path="/register/" component={Register}/>
+                    <Route path="/hello/" component={Hello}/>
+                </Switch>
+            </BrowserRouter>
+        );
+    }
 }
 
 export default App;
