@@ -132,8 +132,8 @@ export default class MedCardEdit extends React.Component {
                           required
                           value={this.state.assignment.specification}
                         >
-                          {this.state.specifications.forEach((element) => {
-                            <option>{element}</option>;
+                          {this.state.specifications.map((element) => {
+                            return <option>{element}</option>;
                           })}
                         </Form.Control>
                       </InputGroup>
