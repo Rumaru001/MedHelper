@@ -1,97 +1,76 @@
+import jwt
+from django.conf import settings
+from datetime import datetime, timedelta
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import (
+    BaseUserManager, AbstractBaseUser, PermissionsMixin)
 
-# https://docs.djangoproject.com/en/3.1/topics/auth/customizing/#substituting-a-custom-user-model
 
-class CustomUserManager(BaseUserManager):
-    def create_user(self, email, username, first_name, second_name, date_of_birth ,password=None):
+class UserManager(BaseUserManager):
+    """
+    Django requires that custom users define their own Manager class. By
+    inheriting from `BaseUserManager`, we get a lot of the same code used by
+    Django to create a `User`.
+    All we have to do is override the `create_user` function which we will use
+    to create `User` objects.
+    """
 
-        if not email:
-            raise ValueError("There is no email")
+    def create_user(self, email, password):
+        """Create and return a `User` with an email and password."""
 
-        if not username:
-            return ValueError("There is no username")
+        if email is None:
+            raise TypeError('Users must have an email address.')
 
-        #todo validation
+        if password is None:
+            raise TypeError('Users must have a password.')
 
-        user: BaseUser = self.model(
-                email = self.normalize_email(email),
-                username = username,
-                first_name = first_name,
-                second_name = second_name,
-                date_of_birth = date_of_birth
-        )
-
+        user = self.model(email=self.normalize_email(email))
         user.set_password(password)
-        user.save(using=self._db)
+        user.save()
 
         return user
-        
-    def create_superuser(self, email, username, first_name, second_name, date_of_birth ,password=None):
 
-        user = self.create_user(
-                email=email,
-                username=username,
-                first_name = first_name,
-                second_name = second_name,
-                date_of_birth = date_of_birth,
-                password=password)
-        
-        user.is_admin = True
-        user.is_staff = True
+    def create_superuser(self, email, password):
+        """
+        Create and return a `User` with superuser (admin) permissions.
+        """
+        user = self.create_user(email, password)
         user.is_superuser = True
-        user.save(using=self._db)
+        user.is_staff = True
+        user.save()
 
         return user
 
-class BaseUser(AbstractBaseUser):
-    ADMIN = 1000
-    PATIENT = 1
-    DOCTOR = 2
-    USER_STATUS_CHOICES = (
-        (1000,'admin'),
-        (1,'patient'),
-        (2,'doctor')
-    )
 
-    email           = models.EmailField(verbose_name='email', max_length=60, unique=True, blank=False)
-    username        = models.CharField(max_length=30, unique=True, blank=False)
+class User(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(db_index=True, unique=True)
 
-    # django required fields
-    date_joined     = models.DateTimeField(verbose_name="date joined", auto_now_add=True)
-    last_login      = models.DateTimeField(verbose_name="last login", auto_now=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
 
-    first_name      = models.CharField(verbose_name="first name", max_length=30, blank=False)
-    second_name     = models.CharField(verbose_name="second name", max_length=30, blank=False)
-    date_of_birth   = models.DateField(verbose_name="date of birth", blank= True)
-
-    is_admin        = models.BooleanField(default=False)
-    is_active       = models.BooleanField(default=True)
-    is_staff        = models.BooleanField(default=False)
-    is_superuser    = models.BooleanField(default=False)
-
-    #user_status = models.CharField(max_length=20 , choices=USER_STATUS_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username','first_name', 'second_name', 'date_of_birth']
+    REQUIRED_FIELDS = []
 
-    objects = CustomUserManager()
+    objects = UserManager()
 
     def __str__(self):
         return self.email
 
-    def has_perm(self, perm, obj=None):
-        return self.is_admin
-
-    def has_module_perms(self, app_lebel):
-        return True
+    class Meta:
+        """ Set a table name. """
+        db_table = 'user'
 
 
-class Patient(BaseUser):
-    
-    height          = models.FloatField(verbose_name="height", blank= True)
-    weight          = models.FloatField(verbose_name="weight", blank= True)
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    contact_number = models.CharField(max_length=10, unique=True)
+    location = models.CharField(max_length=30, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+    image = models.ImageField(upload_to='profile_image', blank=True)
 
-
-class Doctor(BaseUser):
-    place_of_work   = models.CharField(verbose_name="place of work", max_length=128, blank=True)
+    def __str__(self):
+        return self.user.username
