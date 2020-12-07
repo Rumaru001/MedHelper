@@ -10,4 +10,5 @@ med_project/med_project/.env
 *.pyc
 # Optional eslint cache
 .eslintcache
+.env
 

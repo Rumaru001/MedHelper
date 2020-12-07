@@ -1,90 +1,86 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .serializers import SpecificationSerializer, AssignmentSerializer, ExtraDataSerializer, IsOwner
 from rest_framework.views import APIView
 from .models import Specification, Assignment, ExtraData
-from django.http import JsonResponse
+from rest_framework.response import Response
 
 
 class AssignmentsListView(APIView):
-    permission_classes = [IsOwner]
+    permission_classes = []
 
     def get(self, request, *args, **kwargs):
-        user_id = 2
+        user_id = request.user
+        print(user_id)
         Assignment.objects.filter(user_id=user_id).all()
         assignments = Assignment.objects.filter(user_id=user_id).all()
         serializer = AssignmentSerializer(assignments, many=True)
-        return JsonResponse(serializer.data)
+        return Response(serializer.data)
 
 
-class AssignmentsDetailView(APIView):
-    permission_classes = [IsOwner]
+class AssignmentView(APIView):
+    # permission_classes = [IsOwner]
+    permission_classes = []
 
     def get(self, request, *args, **kwargs):
-        try:
-            pk = request.data["pk"]
-        except ValueError:
-            return JsonResponse({"errors": "Invalid input data"}, status=405)
-        try:
-            assignment = Assignment.objects.get(pk=pk)
-        except Exception:
-            return JsonResponse({"errors": "Assignment does not exist"}, status=404)
+        pk = kwargs["pk"]
+
+        assignment = get_object_or_404(Assignment, pk=pk)
+
         serializer = AssignmentSerializer(assignment)
-        return JsonResponse(serializer.data)
-
-
-class AssignmentCreateView(APIView):
-    permission_classes = [IsOwner]
+        return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
         serializer = AssignmentSerializer()
         try:
-            assignment = serializer.create(request.data)
+            assignment: Assignment = serializer.create(request.data)
             assignment.save()
         except Exception:
-            return JsonResponse({"errors": "Invalid input data"}, status=405)
-        return JsonResponse({"message": "Succesful"}, status=200)
+            return Response({"errors": "Invalid input data"}, status=405)
+        return Response({"message": "Succesful"}, status=200)
 
-
-class AssignmentUpdateView(APIView):
-    permission_classes = [IsOwner]
-
-    def post(self, request, *args, **kwargs):
+    def put(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
         serializer = AssignmentSerializer()
-        try:
-            assignment = serializer.update(request.data)
-        except Exception:
-            return JsonResponse({"errors": "Invalid input data"}, status=405)
-        return JsonResponse({"message": "Succesful"}, status=200)
+        # try:
+        serializer.update(pk, request.data)
+        # except Exception:
+        #     return Response({"errors": "Invalid input data"}, status=405)
+        return Response({"message": "Succesful"}, status=200)
 
+    def delete(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
 
-class AssignmentDeleteView(APIView):
-    permission_classes = [IsOwner]
+        assignment = get_object_or_404(Assignment, pk=pk)
 
-    def get(self, request, *args, **kwargs):
-        try:
-            pk = request.data["pk"]
-        except ValueError:
-            return JsonResponse({"errors": "Invalid input data"}, status=405)
-        try:
-            assignment = Assignment.objects.get(pk=pk)
-        except Exception:
-            return JsonResponse({"errors": "Assignment does not exist"}, status=404)
         assignment.delete()
-        return JsonResponse({"message": "Succesful"}, status=200)
+        return Response({"message": "Succesful"}, status=200)
 
 
 class SpeceficatiomListView(APIView):
-    permission_classes = [IsOwner]
+    permission_classes = []
 
     def get(self, request, *args, **kwargs):
         Specification.objects.all()
         specifications = Specification.objects.all()
         serializer = SpecificationSerializer(specifications, many=True)
-        return JsonResponse(serializer.data)
+        print(serializer.data)
+        return Response(serializer.data)
 
 
-class SpecificationCreateView(APIView):
-    permission_classes = [IsOwner]
+class SpecificationView(APIView):
+    permission_classes = []
+
+    def get(self, request, *args, **kwargs):
+        try:
+            pk = kwargs["pk"]
+        except KeyError:
+            return Response({"errors": "Invalid input data"}, status=405)
+        try:
+            specification = Specification.objects.get(pk=pk)
+        except Exception:
+            return Response({"errors": "Specification does not exist"}, status=404)
+        serializer = SpecificationSerializer(specification)
+        return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
         serializer = SpecificationSerializer()
@@ -92,33 +88,25 @@ class SpecificationCreateView(APIView):
             specification = serializer.create(request.data)
             specification.save()
         except Exception:
-            return JsonResponse({"errors": "Invalid input data"}, status=405)
-        return JsonResponse({"message": "Succesful"}, status=200)
+            return Response({"errors": "Invalid input data"}, status=405)
+        return Response({"message": "Succesful"}, status=200)
 
-
-class SpecificationUpdateView(APIView):
-    permission_classes = [IsOwner]
-
-    def post(self, request, *args, **kwargs):
+    def put(self, request, *args, **kwargs):
         serializer = SpecificationSerializer()
+        pk = kwargs["pk"]
+
+        specification = get_object_or_404(Specification, pk=pk)
+
         try:
-            specification = serializer.update(request.data)
+            specification = serializer.update(specification, request.data)
         except Exception:
-            return JsonResponse({"errors": "Invalid input data"}, status=405)
-        return JsonResponse({"message": "Succesful"}, status=200)
+            return Response({"errors": "Invalid input data"}, status=405)
+        return Response({"message": "Succesful"}, status=200)
 
+    def delete(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
 
-class SpecificatiomDeleteView(APIView):
-    permission_classes = [IsOwner]
+        assignment = get_object_or_404(Specification, pk=pk)
 
-    def get(self, request, *args, **kwargs):
-        try:
-            pk = request.data["pk"]
-        except ValueError:
-            return JsonResponse({"errors": "Invalid input data"}, status=405)
-        try:
-            assignment = Assignment.objects.get(pk=pk)
-        except Exception:
-            return JsonResponse({"errors": "Assignment does not exist"}, status=404)
         assignment.delete()
-        return JsonResponse({"message": "Succesful"}, status=200)
+        return Response({"message": "Succesful"}, status=200)
