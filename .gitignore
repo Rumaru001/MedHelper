@@ -1,7 +1,7 @@
 .idea
 venv
-.python-version
-.env
+node_modules
+med_project/med_project/.env
 .vscode
 *.DS_Store
 *__pycache__*
