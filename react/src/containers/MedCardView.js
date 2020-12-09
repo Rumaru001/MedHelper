@@ -2,6 +2,7 @@ import React from "react";
 import Base from "../components/Base";
 import { Assignment } from "../components/Assignment.js";
 import { Filters } from "../components/Filters";
+import axiosInstance from "../axiosApi";
 
 const data_hardcode = {
   assignments: [
@@ -35,28 +36,57 @@ const data_hardcode = {
   ],
 };
 
-const filters_names = ["specification", "name", "tag", "creator"];
+const filters_names = ["specification", "name", "tag", "creator", "editor"];
 
 export default class MedCard extends React.Component {
   constructor(props) {
     super(props);
 
-    var data = data_hardcode.assignments;
-    var filters = filters_names.map((field) => {
-      return { [field]: this.createFilters(field, data) };
-    });
-    var dateFilter = { startTime: "1900-01-01", endTime: new Date() };
     this.state = {
-      assignments: data,
-      filteredAssignments: data,
-      filters: [...filters],
-      defaultFilters: [...filters],
-      dateFilters: { ...dateFilter },
-      defaultDateFilters: { ...dateFilter },
+      loading: true,
     };
-    console.log(this.state.defaultFilters);
   }
 
+  async getData() {
+    try {
+      console.log(localStorage);
+
+      let response = await axiosInstance.get("assignment/");
+
+      // let response = await fetch("http://localhost:8000/api/assignment/");
+
+      // if (response.ok) {
+      //   let json = await response.json();
+      // } else {
+      //   alert("Ошибка HTTP: " + response.status);
+      // }
+
+      // console.log(json);
+
+      const data = response.data.assignments;
+
+      var filters = filters_names.map((field) => {
+        return { [field]: this.createFilters(field, data) };
+      });
+      var dateFilter = { startTime: "1900-01-01", endTime: new Date() };
+      this.setState({
+        loading: false,
+        assignments: data,
+        filteredAssignments: data,
+        filters: [...filters],
+        defaultFilters: [...filters],
+        dateFilters: { ...dateFilter },
+        defaultDateFilters: { ...dateFilter },
+      });
+      return data;
+    } catch (error) {
+      console.log("Error: ", JSON.stringify(error, null, 4));
+      throw error;
+    }
+  }
+  componentDidMount() {
+    console.log(this.getData());
+  }
   createFilters = (field, data) => {
     //console.log(data, field);
     if (data.length < 1) return [];
@@ -172,7 +202,9 @@ export default class MedCard extends React.Component {
   };
 
   render() {
-    return (
+    return this.state.loading ? (
+      "Loading...."
+    ) : (
       <>
         <Base
           sidebar={
