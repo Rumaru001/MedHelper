@@ -14,7 +14,7 @@ class Login extends Component {
 
     async handleLogout() {
         try {
-            const response = await axiosInstance.post('/logout/', {
+            const response = await axiosInstance.post('auth/logout/', {
                 "refresh_token": localStorage.getItem("refresh_token")
             });
             localStorage.removeItem('access_token');
@@ -33,7 +33,7 @@ class Login extends Component {
     async handleSubmit(event) {
         event.preventDefault();
         try {
-            const response = await axiosInstance.post('/token/obtain/', {
+            const response = await axiosInstance.post('auth/token/obtain/', {
                 email: this.state.email,
                 password: this.state.password
             });

@@ -13,7 +13,7 @@ class Hello extends Component {
 
     async getMessage() {
         try {
-            let response = await axiosInstance.get('/hello/');
+            let response = await axiosInstance.get('auth/hello/');
             const message = response.data.hello;
             this.setState({
                 message: message,

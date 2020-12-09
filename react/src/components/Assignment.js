@@ -2,13 +2,32 @@ import React from "react";
 import { Card, Container, Row, Col } from "react-bootstrap";
 import { Link, Redirect } from "react-router-dom";
 import OptionDropdown from "../components/optionButton";
+import axiosInstance from "../axiosApi";
 
-export function deleteAssignment(id) {
+export async function deleteAssignment(id, props) {
   if (confirm(`Do you really want to delete assignment with name ${id}?`)) {
-    //send get delete request
+    try {
+      let response = await axiosInstance.delete(`assignment/delete/${id}`);
+      if (response.status >= 200 && response.status < 300) {
+        window.location.href = "/medical_card";
+      }
+    } catch (error) {
+      console.log("Error: ", JSON.stringify(error, null, 4));
+      throw error;
+    }
   }
-  var user_id = 0;
-  return <Redirect to={`/${user_id}/medical_card`} />;
+}
+
+export function formatDate(date) {
+  var d = new Date(date),
+    month = "" + (d.getMonth() + 1),
+    day = "" + d.getDate(),
+    year = d.getFullYear();
+
+  if (month.length < 2) month = "0" + month;
+  if (day.length < 2) day = "0" + day;
+
+  return [year, month, day].join("-");
 }
 
 export class Assignment extends React.Component {
@@ -37,7 +56,7 @@ export class Assignment extends React.Component {
                 <Link
                   className="dropdown-item"
                   onClick={() => {
-                    deleteAssignment(this.props.assignment.id);
+                    deleteAssignment(this.props.assignment.id), this.props;
                   }}
                 >
                   Delete
@@ -61,7 +80,7 @@ export class Assignment extends React.Component {
               </Col>
               <Col className="px-1">
                 <div class="text-right ">
-                  {this.props.assignment.date} <br />
+                  {formatDate(new Date(this.props.assignment.create_date))} <br />
                   {this.props.assignment.creator}
                 </div>
               </Col>

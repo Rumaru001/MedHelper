@@ -12,3 +12,4 @@ med_project/med_project/.env
 .eslintcache
 .env
 
+*/migrations

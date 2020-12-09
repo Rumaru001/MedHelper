@@ -1,20 +1,21 @@
 from django.shortcuts import render, get_object_or_404
-from .serializers import SpecificationSerializer, AssignmentSerializer, ExtraDataSerializer, IsOwner
+from .serializers import SpecificationSerializer, AssignmentSerializer, ExtraDataSerializer, IsOwner, TagSerializer
 from rest_framework.views import APIView
-from .models import Specification, Assignment, ExtraData
+from .models import Specification, Assignment, ExtraData, Tag
 from rest_framework.response import Response
+from .renderers import AssignmentJSONRenderer
 
 
 class AssignmentsListView(APIView):
     permission_classes = []
+    renderer_classes = (AssignmentJSONRenderer,)
 
     def get(self, request, *args, **kwargs):
-        user_id = request.user
-        print(user_id)
-        Assignment.objects.filter(user_id=user_id).all()
-        assignments = Assignment.objects.filter(user_id=user_id).all()
+
+        assignments = request.user.assignments.order_by("-create_date").all()
         serializer = AssignmentSerializer(assignments, many=True)
-        return Response(serializer.data)
+        data = {"assignments": serializer.data}
+        return Response(data)
 
 
 class AssignmentView(APIView):
@@ -31,8 +32,15 @@ class AssignmentView(APIView):
 
     def post(self, request, *args, **kwargs):
         serializer = AssignmentSerializer()
+
+        data = request.data
+        data['user'] = data.get('user', request.user.id)
+        data['creator'] = data.get('creator', request.user.id)
+        data['editor'] = data.get('editor', request.user.id)
+        print(data)
+
         try:
-            assignment: Assignment = serializer.create(request.data)
+            assignment: Assignment = serializer.create(data)
             assignment.save()
         except Exception:
             return Response({"errors": "Invalid input data"}, status=405)
@@ -41,17 +49,20 @@ class AssignmentView(APIView):
     def put(self, request, *args, **kwargs):
         pk = kwargs["pk"]
         serializer = AssignmentSerializer()
-        # try:
-        serializer.update(pk, request.data)
-        # except Exception:
-        #     return Response({"errors": "Invalid input data"}, status=405)
+
+        data = request.data
+        data['editor'] = request.user.id
+        try:
+            serializer.update(pk, data)
+        except Exception:
+            return Response({"errors": "Invalid input data"}, status=405)
         return Response({"message": "Succesful"}, status=200)
 
     def delete(self, request, *args, **kwargs):
         pk = kwargs["pk"]
 
         assignment = get_object_or_404(Assignment, pk=pk)
-
+        assignment.data.delete()
         assignment.delete()
         return Response({"message": "Succesful"}, status=200)
 
@@ -63,7 +74,6 @@ class SpeceficatiomListView(APIView):
         Specification.objects.all()
         specifications = Specification.objects.all()
         serializer = SpecificationSerializer(specifications, many=True)
-        print(serializer.data)
         return Response(serializer.data)
 
 
@@ -71,14 +81,11 @@ class SpecificationView(APIView):
     permission_classes = []
 
     def get(self, request, *args, **kwargs):
-        try:
-            pk = kwargs["pk"]
-        except KeyError:
-            return Response({"errors": "Invalid input data"}, status=405)
-        try:
-            specification = Specification.objects.get(pk=pk)
-        except Exception:
-            return Response({"errors": "Specification does not exist"}, status=404)
+
+        pk = kwargs["pk"]
+
+        specification = Specification.objects.get(pk=pk)
+
         serializer = SpecificationSerializer(specification)
         return Response(serializer.data)
 
@@ -106,7 +113,59 @@ class SpecificationView(APIView):
     def delete(self, request, *args, **kwargs):
         pk = kwargs["pk"]
 
-        assignment = get_object_or_404(Specification, pk=pk)
+        specification = get_object_or_404(Specification, pk=pk)
 
-        assignment.delete()
+        specification.delete()
+        return Response({"message": "Succesful"}, status=200)
+
+
+class TagListView(APIView):
+    permission_classes = []
+
+    def get(self, request, *args, **kwargs):
+        user_id = request.user.id
+        Tag.objects.filter(user_id=user_id).all()
+        tags = Tag.objects.filter(user_id=user_id).all()
+        serializer = TagSerializer(tags, many=True)
+        return Response(serializer.data)
+
+
+class TagView(APIView):
+    permission_classes = []
+
+    def get(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
+
+        tag = get_object_or_404(Tag, pk=pk)
+
+        serializer = TagSerializer(tag)
+        return Response(serializer.data)
+
+    def post(self, request, *args, **kwargs):
+        serializer = TagSerializer()
+        # try:
+        tag = serializer.create(request.data)
+        tag.save()
+       # except Exception:
+        #    return Response({"errors": "Invalid input data"}, status=405)
+        return Response({"message": "Succesful"}, status=200)
+
+    def put(self, request, *args, **kwargs):
+        serializer = TagSerializer()
+        pk = kwargs["pk"]
+
+        tag = get_object_or_404(Tag, pk=pk)
+
+        try:
+            tag = serializer.update(tag, request.data)
+        except Exception:
+            return Response({"errors": "Invalid input data"}, status=405)
+        return Response({"message": "Succesful"}, status=200)
+
+    def delete(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
+
+        tag = get_object_or_404(Tag, pk=pk)
+
+        tag.delete()
         return Response({"message": "Succesful"}, status=200)
