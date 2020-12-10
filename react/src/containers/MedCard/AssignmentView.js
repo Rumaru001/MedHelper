@@ -1,8 +1,8 @@
 import React from "react";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Base from "../components/Base";
-import { deleteAssignment } from "../components/Assignment";
+import Base from "../../components/Main/Base";
+import { deleteAssignment } from "../../components/MedCard/Assignment";
 
 const server = {
   assignment: {
@@ -31,7 +31,7 @@ export default class MedCardAssignment extends React.Component {
               to={`/${id}/medical_card`}
               className="text-light h5 font-weight-bold mx-auto"
             >
-              <p class="text-decoration-none my-auto">MedCard</p>
+              <p className="text-decoration-none my-auto">MedCard</p>
             </Link>
           }
           main={
@@ -46,24 +46,24 @@ export default class MedCardAssignment extends React.Component {
                 </Row>
                 <Row>
                   <Col md={6}>
-                    <div class="text-left text-seconady mt-2">
+                    <div className="text-left text-seconady mt-2">
                       Specification: {server.assignment.specification}
                     </div>
 
-                    <div class="text-left text-seconady">
+                    <div className="text-left text-seconady">
                       Creator: {server.assignment.creator}
                     </div>
 
-                    <div class="text-left text-seconady">
+                    <div className="text-left text-seconady">
                       Date of creation: {server.assignment.date_of_creation}
                     </div>
                   </Col>
                   <Col className="text-align-screen" md={6}>
-                    <div class="text-seconady">
+                    <div className="text-seconady">
                       Editor: {server.assignment.editor}
                     </div>
 
-                    <div class="text-seconady">
+                    <div className="text-seconady">
                       Date of editing: {server.assignment.date_of_editing}
                     </div>
                   </Col>
@@ -78,14 +78,14 @@ export default class MedCardAssignment extends React.Component {
                 <Row>
                   <Col>
                     <p className="h5 mt-5  mb-4 text-justify">Files:</p>
-                    {server.assignment.files.map((file) => {
+                    {server.assignment.files.map((file,index) => {
                       return (
-                        <Link
+                        <Link key={index}
                           to={`/files/${id}/${file}`}
                           className="text-decoration-none"
                         >
                           <div className="file-assignment-view bg-gray my-4 p-3 pl-4 text-dark">
-                            <p class="m-0">{file}</p>
+                            <p className="m-0" >{file}</p>
                           </div>
                         </Link>
                       );

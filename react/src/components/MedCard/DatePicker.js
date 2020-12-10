@@ -34,13 +34,13 @@ export class DatePicker extends React.Component {
   render() {
     return (
       <>
-        <div class={`${this.props.className}`}>
-          <label class="w-100 text-center">{this.props.label}</label>
+        <div className={`${this.props.className}`}>
+          <label className="w-100 text-center">{this.props.label}</label>
           <div className="d-flex">
             <input
               type="date"
               name="date"
-              class="form-control datePicker"
+              className="form-control datePicker"
               value={this.state.date}
               placeholder="yyyy-mm-dd"
               onChange={(e) => {

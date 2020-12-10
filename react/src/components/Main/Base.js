@@ -1,11 +1,11 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { SideNavBar } from "../components/SideBar.js";
+import { SideNavBar } from "./SideBar.js";
 
 export default function Base(props) {
   return (
     <>
-      <SideNavBar>{props.sidebar}</SideNavBar>
+      <SideNavBar >{props.sidebar}</SideNavBar>
       <Container fluid className="vh-100-c">
         <Row>
           <Col xs={3} id="sidebar-wrapper"></Col>

@@ -10,4 +10,4 @@ venv
 *.pyc
 # Optional eslint cache
 .eslintcache
-
+/node_modules

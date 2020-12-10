@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Base from "../components/Base";
+import Base from "../../components/Main/Base";
 
 const server = {
   errors: [],
@@ -47,7 +47,7 @@ export default class MedCardAdd extends React.Component {
               to={`/${id}/medical_card`}
               className="text-light h5 font-weight-bold mx-auto"
             >
-              <p class="text-decoration-none my-auto">MedCard</p>
+              <p className="text-decoration-none my-auto">MedCard</p>
             </Link>
           }
           main={
@@ -74,7 +74,7 @@ export default class MedCardAdd extends React.Component {
                             id="TitleAssignment"
                             className="nowrap child-center"
                           >
-                            <p class="m-0">Title</p>
+                            <p className="m-0">Title</p>
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
@@ -91,7 +91,7 @@ export default class MedCardAdd extends React.Component {
                             id="SpecAssignment"
                             className="nowrap child-center"
                           >
-                            <p class="m-0">Specification</p>
+                            <p className="m-0">Specification</p>
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
@@ -108,7 +108,7 @@ export default class MedCardAdd extends React.Component {
                             id="textAssignment"
                             className="nowrap child-center"
                           >
-                            <p class="m-0">Text of assignment</p>
+                            <p className="m-0">Text of assignment</p>
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
@@ -126,10 +126,10 @@ export default class MedCardAdd extends React.Component {
                             id="file-prepend"
                             className="nowrap child-center"
                           >
-                            <p class="m-0">Upload files</p>
+                            <p className="m-0">Upload files</p>
                           </InputGroup.Text>
                         </InputGroup.Prepend>
-                        <div class="custom-file hover_effect">
+                        <div className="custom-file hover_effect">
                           <Form.File
                             className="position-relative custom-file-input"
                             required
@@ -140,8 +140,8 @@ export default class MedCardAdd extends React.Component {
                             multiple
                           />
                           <label
-                            class="custom-file-label text-secondary"
-                            for="files"
+                            className="custom-file-label text-secondary"
+                            htmlFor="files"
                           >
                             {this.state.files}
                           </label>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Base from "../components/Base";
+import Base from "../../components/Main/Base";
 
 const server = {
   errors: [],
@@ -78,7 +78,7 @@ export default class MedCardEdit extends React.Component {
               to={`/${id}/medical_card`}
               className="text-light h5 font-weight-bold mx-auto"
             >
-              <p class="text-decoration-none my-auto">MedCard</p>
+              <p className="text-decoration-none my-auto">MedCard</p>
             </Link>
           }
           main={
@@ -105,7 +105,7 @@ export default class MedCardEdit extends React.Component {
                             id="TitleAssignment"
                             className="nowrap child-center"
                           >
-                            <p class="m-0">Name</p>
+                            <p className="m-0">Name</p>
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
@@ -113,7 +113,7 @@ export default class MedCardEdit extends React.Component {
                           type="text"
                           placeholder="Name of assignment"
                           required
-                          value={this.state.assignment.name}
+                          defaultValue={this.state.assignment.name}
                         />
                       </InputGroup>
 
@@ -123,14 +123,14 @@ export default class MedCardEdit extends React.Component {
                             id="SpecAssignment"
                             className="nowrap child-center"
                           >
-                            <p class="m-0">Specification</p>
+                            <p className="m-0">Specification</p>
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
                         <Form.Control
                           as="select"
                           required
-                          value={this.state.assignment.specification}
+                          defaultValue={this.state.assignment.specification}
                         >
                           {this.state.specifications.forEach((element) => {
                             <option>{element}</option>;
@@ -144,7 +144,7 @@ export default class MedCardEdit extends React.Component {
                             id="textAssignment"
                             className="nowrap child-center"
                           >
-                            <p class="m-0">Text of assignment</p>
+                            <p className="m-0">Text of assignment</p>
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
@@ -153,19 +153,19 @@ export default class MedCardEdit extends React.Component {
                           rows={this.state.assignment.text.length / 50}
                           required
                           placeholder="Enter description on assignment"
-                          value={this.state.assignment.text}
+                          defaultValue={this.state.assignment.text}
                         />
                       </InputGroup>
 
                       <p className="h5 mt-5  mb-4 text-justify">Files:</p>
                       {this.state.assignment.files.map((file, index) => {
                         return (
-                          <div className="file-assignment-view bg-gray my-4 p-3 pl-4 text-dark d-flex child-center">
+                          <div key={index} className="file-assignment-view bg-gray my-4 p-3 pl-4 text-dark d-flex child-center">
                             <Link
                               to={`/files/${id}/${file}`}
                               className="text-decoration-none w-50"
                             >
-                              <p class="m-0 text-dark">{file}</p>
+                              <p className="m-0 text-dark">{file}</p>
                             </Link>
 
                             <Button
@@ -188,24 +188,24 @@ export default class MedCardEdit extends React.Component {
                             id="file-prepend"
                             className="nowrap child-center"
                           >
-                            <p class="m-0">Upload files</p>
+                            <p className="m-0">Upload files</p>
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <div class="custom-file hover_effect">
+                        <div className="custom-file hover_effect">
                           <Form.File
                             className="position-relative custom-file-input"
                             required
                             name="files"
                             id="files"
-                            value={this.state.file_value}
+                            defaultValue={this.state.file_value}
                             onChange={(e) => this.handleFileChange(e)}
                             aria-describedby="file-prepend"
                             multiple
                           />
                           <label
-                            class="custom-file-label text-secondary"
-                            for="files"
+                            className="custom-file-label text-secondary"
+                            htmlFor="files"
                           >
                             {this.state.files}
                           </label>

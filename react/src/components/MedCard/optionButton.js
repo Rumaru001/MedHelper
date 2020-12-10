@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Dropdown } from "react-bootstrap";
-import optionsIcon from "../optionsIcon.svg";
+import optionsIcon from "../../optionsIcon.svg";
 import { Link } from "react-router-dom";
 
 const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
@@ -21,7 +21,7 @@ const CustomMenu = React.forwardRef(
     const [value, setValue] = useState("");
     var newStyle = Object.assign({}, style);
     newStyle.left = "-10px";
-    newStyle["background-color"] = "rgb(240, 240, 240)";
+    newStyle["backgroundColor"] = "rgb(240, 240, 240)";
     newStyle["border"] = "solid grey 1px";
     return (
       <div
@@ -50,7 +50,7 @@ export default class OptionDropdown extends React.Component {
           id="dropdown-custom-components"
           //onClick={this.animation}
         >
-          <img src={optionsIcon} class="optionsIcon my-auto" alt="options" />
+          <img src={optionsIcon} className="optionsIcon my-auto" alt="options" />
         </Dropdown.Toggle>
         <Dropdown.Menu
           as={CustomMenu}

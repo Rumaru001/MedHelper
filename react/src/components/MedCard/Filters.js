@@ -1,8 +1,8 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { MedCardFilters } from "./MedCardFilters.js";
-import { AddButton } from "../components/AddButton";
-import { DatePicker } from "../components/DatePicker";
+import { AddButton } from "./AddButton";
+import { DatePicker } from "./DatePicker";
 
 export function Filters(props) {
   const changeHandler = (selected) => {
@@ -14,10 +14,10 @@ export function Filters(props) {
   };
 
   return (
-    <div class="container h-100 py-4">
+    <div className="container h-100 py-4">
       <div className="w-100">
-        <div class="w-75 mx-auto d-flex">
-          <div class="container m-0 p-0">
+        <div className="w-75 mx-auto d-flex">
+          <div className="container m-0 p-0">
             <Row className="w-100 m-0">
               <Col className="mb-2 p-0">
                 <DatePicker
@@ -48,7 +48,7 @@ export function Filters(props) {
       </div>
 
       <AddButton to="/assignment/add" className="addbtn-assignment text-light">
-        <p class="text-center my-auto">+ Add Assignment</p>
+        <p className="text-center my-auto">+ Add Assignment</p>
       </AddButton>
     </div>
   );

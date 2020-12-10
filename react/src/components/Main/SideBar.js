@@ -28,14 +28,14 @@ export class SideNavBar extends React.Component {
           collapseOnSelect
           expand="lg"
           bg="secondary"
-          className="navbar-custom flex-direction-column text-light"
+          className="overflow-auto disable-scrollbars navbar-custom flex-direction-column text-light"
         >
           <Navbar.Brand
             href=""
             className={`${this.state.isLogoCentered} toggeled-logo`}
           >
             <Link to="/" className="text-light h3 font-weight-bold logo">
-              <p class="text-decoration-none my-auto">MedHelper</p>
+              <p className="text-decoration-none my-auto">MedHelper</p>
             </Link>
           </Navbar.Brand>
           <Navbar.Toggle

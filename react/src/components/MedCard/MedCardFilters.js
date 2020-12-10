@@ -25,12 +25,12 @@ export class MedCardFilters extends React.Component {
   render() {
     return (
       <>
-        <div class="w-100 my-4 mb-auto mobile pb-4">
+        <div className="w-100 my-4 mb-auto mobile pb-4">
           {this.props.data.map((filter, index) => {
             var name = Object.keys(filter)[0];
             //console.log("Filters", filter, name);
             return (
-              <SelectInput
+              <SelectInput key={index}
                 selectedOption={this.state.selected[index][name]}
                 options={filter[name]}
                 placeholder={name}
