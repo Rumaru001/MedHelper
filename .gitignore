@@ -10,6 +10,6 @@ med_project/med_project/.env
 *.pyc
 # Optional eslint cache
 .eslintcache
+/node_modules
 .env
 
-*/migrations

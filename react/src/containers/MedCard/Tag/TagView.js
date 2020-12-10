@@ -1,8 +1,8 @@
 import React from "react";
-import Base from "../components/Base";
-import axiosInstance from "../axiosApi";
+import Base from "../../../components/Main/Base";
+import axiosInstance from "../../../axiosApi";
 import { Link } from "react-router-dom";
-import { AddButton } from "../components/AddButton";
+import { AddButton } from "../../../components/MedCard/AddButton";
 import { Card, Container, Row, Col, Button } from "react-bootstrap";
 
 export class TagList extends React.Component {

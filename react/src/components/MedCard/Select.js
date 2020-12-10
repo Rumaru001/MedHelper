@@ -1,6 +1,6 @@
 import React from "react";
 import Select from "react-select";
-import { Convert_to, Convert_from } from "../adapters/SelectAdatper";
+import { Convert_to, Convert_from } from "../../adapters/SelectAdatper";
 
 const colourStyles = {
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {

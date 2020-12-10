@@ -1,9 +1,10 @@
 import React from "react";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Base from "../components/Base";
-import { deleteAssignment, formatDate } from "../components/Assignment";
-import axiosInstance from "../axiosApi";
+import Base from "../../components/Main/Base";
+import { deleteAssignment,formatDate } from "../../components/MedCard/Assignment";
+import axiosInstance from "../../axiosApi";
+
 
 
 export default class MedCardAssignment extends React.Component {
@@ -44,7 +45,7 @@ export default class MedCardAssignment extends React.Component {
               to={`/medical_card`}
               className="text-light h5 font-weight-bold mx-auto"
             >
-              <p class="text-decoration-none my-auto">MedCard</p>
+              <p className="text-decoration-none my-auto">MedCard</p>
             </Link>
           }
           main={
@@ -59,28 +60,29 @@ export default class MedCardAssignment extends React.Component {
                 </Row>
                 <Row>
                   <Col md={6}>
-                    <div class="text-left text-seconady mt-2">
+
+                    <div className="text-left text-seconady mt-2">
                       Specification: {this.state.assignment.specification.name}
                     </div>
 
-                    <div class="text-left text-seconady">
+                    <div className="text-left text-seconady">
                       Creator: {this.state.assignment.creator.email}
                     </div>
 
-                    <div class="text-left text-seconady">
-                      Date of creation: {this.state.assignment.date}
+                    <div className="text-left text-seconady">
+                      Date of creation: {(new Date(this.state.assignment.create_date)).toString().slice(0,25)}
                     </div>
                   </Col>
                   <Col className="text-align-screen" md={6}>
                     {this.state.assignment.editor != null ? (
                       <>
-                        <div class="text-seconady">
+                        <div className="text-seconady">
                           Editor: {this.state.assignment.editor.email}
                         </div>
 
-                        <div class="text-seconady">
+                        <div className="text-seconady">
                           Date of editing:{" "}
-                          {formatDate(this.state.assignment.editing_date)}
+                          {(new Date(this.state.assignment.editing_date)).toString().slice(0,25)}
                         </div>
                       </>
                     ) : (
@@ -108,7 +110,7 @@ export default class MedCardAssignment extends React.Component {
                             className="text-decoration-none"
                           >
                             <div className="file-assignment-view bg-gray my-4 p-3 pl-4 text-dark">
-                              <p class="m-0">{file}</p>
+                              <p className="m-0">{file}</p>
                             </div>
                           </Link>
                         );

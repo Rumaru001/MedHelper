@@ -1,40 +1,9 @@
 import React from "react";
-import Base from "../components/Base";
-import { Assignment } from "../components/Assignment.js";
-import { Filters } from "../components/Filters";
-import axiosInstance from "../axiosApi";
 
-const data_hardcode = {
-  assignments: [
-    {
-      id: 0,
-      name: "Name",
-      specification: "specification",
-      text:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      date: "01-12-2020",
-      creator: "Name Surame",
-    },
-    {
-      id: 1,
-      name: "Name",
-      specification: "specification1",
-      text:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      date: "05-11-2020",
-      creator: "Name Surame",
-    },
-    {
-      id: 2,
-      name: "Name1",
-      specification: "specification",
-      text:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      date: "04-12-2019",
-      creator: "Name Surame1",
-    },
-  ],
-};
+import Base from "../../components/Main/Base";
+import { Assignment } from "../../components/MedCard/Assignment.js";
+import { Filters } from "../../components/MedCard/Filters";
+import axiosInstance from "../../axiosApi";
 
 const filters_names = ["specification", "name", "tag", "creator", "editor"];
 
@@ -207,13 +176,13 @@ export default class MedCard extends React.Component {
           }
           main={
             <>
-              <p class="h1 m-4 mt-5 text-center">Assignments</p>
+              <p className="h1 m-4 mt-5 text-center">Assignments</p>
               {this.state.filteredAssignments.length > 0 ? (
                 this.state.filteredAssignments.map((assignment, i) => {
                   return <Assignment key={i} assignment={assignment} />;
                 })
               ) : (
-                <p class="h4 mt-5 pt-4 text-secondary text-center">
+                <p className="h4 mt-5 pt-4 text-secondary text-center">
                   No assignments found 🙁
                 </p>
               )}

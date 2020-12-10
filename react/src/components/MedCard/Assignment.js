@@ -1,8 +1,9 @@
 import React from "react";
 import { Card, Container, Row, Col } from "react-bootstrap";
 import { Link, Redirect } from "react-router-dom";
-import OptionDropdown from "../components/optionButton";
-import axiosInstance from "../axiosApi";
+
+import OptionDropdown from "./optionButton";
+import axiosInstance from "../../axiosApi";
 
 
 export async function deleteAssignment(id) {
@@ -41,13 +42,13 @@ export class Assignment extends React.Component {
     return (
       <Card className="mx-4 my-5 text-left shadow-sm animate__animated animate__backInRight faster">
         <Card.Body>
-          <Link
-            to={`/assignment/${this.props.assignment.id}`}
-            className="text-decoration-none text-dark"
-          >
             <Card.Title>
-              <p class="h3 d-inline-block">{this.props.assignment.name}</p>
-
+              <Link
+                to={`/assignment/${this.props.assignment.id}`}
+                className="text-decoration-none text-dark"
+              >
+              <p className="h3 d-inline-block">{this.props.assignment.name}</p>
+              </Link>
               <OptionDropdown className="dropdown-wrapper">
                 <Link
                   to={`/assignment/${this.props.assignment.id}/edit`}
@@ -55,18 +56,17 @@ export class Assignment extends React.Component {
                 >
                   Edit
                 </Link>
-                <Link
+                <a
                   className="dropdown-item"
                   onClick={() => {
                     deleteAssignment(this.props.assignment.id), this.props;
                   }}
                 >
                   Delete
-                </Link>
+                </a>
               </OptionDropdown>
             </Card.Title>
-          </Link>
-          <div class="assignment-text">
+          <div className="assignment-text">
             <Card.Text className="mt-2">
               {this.manageTextLenght(this.props.assignment.text)}
             </Card.Text>
@@ -76,15 +76,14 @@ export class Assignment extends React.Component {
           <Container fluid className="m-0">
             <Row className="child-center">
               <Col className="px-1">
-                <div class="text-left ">
+                <div className="text-left ">
                   {this.props.assignment.specification}
                 </div>
               </Col>
               <Col className="px-1">
-                <div class="text-right ">
+                <div className="text-right ">
                   {formatDate(new Date(this.props.assignment.create_date))}
                   <br />
-
                   {this.props.assignment.creator}
                 </div>
               </Col>

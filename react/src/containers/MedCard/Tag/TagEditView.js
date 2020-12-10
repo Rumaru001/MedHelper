@@ -1,18 +1,33 @@
 import React from "react";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
-import { Link, Redirect } from "react-router-dom";
-import Base from "../components/Base";
-import axiosInstance from "../axiosApi";
+import { Link } from "react-router-dom";
+import Base from "../../../components/Main/Base";
+import axiosInstance from "../../../axiosApi";
 
-
-export class TagAdd extends React.Component {
+export class TagEdit extends React.Component {
   constructor(props) {
     console.log(props);
     super(props);
     this.state = {
+      id: this.props.match.params.id,
       data: {},
-      loading: false,
+      loading: true,
     };
+  }
+
+  async getTag() {
+    let response = await axiosInstance.get(`assignment/tag/${this.state.id}`);
+    const tag = response.data;
+    const state = this.state;
+    state.data = tag;
+    state.loading = false;
+    this.setState(state);
+    console.log(tag);
+    return tag;
+  }
+
+  componentDidMount() {
+    this.getTag();
   }
 
   onChange(e) {
@@ -23,13 +38,17 @@ export class TagAdd extends React.Component {
       data: data,
     });
   }
+
   async handleSubmit(e) {
     e.preventDefault();
 
     const data = this.state.data;
 
     try {
-      let response = await axiosInstance.post("/assignment/tag/create", data);
+      let response = await axiosInstance.put(
+        `/assignment/tag/update/${data.id}`,
+        data
+      );
       if (response.status >= 200 && response.status < 300) {
         this.props.history.push("/tag");
       }
@@ -39,7 +58,6 @@ export class TagAdd extends React.Component {
     }
   }
 
- 
   render() {
     return this.state.loading ? (
       "Loading...."
@@ -85,6 +103,7 @@ export class TagAdd extends React.Component {
                           type="text"
                           placeholder="Tag name"
                           name="name"
+                          defaultValue={this.state.data.name}
                           onChange={(e) => this.onChange(e)}
                           required
                         />

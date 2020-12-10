@@ -33,6 +33,25 @@ code {
   justify-content: center;
 }
 
+
+.btn-lg {
+    width: 100%;
+    padding: 100px;
+}
+
+.p-5-c {
+  margin: 10px;
+  padding: 10px;
+}
+
+.mt-0 {
+  margin-top: 0 !important;
+}
+
+.text-responsive {
+  font-size: calc(30% + 1vw + 1vh);
+}
+
 .optionsIcon {
   position: relative;
   float: right;
@@ -76,7 +95,13 @@ code {
   width: 20%;
   max-width: 40px;
 }
-
+.w-40 {
+  width: 80%;
+  max-width: 110px;
+}
+.flip_H{
+  transform: scale(-1, 1);
+}
 .hover_effect:hover {
   opacity: 0.7;
   cursor: pointer;
@@ -129,10 +154,24 @@ code {
     max-width: 90%;
   }
 }
-
+.text-responsive {
+  font-size: calc(50% + 0.5vw + 1vh);
+}
 .z-index-high {
   z-index: 999999;
 }
+
+
+.disable-scrollbars::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* Chrome/Safari/Webkit */
+}
+
+.disable-scrollbars {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE 10+ */
+}
+
 
 @media (max-width: 992px) {
   #sidebar-wrapper {
@@ -171,6 +210,19 @@ code {
   .input-group-prepend {
     width: 35% !important;
   }
+  .p-5-c{
+    margin: 5px;
+    padding: 0;
+  }
+  .p-5-c{
+    margin: 5px;
+    padding: 0;
+  }
+  .btn-lg {
+    width: 100%;
+    padding: 30px 70px;
+  }
+
 }
 
 @media (max-width: 767px) {
@@ -178,4 +230,6 @@ code {
     margin-top: 2rem;
     text-align: left;
   }
+
 }
+

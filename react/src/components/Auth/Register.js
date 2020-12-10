@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import axiosInstance from "../axiosApi";
+import axiosInstance from "../../axiosApi";
 
 class Register extends Component {
     constructor(props) {
@@ -20,7 +20,7 @@ class Register extends Component {
     async handleSubmit(event) {
         event.preventDefault();
         try {
-            const response = await axiosInstance.post('/register/', {
+            const response = await axiosInstance.post('auth/register/', {
                 email: this.state.email,
                 password: this.state.password,
                 password2: this.state.password2
