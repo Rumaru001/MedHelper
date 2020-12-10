@@ -174,7 +174,7 @@ export default class PersonalAccount extends React.Component {
 
                                 <Row className="p-5-c">
                                     <Col className="mr-1 m-2 p-2">
-                                        <Button href="/0/medical_card" className="btn-lg" variant="warning">
+                                        <Button href="/medical_card" className="btn-lg" variant="warning">
                                             <h3>MedCard</h3>
                                             <h5 className="text-left">{this.manageTextLenght("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")}</h5>
                                         </Button>{' '}
@@ -186,13 +186,13 @@ export default class PersonalAccount extends React.Component {
                                         </Button>{' '}
                                     </Col>
                                     <Col className="mr-1 m-2 p-2">
-                                        <Button href="/0/medical_card" variant="info" size="lg">
+                                        <Button href="/medical_card" variant="info" size="lg">
                                             <h3>MedCard</h3>
                                             <h5>Visit to a doctor on a 01-12-2020</h5>
                                         </Button>{' '}
                                     </Col>
                                     <Col className=" m-2 p-2">
-                                        <Button href="/0/medical_card" variant="success" size="lg">
+                                        <Button href="/medical_card" variant="success" size="lg">
                                             <h3>MedCard</h3>
                                             <h5>Visit to a doctor on a 01-12-2020</h5>
                                         </Button>{' '}

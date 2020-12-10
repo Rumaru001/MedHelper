@@ -9,9 +9,17 @@ export default function HomePage(props) {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-
-        <p className="h2 mt-3">
-          <Link to={`/${id}/medical_card`}>Medical Card</Link>
+        <p class="h2 mt-3">
+          <Link to={`/medical_card`}>Medical Card</Link>
+        </p>
+        <p>
+           <Link to={`/login/`}>Login</Link>
+        </p>
+        <p>
+          <Link to={`/hello/`}>Hello</Link>
+        </p>
+        <p>
+            <Link to={`/register/`}>Register</Link>
         </p>
         <p className="h2 mt-3">
             <Link to={`/${id}/personal_account`}>Personal Account</Link>
