@@ -4,7 +4,9 @@ import { Link, Redirect } from "react-router-dom";
 import OptionDropdown from "../components/optionButton";
 import axiosInstance from "../axiosApi";
 
+
 export async function deleteAssignment(id) {
+
   if (confirm(`Do you really want to delete assignment with name ${id}?`)) {
     try {
       let response = await axiosInstance.delete(`assignment/delete/${id}`);
@@ -56,7 +58,7 @@ export class Assignment extends React.Component {
                 <Link
                   className="dropdown-item"
                   onClick={() => {
-                    deleteAssignment(this.props.assignment.id);
+                    deleteAssignment(this.props.assignment.id), this.props;
                   }}
                 >
                   Delete
@@ -80,8 +82,9 @@ export class Assignment extends React.Component {
               </Col>
               <Col className="px-1">
                 <div class="text-right ">
-                  {formatDate(new Date(this.props.assignment.create_date))}{" "}
+                  {formatDate(new Date(this.props.assignment.create_date))}
                   <br />
+
                   {this.props.assignment.creator}
                 </div>
               </Col>
