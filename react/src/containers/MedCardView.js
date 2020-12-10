@@ -53,16 +53,6 @@ export default class MedCard extends React.Component {
 
       let response = await axiosInstance.get("assignment/");
 
-      // let response = await fetch("http://localhost:8000/api/assignment/");
-
-      // if (response.ok) {
-      //   let json = await response.json();
-      // } else {
-      //   alert("Ошибка HTTP: " + response.status);
-      // }
-
-      // console.log(json);
-
       const data = response.data.assignments;
 
       var filters = filters_names.map((field) => {
