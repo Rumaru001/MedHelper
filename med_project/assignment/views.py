@@ -143,8 +143,10 @@ class TagView(APIView):
 
     def post(self, request, *args, **kwargs):
         serializer = TagSerializer()
+        data = request.data
+        data['user'] = request.user.id
         # try:
-        tag = serializer.create(request.data)
+        tag = serializer.create(data)
         tag.save()
        # except Exception:
         #    return Response({"errors": "Invalid input data"}, status=405)
@@ -153,7 +155,6 @@ class TagView(APIView):
     def put(self, request, *args, **kwargs):
         serializer = TagSerializer()
         pk = kwargs["pk"]
-
         tag = get_object_or_404(Tag, pk=pk)
 
         try:

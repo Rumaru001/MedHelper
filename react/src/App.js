@@ -9,12 +9,17 @@ import Login from "./components/Login";
 import Hello from "./components/Hello";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Component } from "react";
-
+import { TagList } from "./containers/TagView";
+import { TagAdd } from "./containers/TagAddView";
+import { TagEdit } from "./containers/TagEditView";
 class App extends Component {
   render() {
     return (
       <BrowserRouter>
         <Switch>
+          <Route exact path="/tag" component={TagList} />
+          <Route path="/tag/add" component={TagAdd} />
+          <Route path="/tag/edit/:id" component={TagEdit} />
           <Route exact path="/" component={HomePage} />
           <Route path="/medical_card" component={MedCard} />
           <Route path="/assignment/add" component={MedCardAdd} />
