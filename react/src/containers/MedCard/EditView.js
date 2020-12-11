@@ -180,7 +180,7 @@ export default class MedCardEdit extends React.Component {
                         >
                           {this.state.specifications.map((element, index) => {
                             return (
-                              <option key={index} defaultValue={element.id}>
+                              <option key={index} value={element.id}>
                                 {element.name}
                               </option>
                             );
@@ -208,10 +208,10 @@ export default class MedCardEdit extends React.Component {
                               : ""
                           }
                         >
-                          <option defaultValue="">Choose here</option>
+                          <option value="">Choose here</option>
                           {this.state.tags.map((element, index) => {
                             return (
-                              <option key={index} defaultValue={element.id}>
+                              <option key={index} value={element.id}>
                                 {element.name}
                               </option>
                             );
