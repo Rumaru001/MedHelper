@@ -7,6 +7,7 @@ from django.contrib.auth.models import (
 from django.conf import settings
 
 
+
 class UserManager(BaseUserManager):
     """
     Django requires that custom users define their own Manager class. By
@@ -93,3 +94,4 @@ class Profile(models.Model):
     class Meta:
         """ Set a table name. """
         db_table = 'profile'
+
