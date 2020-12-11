@@ -25,8 +25,14 @@ export default class MedCard extends React.Component {
       const data = response.data.assignments;
 
       var filters = filters_names.map((field) => {
-        return { [field]: this.createFilters(field, data) };
+        return {
+          [field]: this.createFilters(field, data).filter((elem) => {
+            if (elem == null) return false;
+            return true;
+          }),
+        };
       });
+      console.log(filters);
       var dateFilter = { startTime: "1900-01-01", endTime: new Date() };
       this.setState({
         loading: false,
@@ -47,13 +53,12 @@ export default class MedCard extends React.Component {
     console.log(this.getData());
   }
   createFilters = (field, data) => {
-    //console.log(data, field);
+    console.log(data, field);
     if (data.length < 1) return [];
     return [field] in data[0]
       ? [
           ...new Set(
             data.map((elem) => {
-              //console.log(elem.field);
               return elem[field];
             })
           ),

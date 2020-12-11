@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import Base from "../../components/Main/Base";
 import axiosInstance from "../../axiosApi";
 
-
 const server = {
   errors: [],
   specifications: [],
@@ -51,15 +50,21 @@ export default class MedCardAdd extends React.Component {
   onChange(e) {
     const data = this.state.data;
     data[e.target.name] = e.target.value;
-    this.setState({
-      ...this.state.data,
-      data: data,
-    });
+    this.setState(
+      {
+        ...this.state.data,
+        data: data,
+      },
+      () => {
+        console.log(this.state);
+      }
+    );
   }
   async handleSubmit(e) {
     e.preventDefault();
     console.log(this.state);
     const data = this.state.data;
+    console.log(data);
     data.data = {
       files: this.state.files != "Choose files" ? this.state.files : [],
     };
@@ -154,12 +159,14 @@ export default class MedCardAdd extends React.Component {
                           onChange={(e) => this.onChange(e)}
                           required
                         >
-                          <option value="" selected disabled hidden>
+                          <option defaultValue="" disabled hidden>
                             Choose here
                           </option>
-                          {this.state.specifications.map((element) => {
+                          {this.state.specifications.map((element, index) => {
                             return (
-                              <option value={element.id}>{element.name}</option>
+                              <option key={index} defaultValue={element.id}>
+                                {element.name}
+                              </option>
                             );
                           })}
                         </Form.Control>
@@ -171,7 +178,7 @@ export default class MedCardAdd extends React.Component {
                             id="SpecAssignment"
                             className="nowrap child-center"
                           >
-                            <p class="m-0">Tag</p>
+                            <p className="m-0">Tag</p>
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
@@ -180,12 +187,12 @@ export default class MedCardAdd extends React.Component {
                           onChange={(e) => this.onChange(e)}
                           name="tag"
                         >
-                          <option value="" selected>
-                            Choose here
-                          </option>
-                          {this.state.tags.map((element) => {
+                          <option defaultValue="">Choose here</option>
+                          {this.state.tags.map((element, index) => {
                             return (
-                              <option value={element.id}>{element.name}</option>
+                              <option key={index} defaultValue={element.id}>
+                                {element.name}
+                              </option>
                             );
                           })}
                         </Form.Control>

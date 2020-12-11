@@ -22,16 +22,16 @@ class Tag(models.Model):
 class Assignment(models.Model):
 
     user = models.ForeignKey(User, related_name="assignments",
-                             on_delete=models.DO_NOTHING)
+                             on_delete=models.CASCADE)
 
     tag = models.ForeignKey(Tag, related_name="tags",
-                            on_delete=models.DO_NOTHING, blank=True, null=True)
+                            on_delete=models.SET_NULL, blank=True, null=True)
     data = models.OneToOneField(
         ExtraData, on_delete=models.DO_NOTHING, blank=True)
     create_date = models.DateTimeField(auto_now_add=True)
 
     specification = models.ForeignKey(
-        Specification, on_delete=models.DO_NOTHING)
+        Specification, on_delete=models.SET_NULL, null=True)
 
     creator = models.ForeignKey(
         User, on_delete=models.DO_NOTHING)

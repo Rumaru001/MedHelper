@@ -86,6 +86,5 @@ class AssignmentSerializer(serializers.ModelSerializer):
         if extraData:
             eData = assignment.data
             eData.data['files'] = extraData['files']
-
-        Assignment.objects.filter(pk=pk).update(**validated_data)
         assignment.save()
+        Assignment.objects.filter(pk=pk).update(**validated_data)
