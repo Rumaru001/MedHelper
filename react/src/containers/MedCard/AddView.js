@@ -157,14 +157,15 @@ export default class MedCardAdd extends React.Component {
                           as="select"
                           name="specification"
                           onChange={(e) => this.onChange(e)}
+                          defaultValue=""
                           required
                         >
-                          <option defaultValue="" disabled hidden>
+                          <option value="" disabled hidden>
                             Choose here
                           </option>
                           {this.state.specifications.map((element, index) => {
                             return (
-                              <option key={index} defaultValue={element.id}>
+                              <option key={index} value={element.id}>
                                 {element.name}
                               </option>
                             );
@@ -185,12 +186,13 @@ export default class MedCardAdd extends React.Component {
                         <Form.Control
                           as="select"
                           onChange={(e) => this.onChange(e)}
+                          defaultValue=""
                           name="tag"
                         >
-                          <option defaultValue="">Choose here</option>
+                          <option value="">Choose here</option>
                           {this.state.tags.map((element, index) => {
                             return (
-                              <option key={index} defaultValue={element.id}>
+                              <option key={index} value={element.id}>
                                 {element.name}
                               </option>
                             );

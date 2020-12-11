@@ -67,10 +67,10 @@ class AssignmentView(APIView):
         if not has_obj_persmission(request, assignment):
             return Response(status=status.HTTP_403_FORBIDDEN)
 
-        try:
-            serializer.update(pk, data)
-        except Exception:
-            return Response({"errors": "Invalid input data"}, status=405)
+        # try:
+        serializer.update(assignment, data)
+        # except Exception:
+        #     return Response({"errors": "Invalid input data"}, status=405)
         return Response({"message": "Succesful"}, status=200)
 
     def delete(self, request, *args, **kwargs):

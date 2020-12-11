@@ -27,7 +27,7 @@ class Assignment(models.Model):
     tag = models.ForeignKey(Tag, related_name="tags",
                             on_delete=models.SET_NULL, blank=True, null=True)
     data = models.OneToOneField(
-        ExtraData, on_delete=models.DO_NOTHING, blank=True)
+        ExtraData, on_delete=models.CASCADE, blank=True)
     create_date = models.DateTimeField(auto_now_add=True)
 
     specification = models.ForeignKey(
