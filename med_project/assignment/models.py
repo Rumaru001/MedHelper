@@ -14,7 +14,7 @@ class ExtraData(models.Model):
 
 class Tag(models.Model):
 
-    user = ForeignKey(User,
+    user = ForeignKey(User, related_name="tags",
                       on_delete=models.DO_NOTHING)
     name = models.CharField(max_length=50)
 

@@ -1,10 +1,12 @@
 from django.shortcuts import render, get_object_or_404
+from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from .serializers import SpecificationSerializer, AssignmentSerializer, ExtraDataSerializer, IsOwner, TagSerializer
 from rest_framework.views import APIView
 from .models import Specification, Assignment, ExtraData, Tag
 from rest_framework.response import Response
 from .renderers import AssignmentJSONRenderer
+from account.permissions import has_obj_persmission
 
 
 class AssignmentsListView(APIView):
@@ -27,6 +29,9 @@ class AssignmentView(APIView):
 
         assignment = get_object_or_404(Assignment, pk=pk)
 
+        if not has_obj_persmission(request, assignment):
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
         serializer = AssignmentSerializer(assignment)
         return Response(serializer.data)
 
@@ -48,10 +53,20 @@ class AssignmentView(APIView):
 
     def put(self, request, *args, **kwargs):
         pk = kwargs["pk"]
+
         serializer = AssignmentSerializer()
 
         data = request.data
         data['editor'] = request.user.id
+
+        try:
+            assignment = get_object_or_404(Assignment, pk=pk)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        if not has_obj_persmission(request, assignment):
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
         try:
             serializer.update(pk, data)
         except Exception:
@@ -61,7 +76,16 @@ class AssignmentView(APIView):
     def delete(self, request, *args, **kwargs):
         pk = kwargs["pk"]
 
+        try:
+            assignment = get_object_or_404(Assignment, pk=pk)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
         assignment = get_object_or_404(Assignment, pk=pk)
+
+        if not has_obj_persmission(request, assignment):
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
         assignment.data.delete()
         assignment.delete()
         return Response({"message": "Succesful"}, status=200)
@@ -123,9 +147,7 @@ class TagListView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        user_id = request.user.id
-        Tag.objects.filter(user_id=user_id).all()
-        tags = Tag.objects.filter(user_id=user_id).all()
+        tags = request.user.tags.order_by('-id').all()
         serializer = TagSerializer(tags, many=True)
         return Response(serializer.data)
 
@@ -136,7 +158,13 @@ class TagView(APIView):
     def get(self, request, *args, **kwargs):
         pk = kwargs["pk"]
 
-        tag = get_object_or_404(Tag, pk=pk)
+        try:
+            tag = get_object_or_404(Tag, pk=pk)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        if not has_obj_persmission(request, tag):
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
         serializer = TagSerializer(tag)
         return Response(serializer.data)
@@ -157,7 +185,13 @@ class TagView(APIView):
         serializer = TagSerializer()
         pk = kwargs["pk"]
 
-        tag = get_object_or_404(Tag, pk=pk)
+        try:
+            tag = get_object_or_404(Tag, pk=pk)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        if not has_obj_persmission(request, tag):
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
         try:
             tag = serializer.update(tag, request.data)
@@ -168,7 +202,13 @@ class TagView(APIView):
     def delete(self, request, *args, **kwargs):
         pk = kwargs["pk"]
 
-        tag = get_object_or_404(Tag, pk=pk)
+        try:
+            tag = get_object_or_404(Tag, pk=pk)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        if not has_obj_persmission(request, tag):
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
         tag.delete()
         return Response({"message": "Succesful"}, status=200)
