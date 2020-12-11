@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from rest_framework.permissions import IsAuthenticated
 from .serializers import SpecificationSerializer, AssignmentSerializer, ExtraDataSerializer, IsOwner, TagSerializer
 from rest_framework.views import APIView
 from .models import Specification, Assignment, ExtraData, Tag
@@ -7,7 +8,7 @@ from .renderers import AssignmentJSONRenderer
 
 
 class AssignmentsListView(APIView):
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
     renderer_classes = (AssignmentJSONRenderer,)
 
     def get(self, request, *args, **kwargs):
@@ -19,8 +20,7 @@ class AssignmentsListView(APIView):
 
 
 class AssignmentView(APIView):
-    # permission_classes = [IsOwner]
-    permission_classes = []
+    permission_classes = [IsOwner, IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         pk = kwargs["pk"]
@@ -68,7 +68,7 @@ class AssignmentView(APIView):
 
 
 class SpeceficatiomListView(APIView):
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         Specification.objects.all()
@@ -78,7 +78,7 @@ class SpeceficatiomListView(APIView):
 
 
 class SpecificationView(APIView):
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
 
@@ -120,7 +120,7 @@ class SpecificationView(APIView):
 
 
 class TagListView(APIView):
-    permission_classes = []
+    permission_classes = [IsOwner, IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         user_id = request.user.id
@@ -131,7 +131,7 @@ class TagListView(APIView):
 
 
 class TagView(APIView):
-    permission_classes = []
+    permission_classes = [IsOwner, IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         pk = kwargs["pk"]
@@ -143,14 +143,14 @@ class TagView(APIView):
 
     def post(self, request, *args, **kwargs):
         serializer = TagSerializer()
-    
+
         data = request.data
         data['user'] = request.user.id
         try:
-           tag = serializer.create(data)
-           tag.save()
+            tag = serializer.create(data)
+            tag.save()
         except Exception:
-           return Response({"errors": "Invalid input data"}, status=405)
+            return Response({"errors": "Invalid input data"}, status=405)
         return Response({"message": "Succesful"}, status=200)
 
     def put(self, request, *args, **kwargs):

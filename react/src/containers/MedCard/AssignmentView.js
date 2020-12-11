@@ -2,10 +2,11 @@ import React from "react";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Base from "../../components/Main/Base";
-import { deleteAssignment,formatDate } from "../../components/MedCard/Assignment";
+import {
+  deleteAssignment,
+  formatDate,
+} from "../../components/MedCard/Assignment";
 import axiosInstance from "../../axiosApi";
-
-
 
 export default class MedCardAssignment extends React.Component {
   constructor(props) {
@@ -60,7 +61,6 @@ export default class MedCardAssignment extends React.Component {
                 </Row>
                 <Row>
                   <Col md={6}>
-
                     <div className="text-left text-seconady mt-2">
                       Specification: {this.state.assignment.specification.name}
                     </div>
@@ -70,7 +70,10 @@ export default class MedCardAssignment extends React.Component {
                     </div>
 
                     <div className="text-left text-seconady">
-                      Date of creation: {(new Date(this.state.assignment.create_date)).toString().slice(0,25)}
+                      Date of creation:{" "}
+                      {new Date(this.state.assignment.create_date)
+                        .toString()
+                        .slice(0, 25)}
                     </div>
                   </Col>
                   <Col className="text-align-screen" md={6}>
@@ -82,7 +85,9 @@ export default class MedCardAssignment extends React.Component {
 
                         <div className="text-seconady">
                           Date of editing:{" "}
-                          {(new Date(this.state.assignment.editing_date)).toString().slice(0,25)}
+                          {new Date(this.state.assignment.editing_date)
+                            .toString()
+                            .slice(0, 25)}
                         </div>
                       </>
                     ) : (
@@ -133,7 +138,7 @@ export default class MedCardAssignment extends React.Component {
                   </Col>
                   <Col>
                     <Link
-                      to={`/assignment/${this.state.assignment.id}`}
+                      to={`/assignment/${this.state.assignment.id}/edit`}
                       className="text-decoration-none text-dark"
                     >
                       <Button

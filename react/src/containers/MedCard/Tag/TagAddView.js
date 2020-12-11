@@ -51,7 +51,7 @@ export class TagAdd extends React.Component {
               to={`/medical_card`}
               className="text-light h5 font-weight-bold mx-auto"
             >
-              <p class="text-decoration-none my-auto">MedCard</p>
+              <p className="text-decoration-none my-auto">MedCard</p>
             </Link>
           }
           main={
@@ -77,7 +77,7 @@ export class TagAdd extends React.Component {
                             id="TitleAssignment"
                             className="nowrap child-center"
                           >
-                            <p class="m-0">Title</p>
+                            <p className="m-0">Title</p>
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 

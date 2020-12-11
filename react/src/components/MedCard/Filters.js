@@ -51,7 +51,7 @@ export function Filters(props) {
         <p className="text-center my-auto">+ Add Assignment</p>
       </AddButton>
       <AddButton to="/tag" className="addbtn-assignment text-light btn-info">
-        <p class="text-center my-auto">Tags</p>
+        <p className="text-center my-auto">Tags</p>
       </AddButton>
     </div>
   );

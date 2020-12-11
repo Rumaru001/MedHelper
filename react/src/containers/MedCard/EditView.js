@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import Base from "../../components/Main/Base";
 import axiosInstance from "../../axiosApi";
 
-
 export default class MedCardEdit extends React.Component {
   constructor(props) {
     super(props);
@@ -17,10 +16,13 @@ export default class MedCardEdit extends React.Component {
   onChange(e) {
     const data = this.state.data;
     data[e.target.name] = e.target.value;
-    this.setState({
-      ...this.state.data,
-      data: data,
-    });
+    this.setState(
+      {
+        ...this.state.data,
+        data: data,
+      },
+      console.log(this.state)
+    );
   }
   async handleSubmit(e) {
     e.preventDefault();
@@ -176,9 +178,11 @@ export default class MedCardEdit extends React.Component {
                           onChange={(e) => this.onChange(e)}
                           defaultValue={this.state.assignment.specification.id}
                         >
-                          {this.state.specifications.map((element) => {
+                          {this.state.specifications.map((element, index) => {
                             return (
-                              <option value={element.id}>{element.name}</option>
+                              <option key={index} defaultValue={element.id}>
+                                {element.name}
+                              </option>
                             );
                           })}
                         </Form.Control>
@@ -204,10 +208,12 @@ export default class MedCardEdit extends React.Component {
                               : ""
                           }
                         >
-                          <option value="">Choose here</option>
-                          {this.state.tags.map((element) => {
+                          <option defaultValue="">Choose here</option>
+                          {this.state.tags.map((element, index) => {
                             return (
-                              <option value={element.id}>{element.name}</option>
+                              <option key={index} defaultValue={element.id}>
+                                {element.name}
+                              </option>
                             );
                           })}
                         </Form.Control>
@@ -217,7 +223,6 @@ export default class MedCardEdit extends React.Component {
                         <InputGroup.Prepend className="w-25 text-center">
                           <InputGroup.Text
                             id="textAssignment"
-                            
                             className="nowrap child-center"
                           >
                             <p className="m-0">Text of assignment</p>

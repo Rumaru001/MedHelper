@@ -61,23 +61,30 @@ export class TagList extends React.Component {
                 to={`/medical_card`}
                 className="text-light h5 font-weight-bold mx-auto pt-4 mb-auto"
               >
-                <p class="text-decoration-none my-auto text-center ">MedCard</p>
+                <p className="text-decoration-none my-auto text-center ">
+                  MedCard
+                </p>
               </Link>
               <AddButton to="/tag/add" className="addbtn-assignment text-light">
-                <p class="text-center my-auto">+ Add Tag</p>
+                <p className="text-center my-auto">+ Add Tag</p>
               </AddButton>
             </div>
           }
           main={
             <>
-              <p class="h1 m-4 mt-5 text-center">Tags</p>
+              <p className="h1 m-4 mt-5 text-center">Tags</p>
               {this.state.tags.length > 0 ? (
                 this.state.tags.map((tag, i) => {
                   return (
-                    <Card className="mx-4 my-5 text-left shadow-sm animate__animated animate__backInRight faster">
+                    <Card
+                      key={i}
+                      className="mx-4 my-5 text-left shadow-sm animate__animated animate__backInRight faster"
+                    >
                       <Card.Body>
                         <Card.Title className="m-0">
-                          <p class="h3 d-inline-block m-2 mb-0">{tag.name}</p>
+                          <p className="h3 d-inline-block m-2 mb-0">
+                            {tag.name}
+                          </p>
                         </Card.Title>
                       </Card.Body>
                       <Card.Footer>
@@ -98,7 +105,7 @@ export class TagList extends React.Component {
                               </Link>
                             </Col>
                             <Col className="px-1">
-                              <Link
+                              <a
                                 className="child-center"
                                 onClick={() => {
                                   this.deleteTag(tag.id, tag.name);
@@ -111,7 +118,7 @@ export class TagList extends React.Component {
                                 >
                                   Delete
                                 </Button>
-                              </Link>
+                              </a>
                             </Col>
                           </Row>
                         </Container>
@@ -120,7 +127,7 @@ export class TagList extends React.Component {
                   );
                 })
               ) : (
-                <p class="h4 mt-5 pt-4 text-secondary text-center">
+                <p className="h4 mt-5 pt-4 text-secondary text-center">
                   No tags found 🙁
                 </p>
               )}
