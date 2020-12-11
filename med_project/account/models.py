@@ -4,6 +4,8 @@ from datetime import datetime, timedelta
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser, PermissionsMixin)
+from django.conf import settings
+
 
 
 class UserManager(BaseUserManager):
@@ -11,7 +13,6 @@ class UserManager(BaseUserManager):
     Django requires that custom users define their own Manager class. By
     inheriting from `BaseUserManager`, we get a lot of the same code used by
     Django to create a `User`.
-
     All we have to do is override the `create_user` function which we will use
     to create `User` objects.
     """
@@ -64,3 +65,33 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         """ Set a table name. """
         db_table = 'user'
+
+
+def get_upload_path(instance, filename):
+    return "user_img_{id}/{file}".format(id=instance.user.id, file=filename)
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, related_name='profile')
+
+    SEX_CHOICES = (
+        ('F', 'Female',),
+        ('M', 'Male',),
+    )
+
+    name = models.CharField(max_length=30, blank=True)
+    surname = models.CharField(max_length=30, blank=True)
+    contact_number = models.CharField(max_length=10, unique=True, blank=True)
+    sex = models.CharField(max_length=1, choices=SEX_CHOICES, blank=True)
+    addres = models.CharField(max_length=30, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+    weight = models.IntegerField(null=True, blank=True)
+    height = models.IntegerField(null=True, blank=True)
+    blood = models.CharField(max_length=30, blank=True)
+
+    image = models.ImageField(default='profile_img.png', upload_to=get_upload_path, blank=True)
+
+    class Meta:
+        """ Set a table name. """
+        db_table = 'profile'
+

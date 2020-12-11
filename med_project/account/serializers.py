@@ -1,9 +1,9 @@
-from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
+from rest_framework import serializers
 
-from .models import User
+from .models import Profile, User
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -49,7 +49,7 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
     """Serializers for changing a user's password."""
     password = serializers.CharField(
         write_only=True, required=True,
-        #validators=[validate_password]
+        # validators=[validate_password]
         min_length=8, max_length=128)
     password2 = serializers.CharField(
         write_only=True, required=True)
@@ -82,3 +82,21 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('email', 'id')
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = Profile
+        fields = "__all__"
+        extra_kwargs = {
+            'id': {'read_only': True},
+            'user': {'read_only': True},
+        }

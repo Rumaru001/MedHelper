@@ -36,13 +36,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'django.contrib.sites',
 
     'rest_framework',
@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     "assignment",
-    "account",
+    "account.apps.AccountConfig",
 ]
 
 MIDDLEWARE = [
@@ -126,6 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = 'account.User'
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -137,7 +138,6 @@ REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'account.core.exceptions.core_exception_handler',
     'NON_FIELD_ERRORS_KEY': 'error',
 }
-
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=100),
@@ -154,7 +154,6 @@ SIMPLE_JWT = {
     'TOKEN_TYPE_CLAIM': 'token_type',
 }
 
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -169,6 +168,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # STATICFILES_DIRS = [os.path.join(BASE_DIR.parent, "react/build/static")]
 STATICFILES_DIRS = [os.path.join(BASE_DIR.parent, "react/public/")]

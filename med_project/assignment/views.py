@@ -44,11 +44,14 @@ class AssignmentView(APIView):
         data['editor'] = data.get('editor', request.user.id)
         print(data)
 
-        try:
-            assignment: Assignment = serializer.create(data)
-            assignment.save()
-        except Exception:
-            return Response({"errors": "Invalid input data"}, status=405)
+        assignment: Assignment = serializer.create(data)
+        assignment.save()
+
+        # try:
+        #     assignment: Assignment = serializer.create(data)
+        #     assignment.save()
+        # except Exception:
+        #     return Response({"errors": "Invalid input data"}, status=405)
         return Response({"message": "Succesful"}, status=200)
 
     def put(self, request, *args, **kwargs):

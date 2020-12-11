@@ -1,13 +1,17 @@
-from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework.generics import UpdateAPIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from .permissions import IsOwner
-from .models import User
 from .serializers import (
     RegisterSerializer, ChangePasswordSerializer)
+
+from django.shortcuts import render, get_object_or_404
+from rest_framework import status, permissions
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+from .serializers import ProfileSerializer
+from .models import User, Profile
 
 
 class RegistrationAPIView(APIView):
@@ -40,7 +44,7 @@ class LogoutApiView(APIView):
 
 class ChangePasswordView(UpdateAPIView):
     queryset = User.objects.all()
-    permission_classes = (IsOwner,)
+    # permission_classes = (IsOwner,)
     serializer_class = ChangePasswordSerializer
 
 
@@ -49,3 +53,27 @@ class HelloWorldView(APIView):
 
     def get(self, request):
         return Response({"hello": "world"}, status=status.HTTP_200_OK)
+
+
+class ProfileAPI(APIView):
+    permission_classes = (AllowAny,)
+
+    def get(self, request, *args, **kwargs):
+        user = get_object_or_404(User, pk=kwargs['user_id'])
+        profile_serializer = ProfileSerializer(user.profile)
+        profile_serializer.data['email'] = user.email
+        print(profile_serializer.data)
+        return Response(profile_serializer.data)
+
+    def put(self, request, *args, **kwargs):
+        user = get_object_or_404(User, pk=kwargs['user_id'])
+        profile_serializer = ProfileSerializer(user.profile, data=request.data)
+        if profile_serializer.is_valid():
+            profile_serializer.save()
+            return Response(profile_serializer.data, status=status.HTTP_200_OK)
+        return Response(profile_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, requst, *args, **kwargs):
+        user = get_object_or_404(User, pk=kwargs['user_id'])
+        user.profile.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
