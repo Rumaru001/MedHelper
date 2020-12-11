@@ -13,9 +13,6 @@ class IsOwner(permissions.BasePermission):
     """
 
     def has_permission(self, request, view):
-        print(dir(view))
-        print(view.headers)
-        print(view.kwargs)
         user = User.objects.get(pk=view.kwargs['pk'])
         if request.user == user:
             return True

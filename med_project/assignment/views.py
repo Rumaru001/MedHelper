@@ -20,7 +20,7 @@ class AssignmentsListView(APIView):
 
 
 class AssignmentView(APIView):
-    permission_classes = [IsOwner, IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         pk = kwargs["pk"]
@@ -120,7 +120,7 @@ class SpecificationView(APIView):
 
 
 class TagListView(APIView):
-    permission_classes = [IsOwner, IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         user_id = request.user.id
@@ -131,7 +131,7 @@ class TagListView(APIView):
 
 
 class TagView(APIView):
-    permission_classes = [IsOwner, IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         pk = kwargs["pk"]
