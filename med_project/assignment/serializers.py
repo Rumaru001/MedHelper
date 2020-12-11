@@ -3,7 +3,6 @@ from django.db.models.fields import files
 from rest_framework import permissions, serializers
 from .models import Specification, Assignment, ExtraData, Tag
 from django.shortcuts import get_object_or_404
-#from med_project.account.permissions import IsOwner
 from account.models import User
 
 
@@ -79,12 +78,11 @@ class AssignmentSerializer(serializers.ModelSerializer):
             User, pk=int(validated_data.pop("editor")))
         return Assignment.objects.create(data=data, specification=specification, user=user, creator=creator, editor=editor, tag=tag, ** validated_data)
 
-    def update(self, pk, validated_data):
+    def update(self, instance, validated_data):
         self.validate(validated_data)
         extraData = validated_data.pop("data", False)
-        assignment = get_object_or_404(Assignment, pk=pk)
         if extraData:
-            eData = assignment.data
+            eData = instance.data
             eData.data['files'] = extraData['files']
-        assignment.save()
-        Assignment.objects.filter(pk=pk).update(**validated_data)
+        instance.save()
+        Assignment.objects.filter(pk=instance.pk).update(**validated_data)
