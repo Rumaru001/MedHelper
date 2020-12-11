@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate
 from django.shortcuts import render, get_object_or_404
 from rest_framework import status, permissions
+from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -9,11 +10,13 @@ from .models import User, Profile
 
 
 class ProfileAPI(APIView):
-    permission_classes = permissions.IsAuthenticated
+    permission_classes = (AllowAny,)
 
     def get(self, request, *args, **kwargs):
         user = get_object_or_404(User, pk=kwargs['user_id'])
         profile_serializer = ProfileSerializer(user.profile)
+        profile_serializer.data['email'] = user.email
+        print(profile_serializer.data)
         return Response(profile_serializer.data)
 
     def put(self, request, *args, **kwargs):

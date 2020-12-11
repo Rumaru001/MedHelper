@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser, PermissionsMixin)
+from django.conf import settings
 
 
 class UserManager(BaseUserManager):
@@ -65,12 +66,30 @@ class User(AbstractBaseUser, PermissionsMixin):
         db_table = 'user'
 
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    contact_number = models.CharField(max_length=10, unique=True)
-    location = models.CharField(max_length=30, blank=True)
-    birth_date = models.DateField(null=True, blank=True)
-    image = models.ImageField(upload_to='profile_image', blank=True)
+def get_upload_path(instance, filename):
+    return "user_img_{id}/{file}".format(id=instance.user.id, file=filename)
 
-    def __str__(self):
-        return self.user.username
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, related_name='profile')
+
+    SEX_CHOICES = (
+        ('F', 'Female',),
+        ('M', 'Male',),
+    )
+
+    name = models.CharField(max_length=30, blank=True)
+    surname = models.CharField(max_length=30, blank=True)
+    contact_number = models.CharField(max_length=10, unique=True, blank=True)
+    sex = models.CharField(max_length=1, choices=SEX_CHOICES, blank=True)
+    addres = models.CharField(max_length=30, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+    weight = models.IntegerField(null=True, blank=True)
+    height = models.IntegerField(null=True, blank=True)
+    blood = models.CharField(max_length=30, blank=True)
+
+    image = models.ImageField(default='profile_img.png', upload_to=get_upload_path, blank=True)
+
+    class Meta:
+        """ Set a table name. """
+        db_table = 'profile'
