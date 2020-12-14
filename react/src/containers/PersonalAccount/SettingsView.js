@@ -21,7 +21,6 @@ const server = {
             blood: "https://www.flaticon.com/svg/static/icons/svg/1188/1188130.svg",
         },
     text: {
-        avatar: "Avatar",
         name: "Name",
         surname: "Surname",
         email: "Email",
@@ -32,10 +31,16 @@ const server = {
         blood: "Blood Type",
         sex: "Sex",
     },
+    side_bar_text:
+        {
+            contact_number: "Phone",
+            addres: "Address",
+            weight: "Weight",
+            height: "Height",
+            blood: "Blood Type",
+        },
     files: ["Click to drop file"],
 };
-
-const id = 0;
 
 export default class PersonalAccountSettings extends React.Component {
 
@@ -92,8 +97,8 @@ export default class PersonalAccountSettings extends React.Component {
 
     render() {
         return this.state.loading ? (
-            <div class="d-flex justify-content-center center_loading" >
-                <div class="spinner-border" role="status" >
+            <div class="d-flex justify-content-center center_loading">
+                <div class="spinner-border" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
@@ -152,14 +157,31 @@ export default class PersonalAccountSettings extends React.Component {
                                 </Row>
                                 <Row className="ml-2 mb-3 p-3 my-lg-4 ">
                                     <Col>
-                                        {(Object.keys(server.text).map((key, index) => (
+                                        <Row className=" d-flex justify-content-left child-left cursor-help">
+                                            <InputGroup.Text id="TitleAssignment"
+                                                             className="bg-transparent border-0 w-22 m-1 p-1 text-center">
+                                                <img title="Email"
+                                                     alt="Email"
+                                                     style={{width: "40px", height: "40px"}}
+                                                     src={server.urls.email}/>
+                                            </InputGroup.Text>
+
+                                            <Row className="ml-2 justify-content-left child-left">
+                                                <div
+                                                    className="container rounded bg-transparent text-dark font-weight-light">
+                                                    <h3 className="text-responsive"> {this.state.profile.user.email}</h3>
+                                                </div>
+                                            </Row>
+
+                                        </Row>
+                                        {(Object.keys(server.side_bar_text).map((key, index) => (
                                             <Row className=" d-flex justify-content-left child-left cursor-help"
                                                  key={index}>
 
                                                 <InputGroup.Text id="TitleAssignment"
                                                                  className="bg-transparent border-0 w-22 m-1 p-1 text-center">
-                                                    <img title={server.text[key]}
-                                                         alt={server.text[key]}
+                                                    <img title={server.side_bar_text[key]}
+                                                         alt={server.side_bar_text[key]}
                                                          style={{width: "40px", height: "40px"}}
                                                          src={server.urls[key]}/>
                                                 </InputGroup.Text>
@@ -177,7 +199,7 @@ export default class PersonalAccountSettings extends React.Component {
                                 </Row>
                                 <Row>
                                     <AddButton
-                                        to="/0/personal_account"
+                                        to="/personal_account"
                                         className="addbtn-assignment text-light"
                                     >
                                         <p className="text-center my-auto">Back To Personal Page</p>
@@ -220,7 +242,7 @@ export default class PersonalAccountSettings extends React.Component {
                                             </Form.Control.Feedback>
 
                                             {
-                                                Object.keys(this.state.profile).map((key, index) => (
+                                                Object.keys(server.text).map((key, index) => (
                                                     <InputGroup className="mb-3" key={index}>
                                                         <InputGroup.Prepend className="w-25 text-left">
                                                             <InputGroup.Text id="TitleAssignment"
@@ -231,7 +253,7 @@ export default class PersonalAccountSettings extends React.Component {
 
                                                         <Form.Control
                                                             type="text"
-                                                            placeholder="Name of assignment"
+                                                            placeholder={server.text[key]}
                                                             required
                                                             defaultValue={this.state.profile[key]}
                                                         />
@@ -271,7 +293,7 @@ export default class PersonalAccountSettings extends React.Component {
 
                                             <Row>
                                                 <Col>
-                                                    <Link to={`/${id}/medical_card`}>
+                                                    <Link to={`/personal_account`}>
                                                         <Button
                                                             variant="info"
                                                             type="submit"

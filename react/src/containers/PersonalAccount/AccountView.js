@@ -32,69 +32,6 @@ const side_bar_text = {
         }
 }
 
-export function personalSideBar() {
-    return (
-        <>
-
-            <h1 className="divider">
-                <hr/>
-            </h1>
-            <Row className="p-3 my-lg-4 justify-content-center child-center">
-                <Col className="ml-2 justify-content-center child-center">
-                    <img title="Profile photo" alt="Profile photo"
-                         style={{width: "110px", height: "110px", borderRadius: "80px"}}
-                         src={side_bar_text.urls.avatar}/>
-                </Col>
-                <Col className="justify-content-left child-left">
-                    <Col>
-                        <Row className="justify-content-left child-left">
-                            <Row className="">
-                                <div className="d-flex">
-                                    <div
-                                        className="container rounded bg-transparent text-dark font-weight-light">
-                                        <h3 className="justify-content-center child-center text-responsive">{data_temp.blocks.name} {data_temp.blocks.surname}</h3>
-                                    </div>
-                                </div>
-
-                            </Row>
-                        </Row>
-                        <Row className="ml-1 justify-content-left child-left">
-                            <Row className="">
-                                <div className="d-flex">
-                                    <div>
-                                        <img className='flip_H' title="Sex" alt="Sex"
-                                             style={{width: "40px", height: "40px"}}
-                                             src={side_bar_text.urls.sex}/>
-                                    </div>
-                                    <div
-                                        className="container rounded bg-transparent text-dark font-weight-light">
-                                        <h3 className="text-responsive">{data_temp.blocks.sex}</h3>
-                                    </div>
-                                </div>
-                            </Row>
-                        </Row>
-                    </Col>
-                </Col>
-            </Row>
-            <Row className="ml-2 mb-3 p-3 my-lg-4 ">
-                <Col>
-                    <h1 className="divider">
-                        <hr/>
-                    </h1>
-                </Col>
-            </Row>
-            <Row className="ml-2 mb-3 p-3 my-lg-4 ">
-                <Col>
-                    {DisplayList}
-                </Col>
-            </Row>
-
-
-        </>
-    )
-
-}
-
 export default class PersonalAccount extends React.Component {
 
     constructor(props) {
