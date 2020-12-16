@@ -46,6 +46,9 @@ export default class MedCard extends React.Component {
       return data;
     } catch (error) {
       console.log("Error: ", JSON.stringify(error, null, 4));
+      if (error.response.status === 401){
+              this.props.history.push('/login');
+      }
       throw error;
     }
   }
