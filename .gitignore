@@ -12,4 +12,5 @@ med_project/med_project/.env
 .eslintcache
 /node_modules
 .env
+build
 
