@@ -4,6 +4,7 @@ from .views import *
 
 urlpatterns = [path('', AssignmentsListView.as_view()),
                path('<int:pk>', AssignmentView.as_view()),
+               path('last', LastAssignment.as_view()),
                path('create', AssignmentView.as_view()),
                path('update/<int:pk>', AssignmentView.as_view()),
                path('delete/<int:pk>', AssignmentView.as_view()),
