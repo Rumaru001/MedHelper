@@ -23,14 +23,15 @@ const server = {
     text: {
         name: "Name",
         surname: "Surname",
-        email: "Email",
         contact_number: "Phone",
         addres: "Address",
+        birth_date: 'Birthday',
         weight: "Weight",
         height: "Height",
         blood: "Blood Type",
         sex: "Sex",
     },
+
     side_bar_text:
         {
             contact_number: "Phone",
@@ -54,33 +55,42 @@ export default class PersonalAccountSettings extends React.Component {
         }
     }
 
-    handleChange = () => {
-        return;
-    };
-    handleSubmit = () => {
-        return;
-    };
+    onChange(e) {
+        const data = this.state.data;
+        data[e.target.name] = e.target.value;
+        this.setState(
+            {
+                data: data,
+            },
+            console.log(this.state)
+        );
+    }
 
-    handleFileChange = (e) => {
-        var files = e.target.files;
-        this.setState({
-            ...this.state,
-            file_value:
-                files.length == 1
-                    ? files[0].name
-                    : files.length < 1
-                    ? "Choose files..."
-                    : `${files.length} files selected`,
-        });
-    };
+    async handleSubmit(e) {
+        e.preventDefault();
+        console.log(this.state);
+        const data = this.state.data;
+        const formData = new FormData();
+        console.log(data);
+        try {
+            let response = await axiosInstance.put("auth/users/profile/", data);
+            if (response.status >= 200 && response.status < 300) {
+                this.props.history.push("/personal_account");
+            }
+        } catch (error) {
+            console.log("Error: ", JSON.stringify(error, null, 4));
+            throw error;
+        }
+    }
 
     async getData() {
         try {
             console.log(localStorage);
 
-            let response = await axiosInstance.get("auth/users/11/profile/");
+            let response = await axiosInstance.get("auth/users/profile/");
             const data = response.data;
             this.setState({
+                data: {},
                 profile: data,
                 loading: false,
             });
@@ -95,11 +105,24 @@ export default class PersonalAccountSettings extends React.Component {
         console.log(this.getData());
     }
 
+    handleFileChange = (e) => {
+        var files = e.target.files;
+        this.setState({
+            ...this.state,
+            file_value:
+                files.length == 1
+                    ? files[0].name
+                    : files.length < 1
+                    ? "Choose files..."
+                    : `${files.length} files selected`,
+        });
+    };
+
     render() {
         return this.state.loading ? (
-            <div class="d-flex justify-content-center center_loading">
-                <div class="spinner-border" role="status">
-                    <span class="sr-only">Loading...</span>
+            <div className="d-flex justify-content-center center_loading">
+                <div className="spinner-border" role="status">
+                    <span className="sr-only">Loading...</span>
                 </div>
             </div>
         ) : (
@@ -189,7 +212,9 @@ export default class PersonalAccountSettings extends React.Component {
                                                 <Row className="ml-2 justify-content-left child-left">
                                                     <div
                                                         className="container rounded bg-transparent text-dark font-weight-light">
-                                                        <h3 className="text-responsive"> {this.state.profile[key]}</h3>
+                                                        <h3 className="text-responsive"> {this.state.profile[key]}
+                                                        {server.side_bar_text[key] === "Weight"?" kg":server.side_bar_text[key] === "Height"?" cm":""}
+                                                        </h3>
                                                     </div>
                                                 </Row>
 
@@ -234,31 +259,34 @@ export default class PersonalAccountSettings extends React.Component {
                                     <Col>
                                         <Form
                                             noValidate
-                                            onSubmit={this.handleSubmit}
+                                            onSubmit={(e) => {
+                                                this.handleSubmit(e);
+                                            }}
                                             className="my-4"
                                         >
                                             <Form.Control.Feedback type="invalid" tooltip>
                                                 {server.errors.state}
                                             </Form.Control.Feedback>
 
-                                            {
-                                                Object.keys(server.text).map((key, index) => (
-                                                    <InputGroup className="mb-3" key={index}>
-                                                        <InputGroup.Prepend className="w-25 text-left">
-                                                            <InputGroup.Text id="TitleAssignment"
-                                                                             className="nowrap child-center">
-                                                                <p className="m-0">{server.text[key]}</p>
-                                                            </InputGroup.Text>
-                                                        </InputGroup.Prepend>
+                                            {Object.keys(server.text).map((key, index) => (
+                                                <InputGroup className="mb-3" key={index}>
+                                                    <InputGroup.Prepend className="w-25 text-left">
+                                                        <InputGroup.Text id="TitleAssignment"
+                                                                         className="nowrap child-center">
+                                                            <p className="m-0">{server.text[key]}</p>
+                                                        </InputGroup.Text>
+                                                    </InputGroup.Prepend>
 
-                                                        <Form.Control
-                                                            type="text"
-                                                            placeholder={server.text[key]}
-                                                            required
-                                                            defaultValue={this.state.profile[key]}
-                                                        />
-                                                    </InputGroup>
-                                                ))
+                                                    <Form.Control
+                                                        type="text"
+                                                        placeholder={server.text[key]}
+                                                        required
+                                                        name = {key}
+                                                        onChange={(e) => this.onChange(e)}
+                                                        defaultValue={this.state.profile[key]}
+                                                    />
+                                                </InputGroup>
+                                            ))
                                             }
 
                                             <InputGroup className="mb-3">

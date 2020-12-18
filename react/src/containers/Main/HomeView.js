@@ -24,9 +24,6 @@ export default function HomePage(props) {
                 <p className="h2 mt-3">
                     <Link to={`/personal_account`}>Personal Account</Link>
                 </p>
-                <p className="h2 mt-3">
-                    <Link to={`/personal_account/settings`}>Personal Account</Link>
-                </p>
 
             </header>
         </div>

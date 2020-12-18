@@ -46,17 +46,14 @@ export default class PersonalAccount extends React.Component {
         try {
             console.log(localStorage);
 
-            let response = await axiosInstance.get("auth/users/11/profile/");
-            let response1 = await axiosInstance.get("assignment/");
+            let response = await axiosInstance.get("auth/users/profile/");
             const data = response.data;
-            const data1 = response1.data;
 
             this.setState({
                 profile: data,
-                assigment: response1.data,
                 loading: false,
             });
-            return data,data1;
+            return data;
         } catch (error) {
             console.log("Error: ", JSON.stringify(error, null, 4));
             throw error;
@@ -166,7 +163,9 @@ export default class PersonalAccount extends React.Component {
                                                     <Row className="ml-2 justify-content-left child-left">
                                                         <div
                                                             className="container rounded bg-transparent text-dark font-weight-light">
-                                                            <h3 className="text-responsive"> {this.state.profile[key]}</h3>
+                                                            <h3 className="text-responsive"> {this.state.profile[key]}
+                                                                {side_bar_text.text[key] === "Weight" ? " kg" : side_bar_text.text[key] === "Height" ? " cm" : ""}
+                                                            </h3>
                                                         </div>
                                                     </Row>
 
@@ -199,7 +198,7 @@ export default class PersonalAccount extends React.Component {
                                     <Col className="mr-1 m-2 p-2">
                                         <Button href="/medical_card" className="btn-lg" variant="warning">
                                             <h3>MedCard</h3>
-                                            <h5 className="text-left">{this.manageTextLenght("1312")}</h5>
+                                            <h5 className="text-center">{this.manageTextLenght("1312")}</h5>
                                         </Button>{' '}
                                     </Col>
                                     <Col className="mr-1 m-2 p-2">

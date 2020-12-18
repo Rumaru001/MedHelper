@@ -65,7 +65,8 @@ class ProfileAPI(APIView):
 
     def put(self, request, *args, **kwargs):
         user = request.user
-        profile_serializer = ProfileSerializerPut(user.profile, data=request.data)
+        data = request.data
+        profile_serializer = ProfileSerializerPut(user.profile, data=data)
         if profile_serializer.is_valid():
             profile_serializer.save()
             return Response(profile_serializer.data, status=status.HTTP_200_OK)
