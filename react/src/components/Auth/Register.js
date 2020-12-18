@@ -58,7 +58,7 @@ class Register extends Component {
                         <div className="d-flex justify-content-center">
                             <div className="input-group-prepend">
                             </div>
-                            <input name="password" type="password" className="form-control"
+                            <input name="password2" type="password" className="form-control"
                                    placeholder="ConfirmPassword"
                                    value={this.state.password2}
                                    onChange={this.handleChange}/>
