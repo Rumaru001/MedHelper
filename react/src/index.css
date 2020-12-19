@@ -22,6 +22,21 @@ code {
     height: auto;
 }
 
+.login-form
+{
+justify-content: center;
+min-height: 90vh;
+}
+.button-block{
+width: 100%;
+}
+.login-background
+{
+justify-content: center;
+min-height: 30vh;
+padding: 50px;
+}
+
 .logo:hover {
     color: rgb(199, 199, 199);
     text-decoration: none !important;

@@ -44,14 +44,11 @@ class AssignmentView(APIView):
         data['editor'] = data.get('editor', request.user.id)
         print(data)
 
-        assignment: Assignment = serializer.create(data)
-        assignment.save()
-
-        # try:
-        #     assignment: Assignment = serializer.create(data)
-        #     assignment.save()
-        # except Exception:
-        #     return Response({"errors": "Invalid input data"}, status=405)
+        try:
+            assignment: Assignment = serializer.create(data)
+            assignment.save()
+        except Exception:
+            return Response({"errors": "Invalid input data"}, status=405)
         return Response({"message": "Succesful"}, status=200)
 
     def put(self, request, *args, **kwargs):
@@ -70,10 +67,10 @@ class AssignmentView(APIView):
         if not has_obj_persmission(request, assignment):
             return Response(status=status.HTTP_403_FORBIDDEN)
 
-        # try:
-        serializer.update(assignment, data)
-        # except Exception:
-        #     return Response({"errors": "Invalid input data"}, status=405)
+        try:
+            serializer.update(assignment, data)
+        except Exception:
+            return Response({"errors": "Invalid input data"}, status=405)
         return Response({"message": "Succesful"}, status=200)
 
     def delete(self, request, *args, **kwargs):
@@ -92,6 +89,16 @@ class AssignmentView(APIView):
         assignment.data.delete()
         assignment.delete()
         return Response({"message": "Succesful"}, status=200)
+
+
+class LastAssignment(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        assignment = request.user.assignments.order_by("-create_date").first()
+        serializer = AssignmentSerializer(assignment)
+        data = {"assignment": serializer.data}
+        return Response(data)
 
 
 class SpeceficatiomListView(APIView):

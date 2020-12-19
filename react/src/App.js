@@ -7,7 +7,7 @@ import MedCardAdd from "./containers/MedCard/AddView";
 import MedCardEdit from "./containers/MedCard/EditView";
 import MedCardAssignment from "./containers/MedCard/AssignmentView";
 import Register from "./components/Auth/Register";
-import Login from "./components/Auth/Login";
+import {Login} from "./components/Auth/Login";
 import Hello from "./components/Auth/Hello";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import {Component} from "react";
