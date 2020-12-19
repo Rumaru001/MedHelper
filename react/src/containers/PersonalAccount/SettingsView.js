@@ -2,8 +2,9 @@ import React from "react";
 import {Container, Row, Col, Form, Button, InputGroup} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import Base from "../../components/Main/Base";
-import {AddButton} from "../../components/MedCard/AddButton";
 import axiosInstance from "../../axiosApi";
+import {PersonalAccountSideBar} from "../../components/PersonalAccount/PersonalSideBar";
+import {AddButton} from "../../components/MedCard/AddButton";
 
 const server = {
     errors: [],
@@ -129,111 +130,22 @@ export default class PersonalAccountSettings extends React.Component {
             <>
                 <Base
                     sidebar={
-                        <Container className="justify-content-left child-left">
-                            <Col className="mb-5 justify-content-left child-left">
-                                <h1 className="divider">
-                                    <hr/>
-                                </h1>
-                                <Row className="p-3 my-lg-4 justify-content-center child-center">
-                                    <Col className="ml-2 justify-content-center child-center">
-                                        <img title="Profile photo" alt="Profile photo"
-                                             style={{width: "110px", height: "110px", borderRadius: "80px"}}
-                                             src={server.urls.avatar}/>
-                                    </Col>
-                                    <Col className="justify-content-left child-left">
-                                        <Col>
-                                            <Row className="justify-content-left child-left">
-                                                <Row className="">
-                                                    <div className="d-flex">
-                                                        <div
-                                                            className="container rounded bg-transparent text-dark font-weight-light">
-                                                            <h3 className="justify-content-center child-center text-responsive">{this.state.profile.name} {this.state.profile.surname}</h3>
-                                                        </div>
-                                                    </div>
-
-                                                </Row>
-                                            </Row>
-                                            <Row className="ml-1 justify-content-left child-left">
-                                                <Row className="">
-                                                    <div className="d-flex">
-                                                        <div>
-                                                            <img className='flip_H' title="Sex" alt="Sex"
-                                                                 style={{width: "40px", height: "40px"}}
-                                                                 src={server.urls.sex}/>
-                                                        </div>
-                                                        <div
-                                                            className="container rounded bg-transparent text-dark font-weight-light">
-                                                            <h3 className="text-responsive">{this.state.profile.sex}</h3>
-                                                        </div>
-                                                    </div>
-                                                </Row>
-                                            </Row>
-                                        </Col>
-                                    </Col>
-                                </Row>
-                                <Row className="ml-2 mb-3 p-3 my-lg-4 ">
-                                    <Col>
-                                        <h1 className="divider">
-                                            <hr/>
-                                        </h1>
-                                    </Col>
-                                </Row>
-                                <Row className="ml-2 mb-3 p-3 my-lg-4 ">
-                                    <Col>
-                                        <Row className=" d-flex justify-content-left child-left cursor-help">
-                                            <InputGroup.Text id="TitleAssignment"
-                                                             className="bg-transparent border-0 w-22 m-1 p-1 text-center">
-                                                <img title="Email"
-                                                     alt="Email"
-                                                     style={{width: "40px", height: "40px"}}
-                                                     src={server.urls.email}/>
-                                            </InputGroup.Text>
-
-                                            <Row className="ml-2 justify-content-left child-left">
-                                                <div
-                                                    className="container rounded bg-transparent text-dark font-weight-light">
-                                                    <h3 className="text-responsive"> {this.state.profile.user.email}</h3>
-                                                </div>
-                                            </Row>
-
-                                        </Row>
-                                        {(Object.keys(server.side_bar_text).map((key, index) => (
-                                            <Row className=" d-flex justify-content-left child-left cursor-help"
-                                                 key={index}>
-
-                                                <InputGroup.Text id="TitleAssignment"
-                                                                 className="bg-transparent border-0 w-22 m-1 p-1 text-center">
-                                                    <img title={server.side_bar_text[key]}
-                                                         alt={server.side_bar_text[key]}
-                                                         style={{width: "40px", height: "40px"}}
-                                                         src={server.urls[key]}/>
-                                                </InputGroup.Text>
-
-                                                <Row className="ml-2 justify-content-left child-left">
-                                                    <div
-                                                        className="container rounded bg-transparent text-dark font-weight-light">
-                                                        <h3 className="text-responsive"> {this.state.profile[key]}
-                                                        {server.side_bar_text[key] === "Weight"?" kg":server.side_bar_text[key] === "Height"?" cm":""}
-                                                        </h3>
-                                                    </div>
-                                                </Row>
-
-                                            </Row>
-                                        )))}
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <AddButton
-                                        to="/personal_account"
-                                        className="addbtn-assignment text-light"
-                                    >
-                                        <p className="text-center my-auto">Back To Personal Page</p>
-                                    </AddButton>
-                                </Row>
-                            </Col>
-                        </Container>
+                        <>
+                            <Container className="justify-content-left child-left">
+                                <Col className="mb-5 justify-content-left child-left">
+                                    <PersonalAccountSideBar profile={this.state.profile}/>
+                                    <Row>
+                                        <AddButton to="/personal_account/"
+                                                   className="addbtn-assignment text-light">
+                                            <p className="text-center my-auto">Back to Profile</p>
+                                        </AddButton>
+                                    </Row>
+                                </Col>
+                            </Container>
+                        </>
                     }
                     main={
+
                         <Container className="vh-100-c addassignmnet-container p-4">
                             <div className="w-100">
                                 <Row>
@@ -281,7 +193,7 @@ export default class PersonalAccountSettings extends React.Component {
                                                         type="text"
                                                         placeholder={server.text[key]}
                                                         required
-                                                        name = {key}
+                                                        name={key}
                                                         onChange={(e) => this.onChange(e)}
                                                         defaultValue={this.state.profile[key]}
                                                     />
