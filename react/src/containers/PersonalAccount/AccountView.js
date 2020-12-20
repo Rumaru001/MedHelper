@@ -4,8 +4,8 @@ import {Container, Row, Col, InputGroup} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import axiosInstance from "../../axiosApi";
 import {PersonalAccountSideBar} from "../../components/PersonalAccount/PersonalSideBar";
-import {AddButton} from "../../components/MedCard/AddButton";
-
+import "../../components/PersonalAccount/styles.css"
+import {Loading} from "../../components/loading";
 
 export default class PersonalAccount extends React.Component {
 
@@ -22,9 +22,8 @@ export default class PersonalAccount extends React.Component {
 
             let response = await axiosInstance.get("auth/users/profile/");
             const data = response.data;
-            let response_assignment = await axiosInstance.get("assignment/");
-
-            const data_assignment = response.data.assignments;
+            let response_assignment = await axiosInstance.get("assignment/last");
+            const data_assignment = response_assignment.data.assignment;
             this.setState({
                 profile: data,
                 assignment: data_assignment,
@@ -42,30 +41,20 @@ export default class PersonalAccount extends React.Component {
     }
 
     manageTextLength = (text) => {
-        return text.length < 40 ? text : `${text.slice(0, 40 - 5)}...`;
+        return text.length < 25 ? text : `${text.slice(0, 25 - 5)}...`;
     };
 
     render() {
         return this.state.loading ? (
-            <div className="d-flex justify-content-center center_loading">
-                <div className="spinner-border" role="status">
-                    <span className="sr-only">Loading...</span>
-                </div>
-            </div>
+            <Loading/>
         ) : (
             <>
                 <Base
                     sidebar={
                         <>
                             <Container className="justify-content-left child-left">
-                                <Col className="mb-5 justify-content-left child-left">
+                                <Col className=" mb-5  justify-content-left child-left">
                                     <PersonalAccountSideBar profile={this.state.profile}/>
-                                    <Row>
-                                        <AddButton to="/personal_account/settings/ "
-                                                   className="addbtn-assignment text-light">
-                                            <p className="text-center my-auto">Settings</p>
-                                        </AddButton>
-                                    </Row>
                                 </Col>
                             </Container>
                         </>
@@ -74,41 +63,85 @@ export default class PersonalAccount extends React.Component {
                         <>
                             <Container>
 
-                                <div className="mt-5 d-flex justify-content-center">
-                                    <h1> Personal Account</h1>
-                                </div>
+                                <Row className="p-5-c ">
+                                    <Col>
+                                        <Col className="mr-1 m-2 p-2">
+                                            <Button className="btn-med_card " href="/medical_card" variant="submit"
+                                                    size="lg">
+                                                <h2 className="text-pizda">MedCard</h2>
+                                                <h5 className="text-pizda">
+                                                    <p>
+                                                        {this.state.assignment.name}
+                                                    </p>
+                                                    <p>
+                                                        {this.manageTextLength(this.state.assignment.text)}
+                                                    </p>
+                                                </h5>
+                                            </Button>{' '}
+                                        </Col>
+                                        <Col className="mr-1 m-2 p-2">
+                                            <Button className="btn-reminders" href="/0/reminders" variant="submit">
+                                                <h1 className="divider">
+                                                    <hr/>
+                                                </h1>
+                                                <h2 className="text-pizda">Reminders</h2>
+                                                <h1 className="divider">
+                                                    <hr/>
+                                                </h1>
 
-                                <Row className="p-5-c">
-                                    <Col className="mr-1 m-2 p-2">
-                                        <Button href="/medical_card" className="btn-lg" variant="warning">
-                                            <h3>MedCard</h3>
-                                            <h5 className="text-center">{this.manageTextLength("")}</h5>
-                                        </Button>{' '}
+                                                <Col className="mr-1 m-2 p-5 ">
+                                                    <Button className="mr-1 m-2 p-2 btn-reminders-child">
+                                                        <h5>
+                                                            Some text here to remember
+                                                        </h5>
+                                                    </Button>
+                                                    <Button className="mr-1 m-2 p-2 btn-reminders-child">
+                                                        <h5>
+                                                            And some text here to remember
+                                                        </h5>
+                                                    </Button>
+                                                    <Button className="mr-1 m-2 p-2 btn-reminders-child">
+                                                        <h5>
+                                                            You know and here some text to remember
+                                                        </h5>
+                                                    </Button>
+                                                </Col>
+
+                                            </Button>{' '}
+                                        </Col>
                                     </Col>
-                                    <Col className="mr-1 m-2 p-2">
-                                        <Button href="/0/reminders" variant="danger" size="lg">
-                                            <h3>Reminders</h3>
-                                            <h5>Visit to a doctor on a 01-12-2020</h5>
-                                        </Button>{' '}
+                                    <Col>
+                                        <Col className=" m-2 p-2">
+                                            <Button className="btn-settings" href="/personal_account/settings/"
+                                                    variant="submit" size="lg">
+                                                <h2 className="text-pizda">Settings</h2>
+                                                <div>
+                                                    <h5 className="text-pizda">
+                                                        Personalize your account
+                                                    </h5>
+                                                </div>
+                                            </Button>{' '}
+                                        </Col>
+                                        <Col className=" m-2 p-2">
+                                            <Button className="btn-s " href="/medical_card" variant="submit" size="lg">
+                                                <h2 className="text-pizda">MedCard</h2>
+                                                <div>
+                                                    <h5 className="text-pizda">
+                                                        Visit to a doctor on a 01-12-2020.
+                                                    </h5>
+                                                </div>
+                                            </Button>{' '}
+                                        </Col>
+                                        <Col className=" m-2 p-3">
+                                            <Button className="btn-ex" href="/medical_card" variant="submit" size="lg">
+                                                <h2 className="text-pizda">Logout</h2>
+                                                <h5 className="text-pizda">
+                                                    Logout from site
+                                                </h5>
+                                            </Button>{' '}
+                                        </Col>
                                     </Col>
-                                    <Col className="mr-1 m-2 p-2">
-                                        <Button href="/medical_card" variant="info" size="lg">
-                                            <h3>MedCard</h3>
-                                            <h5>Visit to a doctor on a 01-12-2020</h5>
-                                        </Button>{' '}
-                                    </Col>
-                                    <Col className=" m-2 p-2">
-                                        <Button href="/medical_card" variant="success" size="lg">
-                                            <h3>MedCard</h3>
-                                            <h5>Visit to a doctor on a 01-12-2020</h5>
-                                        </Button>{' '}
-                                    </Col>
-                                    <Col className="mr-1 m-2 p-2">
-                                        <Button href="/medical_card" variant="primary" size="lg">
-                                            <h3>MedCard</h3>
-                                            <h5>Visit to a doctor on a 01-12-2020</h5>
-                                        </Button>{' '}
-                                    </Col>
+
                                 </Row>
 
                             </Container>

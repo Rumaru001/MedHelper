@@ -10,7 +10,7 @@ export default function HomePage(props) {
             <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo"/>
                 <p className="h2 mt-3">
-                    <Link to={`/medical_card`}>Medical Card</Link>
+                    <Link to={`/medical_card`}>Medical Card </Link>
                 </p>
                 <p>
                     <Link to={`/login/`}>Login</Link>

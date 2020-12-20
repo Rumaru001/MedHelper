@@ -1,0 +1,86 @@
+.btn-s {
+
+    border-radius: 30px;
+    background-color: rgba(160, 95, 150, 1);
+    color: #fefefe;
+}
+
+.btn-bg {
+    border-radius: 50px;
+    background-color: rgba(133, 145, 154, 0.5);
+    color: #ffffff;
+}
+.page-back {
+    border-radius: 0px;
+    background: rgba(0, 0, 0, 0.9) url("https://previews.123rf.com/images/annaleni/annaleni1508/annaleni150800118/44340181-thin-medical-line-health-care-white-seamless-pattern-vector-medicine-design-and-seamless-background-.jpg");
+    color: #000000;
+}
+.text-pizda{
+    font-weight: lighter;
+}
+
+.btn-bg-text {
+    width: 95%;
+    border-radius: 10px;
+    background-color: rgba(133, 145, 154, 0.5);
+    color: #ffffff;
+}
+
+.btn-med_card {
+    border-radius: 30px;
+    background-color: rgb(0, 168, 204);
+    color: #fefefe;
+}
+.btn-med_card:hover {
+    background-color: rgba(60, 153, 182, 0.9);
+    color: #fefefe;
+}
+.btn-reminders {
+    border-radius: 30px;
+    background-color: rgb(246, 75, 60);
+    color: #fefefe;
+}
+.btn-reminders:hover {
+    background-color: rgba(212, 48, 35, 0.9);
+    color: #fefefe;
+}
+.btn-reminders-child {
+    justify-content: left;
+    border-radius: 10px;
+    border-color: rgb(201, 123, 115);
+    width: 100%;
+    background-color: rgb(201, 123, 115);
+    color: #fefefe;
+}
+.btn-reminders-child:hover {
+    background-color: rgba(201, 123, 115, 0.87);
+    color: #fefefe;
+}
+.btn-settings {
+    border-radius: 30px;
+    background-color: rgb(53, 182, 91);
+    color: #fefefe;
+}
+.btn-settings:hover {
+    background-color: rgba(53, 182, 91, 0.9);
+    color: #fefefe;
+}
+.btn-ex {
+    border-radius: 30px;
+    background-color: rgb(147, 181, 179);
+    color: #fefefe;
+}
+.btn-ex:hover {
+    background-color: rgba(147, 181, 179, 0.9);
+    color: #fefefe;
+}
+.btn-s:hover {
+    background-color: rgba(100, 108, 147, 0.9);
+    color: #fefefe;
+}
+
+.submit {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}

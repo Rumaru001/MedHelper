@@ -1,5 +1,7 @@
 import React from "react";
 import { Row, Col, InputGroup} from "react-bootstrap";
+import "./styles.css"
+
 
 const side_bar_text = {
     text:
@@ -30,7 +32,7 @@ export class PersonalAccountSideBar extends React.Component {
                 <h1 className="divider">
                     <hr/>
                 </h1>
-                <Row className="p-3 my-lg-4 justify-content-center child-center">
+                <Row className="btn-bg ml-4 mr-2 p-3 my-lg-4 justify-content-center child-center">
                     <Col className="ml-2 justify-content-center child-center">
                         <img title="Profile photo" alt="Profile photo"
                              style={{width: "110px", height: "110px", borderRadius: "80px"}}
@@ -43,13 +45,13 @@ export class PersonalAccountSideBar extends React.Component {
                                     <div className="d-flex">
                                         <div
                                             className="container rounded bg-transparent text-dark font-weight-light">
-                                            <h3 className="justify-content-center child-center text-responsive">{this.props.profile.name} {this.props.profile.surname}</h3>
+                                            <h3 className="justify-content-center child-center text-pizda text-responsive">{this.props.profile.name} {this.props.profile.surname}</h3>
                                         </div>
                                     </div>
 
                                 </Row>
                             </Row>
-                            <Row className="ml-1 justify-content-left child-left">
+                            <Row className="ml-1  justify-content-left child-left">
                                 <Row className="">
                                     <div className="d-flex">
                                         <div>
@@ -59,7 +61,7 @@ export class PersonalAccountSideBar extends React.Component {
                                         </div>
                                         <div
                                             className="container rounded bg-transparent text-dark font-weight-light">
-                                            <h3 className="text-responsive">{this.props.profile.sex}</h3>
+                                            <h3 className="text-responsive text-pizda">{this.props.profile.sex}</h3>
                                         </div>
                                     </div>
                                 </Row>
@@ -74,11 +76,11 @@ export class PersonalAccountSideBar extends React.Component {
                         </h1>
                     </Col>
                 </Row>
-                <Row className="ml-2 mb-3 p-3 my-lg-4 ">
+                <Row className="btn-bg-text ml-2 mb-3 p-3 pr-1 my-lg-4 mx-auto ">
                     <Col>
                         <Row className=" d-flex justify-content-left child-left cursor-help">
                             <InputGroup.Text id="TitleAssignment"
-                                             className="bg-transparent border-0 w-22 m-1 p-1 text-center">
+                                             className="bg-transparent border-0 w-22 m-1 p-1 text-pizda text-center">
                                 <img title="Email"
                                      alt="Email"
                                      style={{width: "40px", height: "40px"}}
@@ -88,7 +90,7 @@ export class PersonalAccountSideBar extends React.Component {
                             <Row className="ml-2 justify-content-left child-left">
                                 <div
                                     className="container rounded bg-transparent text-dark font-weight-light">
-                                    <h3 className="text-responsive"> {this.props.profile.user.email}</h3>
+                                    <h3 className="text-responsive text-pizda "> {this.props.profile.user.email}</h3>
                                 </div>
                             </Row>
 
@@ -98,7 +100,7 @@ export class PersonalAccountSideBar extends React.Component {
                                  key={index}>
 
                                 <InputGroup.Text id="TitleAssignment"
-                                                 className="bg-transparent border-0 w-22 m-1 p-1 text-center">
+                                                 className="bg-transparent border-0 w-22 m-1 p-1 text-pizda text-center">
                                     <img title={side_bar_text.text[key]}
                                          alt={side_bar_text.text[key]}
                                          style={{width: "40px", height: "40px"}}
@@ -108,7 +110,7 @@ export class PersonalAccountSideBar extends React.Component {
                                 <Row className="ml-2 justify-content-left child-left">
                                     <div
                                         className="container rounded bg-transparent text-dark font-weight-light">
-                                        <h3 className="text-responsive"> {this.props.profile[key]}
+                                        <h3 className="text-responsive text-pizda"> {this.props.profile[key]}
                                             {side_bar_text.text[key] === "Weight" ? " kg" : side_bar_text.text[key] === "Height" ? " cm" : ""}
                                         </h3>
                                     </div>

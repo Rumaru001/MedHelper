@@ -35,7 +35,13 @@ export class SideNavBar extends React.Component {
                         className={`${this.state.isLogoCentered} toggeled-logo`}
                     >
                         <Link to="/" className="text-light h3 font-weight-bold logo">
-                            <p className="text-decoration-none my-auto">MedHelper</p>
+                            <Row>
+                                <img title="Profile photo" alt="Profile photo"
+                                     style={{width: "80px", height: "80px"}}
+                                     src={"https://www.flaticon.com/svg/static/icons/svg/1405/1405870.svg"}/>
+                                <p className="ml-2 text-decoration-none my-auto">MedHelper</p>
+                            </Row>
+
                         </Link>
                     </Navbar.Brand>
                     <Navbar.Toggle
@@ -45,7 +51,7 @@ export class SideNavBar extends React.Component {
                     <Navbar.Collapse className="responsible-navbar-nav w-100">
                         <div>
                             {this.props.children}
-                            <Logout/>
+                            <Logout children={this.props.children}/>
                         </div>
 
                     </Navbar.Collapse>
