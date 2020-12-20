@@ -7,7 +7,6 @@ from django.contrib.auth.models import (
 from django.conf import settings
 
 
-
 class UserManager(BaseUserManager):
     """
     Django requires that custom users define their own Manager class. By
@@ -45,7 +44,14 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    # USER_TYPE_CHOICES = (
+    #     (1, 'patient'),
+    #     (2, 'doctor'),
+    # )
+
     email = models.EmailField(db_index=True, unique=True)
+
+    # user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -94,4 +100,3 @@ class Profile(models.Model):
     class Meta:
         """ Set a table name. """
         db_table = 'profile'
-

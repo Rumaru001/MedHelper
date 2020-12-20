@@ -33,8 +33,10 @@ export class Login extends Component {
     }
 
     async handleSubmit(event) {
-        axiosLogin(this.state.email, this.state.password)
-        this.props.history.goBack();
+        axiosLogin(this.state.email, this.state.password).then(() => {
+                this.props.history.push('/hello/');
+            }
+        )
     }
 
     handleChange(event) {
@@ -79,18 +81,3 @@ export class Login extends Component {
             ;
     }
 }
-
-
-// //
-// <span className="input-group-text">
-//      //                                 <input name="email" type="text" placeholder="Email" value={this.state.email}
-//
-// //                                           onChange={this.handleChange}/>
-// //                            </span>
-
-//
-// <span className="input-group-text">
-//                                        <input name="password" type="password" placeholder="Password"
-//                                               value={this.state.password}
-//                                               onChange={this.handleChange}/>
-//                                </span>
