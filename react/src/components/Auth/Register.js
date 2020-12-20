@@ -153,7 +153,7 @@ class Register extends Component {
                             </button>
                         </div>
                         <div className='info-auth'>
-                            <small>Do not have an account? <a href="/login/">Sign in</a></small>
+                            <small>Do you have an account? <a href="/login/">Sign in</a></small>
                         </div>
                         {/*{this.state.errorCount !== false && this.state.formValid
                             ? <p className="form-status">Form is
