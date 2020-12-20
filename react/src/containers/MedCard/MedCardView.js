@@ -4,6 +4,8 @@ import Base from "../../components/Main/Base";
 import { Assignment } from "../../components/MedCard/Assignment.js";
 import { Filters } from "../../components/MedCard/Filters";
 import axiosInstance from "../../axiosApi";
+import { Loading } from "../../components/loading";
+import { BaseBar } from "../../components/Main/BaseBar";
 
 const filters_names = ["specification", "name", "tag", "creator", "editor"];
 
@@ -46,15 +48,17 @@ export default class MedCard extends React.Component {
       return data;
     } catch (error) {
       console.log("Error: ", JSON.stringify(error, null, 4));
-      if (error.response.status === 401){
-              this.props.history.push('/login');
+      if (error.response.status === 401) {
+        this.props.history.push("/login");
       }
       throw error;
     }
   }
+
   componentDidMount() {
     console.log(this.getData());
   }
+
   createFilters = (field, data) => {
     console.log(data, field);
     if (data.length < 1) return [];
@@ -170,17 +174,19 @@ export default class MedCard extends React.Component {
 
   render() {
     return this.state.loading ? (
-      "Loading...."
+      <Loading />
     ) : (
       <>
         <Base
           sidebar={
-            <Filters
-              filters={this.state.defaultFilters}
-              onFilterChange={this.filterAssignments}
-              onDateFilterChange={this.filterByDate}
-              restoreDateFilter={this.restoreDefaultDateFilter}
-            />
+            <BaseBar>
+              <Filters
+                filters={this.state.defaultFilters}
+                onFilterChange={this.filterAssignments}
+                onDateFilterChange={this.filterByDate}
+                restoreDateFilter={this.restoreDefaultDateFilter}
+              />
+            </BaseBar>
           }
           main={
             <>

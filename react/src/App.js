@@ -28,8 +28,8 @@ class App extends Component {
                     <Route path="/tag/edit/:id" component={TagEdit}/>
                     <Route exact path="/" component={HomePage}/>
                     <Route path="/medical_card" component={MedCard}/>
-                    <Route path="/:user_id/personal_account" component={PersonalAccount}/>
                     <Route path="/personal_account/settings" component={SettingsView}/>
+                    <Route path="/personal_account" component={PersonalAccount}/>
                     <Route path="/:user_id/reminders" component={Reminders}/>
                     <Route path="/assignment/add" component={MedCardAdd}/>
                     <Route path="/assignment/:id/edit" component={MedCardEdit}/>

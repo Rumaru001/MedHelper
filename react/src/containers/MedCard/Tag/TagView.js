@@ -4,6 +4,8 @@ import axiosInstance from "../../../axiosApi";
 import { Link } from "react-router-dom";
 import { AddButton } from "../../../components/MedCard/AddButton";
 import { Card, Container, Row, Col, Button } from "react-bootstrap";
+import { BaseBar } from "../../../components/Main/BaseBar";
+import { Loading } from "../../../components/loading";
 
 export class TagList extends React.Component {
   constructor(props) {
@@ -51,24 +53,16 @@ export class TagList extends React.Component {
 
   render() {
     return this.state.loading ? (
-      "Loading...."
+      <Loading />
     ) : (
       <>
         <Base
           sidebar={
-            <div className="h-100 w-100">
-              <Link
-                to={`/medical_card`}
-                className="text-light h5 font-weight-bold mx-auto pt-4 mb-auto"
-              >
-                <p className="text-decoration-none my-auto text-center ">
-                  MedCard
-                </p>
-              </Link>
+            <BaseBar>
               <AddButton to="/tag/add" className="addbtn-assignment text-light">
                 <p className="text-center my-auto">+ Add Tag</p>
               </AddButton>
-            </div>
+            </BaseBar>
           }
           main={
             <>
@@ -78,7 +72,7 @@ export class TagList extends React.Component {
                   return (
                     <Card
                       key={i}
-                      className="mx-4 my-5 text-left shadow-sm animate__animated animate__backInRight faster"
+                      className="mx-4 my-5 text-left shadow-sm animate__animated animate__backInRight faster rounded-custom"
                     >
                       <Card.Body>
                         <Card.Title className="m-0">
@@ -98,7 +92,7 @@ export class TagList extends React.Component {
                                 <Button
                                   variant="success"
                                   type="button"
-                                  className="w-100 mx-auto"
+                                  className="w-100 mx-auto btn-left btn-margin"
                                 >
                                   Edit
                                 </Button>
@@ -114,7 +108,7 @@ export class TagList extends React.Component {
                                 <Button
                                   variant="danger"
                                   type="button"
-                                  className="w-100 mx-auto"
+                                  className="w-100 mx-auto btn-right btn-margin"
                                 >
                                   Delete
                                 </Button>

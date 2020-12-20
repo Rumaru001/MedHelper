@@ -14,7 +14,7 @@ export function Filters(props) {
   };
 
   return (
-    <div className="container h-100 py-4">
+    <div className="container py-4">
       <div className="w-100">
         <div className="w-75 mx-auto d-flex">
           <div className="container m-0 p-0">
@@ -45,14 +45,13 @@ export function Filters(props) {
           </div>
         </div>
         <MedCardFilters data={props.filters} onChange={changeHandler} />
+        <AddButton
+          to="/assignment/add"
+          className="addbtn-assignment text-light"
+        >
+          <p className="text-center my-auto">+ Add Assignment</p>
+        </AddButton>
       </div>
-
-      <AddButton to="/assignment/add" className="addbtn-assignment text-light">
-        <p className="text-center my-auto">+ Add Assignment</p>
-      </AddButton>
-      <AddButton to="/tag" className="addbtn-assignment text-light btn-info">
-        <p className="text-center my-auto">Tags</p>
-      </AddButton>
     </div>
   );
 }

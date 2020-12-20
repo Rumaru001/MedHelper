@@ -2,7 +2,6 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 from .views import ProfileAPI
 
-
 from django.urls import path
 from django.conf.urls import url
 
@@ -19,6 +18,6 @@ urlpatterns = [
     path('register/', RegistrationAPIView.as_view(), name='register'),
     path('hello/', HelloWorldView.as_view(), name='hello_world'),
     path('logout/', LogoutApiView.as_view(), name='logout'),
-    path('change_password/', ChangePasswordView.as_view(), name='auth_change_password'), # <int:pk>/
-    path('users/<int:user_id>/profile/', ProfileAPI.as_view())
+    path('change_password/', ChangePasswordView.as_view(), name='auth_change_password'),  # <int:pk>/
+    path('users/profile/', ProfileAPI.as_view())
 ]
