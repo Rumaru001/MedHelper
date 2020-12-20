@@ -7,7 +7,7 @@ import axiosInstance from "../../axiosApi";
 import { Loading } from "../../components/loading";
 import { BaseBar } from "../../components/Main/BaseBar";
 
-const filters_names = ["specification", "name", "tag", "creator", "editor"];
+const filters_names = ["specification", "name", "tag", "creator"];
 
 export default class MedCard extends React.Component {
   constructor(props) {
@@ -80,28 +80,38 @@ export default class MedCard extends React.Component {
   ) => {
     console.log(
       "Filtering assignments with next filters",
+      data,
       filters,
       dateFilters
     );
     filters.forEach((filter_elem, index) => {
       data = data.filter((elem) => {
         // console.log("Filtering", elem[filters_names[index]], filter_elem);
-        // console.log("Data: ", data);
-        return elem[filters_names[index]] === undefined
+        // // console.log("Data: ", data);
+        // console.log(
+        //   "result",
+        //   elem[filters_names[index]] === undefined ||
+        //     elem[filters_names[index]] === null
+        //     ? true
+        //     : filter_elem[filters_names[index]].includes(
+        //         elem[filters_names[index]]
+        //       )
+        // );
+        return elem[filters_names[index]] === undefined ||
+          elem[filters_names[index]] === null
           ? true
           : filter_elem[filters_names[index]].includes(
               elem[filters_names[index]]
             );
       });
+      // console.log("Data: ", data);
     });
 
     var from = new Date(dateFilters.endTime);
     var till = new Date(dateFilters.startTime);
 
-    console.log(from, till);
-
     data = data.filter((elem) => {
-      var date = new Date(elem.date);
+      var date = new Date(elem.create_date);
       console.log(date, from <= date, date <= till);
       return !(from <= date) && !(date <= till);
     });
@@ -147,6 +157,8 @@ export default class MedCard extends React.Component {
     var key = Object.keys(dateFilter);
     var dateFromState = this.state.dateFilters;
     dateFromState[key] = dateFilter[key];
+
+    console.log(dateFilter);
 
     this.setState(
       {
