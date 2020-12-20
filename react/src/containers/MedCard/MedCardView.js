@@ -28,10 +28,7 @@ export default class MedCard extends React.Component {
 
       var filters = filters_names.map((field) => {
         return {
-          [field]: this.createFilters(field, data).filter((elem) => {
-            if (elem == null) return false;
-            return true;
-          }),
+          [field]: this.createFilters(field, data),
         };
       });
       console.log(filters);
@@ -97,8 +94,7 @@ export default class MedCard extends React.Component {
         //         elem[filters_names[index]]
         //       )
         // );
-        return elem[filters_names[index]] === undefined ||
-          elem[filters_names[index]] === null
+        return elem[filters_names[index]] === undefined
           ? true
           : filter_elem[filters_names[index]].includes(
               elem[filters_names[index]]
