@@ -47,7 +47,6 @@ export class Login extends Component {
                 else {
                     this.state.errors.message = "Your password or email is not correct!"
                     this.setState({})
-                    // this.setState({"error": "Your password or email is not correct!"})
                 }
             }
         )
@@ -69,7 +68,6 @@ export class Login extends Component {
                         : '';
                 break;
             default:
-
                 break;
         }
         errors.message = '';
