@@ -2,9 +2,9 @@ import React, {Component} from "react";
 import axiosInstance from "../../axiosApi";
 import "./form_style.css";
 
-const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
+export const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
 
-const validateForm = (values) => {
+export const validateForm = (values) => {
     let valid = true;
     let array = Object.values(values);
     for (var i = 0; i < array.length; i++) {
@@ -16,7 +16,7 @@ const validateForm = (values) => {
     return valid;
 }
 
-const countErrors = (errors) => {
+export const countErrors = (errors) => {
     let valid = true;
     let array = Object.values(errors);
     for (var i = 0; i < array.length; i++) {
@@ -34,7 +34,7 @@ class Register extends Component {
         super(props);
         this.state = {
             formValid: false,
-            errorCount: null,
+            errorCount: false,
             values: {
                 email: '',
                 password: '',
@@ -114,49 +114,46 @@ class Register extends Component {
                 });
             }
         }
-
-
     }
 
     render() {
         return (
-            <div className="wrapper">
-                <div className="form-wrapper">
+            <div className="wrapper-auth">
+                <div className="form-wrapper-auth">
                     <h2>Create Account</h2>
-                    <form className="form" onSubmit={this.handleSubmit} noValidate>
-                        <div className='email'>
-                            <label className="label" htmlFor="email">Email</label>
+                    <form className="form-auth" onSubmit={this.handleSubmit} noValidate>
+                        <div className='email-auth'>
+                            <label className="label-auth" htmlFor="email">Email</label>
                             <input className="input-auth" type='email' name='email'
                                    placeholder="example@email.com"
                                    onChange={this.handleChange}/>
                             {this.state.errors.email.length > 0 &&
-                            <span className='error'>{this.state.errors.email}</span>}
+                            <span className='error-auth'>{this.state.errors.email}</span>}
                         </div>
-                        <div className='password'>
-                            <label className="label" htmlFor="password">Password</label>
+                        <div className='password-auth'>
+                            <label className="label-auth" htmlFor="password">Password</label>
                             <input className="input-auth" type='password' name='password'
                                    placeholder="●●●●●●●●"
-                                // value={this.state.data.password}
                                    onChange={this.handleChange}/>
                             {this.state.errors.password.length > 0 &&
-                            <span className='error'>{this.state.errors.password}</span>}
+                            <span className='error-auth'>{this.state.errors.password}</span>}
                         </div>
-                        <div className='password'>
-                            <label className="label" htmlFor="password2">Confirm password</label>
+                        <div className='password-auth'>
+                            <label className="label-auth" htmlFor="password2">Confirm password</label>
                             <input className="input-auth" type='password' name='password2'
                                    placeholder="●●●●●●●●"
                                    onChange={this.handleChange}/>
                             {this.state.errors.password2.length > 0 &&
-                            <span className='error'>{this.state.errors.password2}</span>}
+                            <span className='error-auth'>{this.state.errors.password2}</span>}
                         </div>
-                        <div className='submit'>
-                            <button disabled={!this.state.formValid && !this.state.errorCount}
-                                    className="button">
+                        <div className='submit-auth'>
+                            <button disabled={!this.state.formValid || !this.state.errorCount}
+                                    className="button-auth">
                                 Create
                             </button>
                         </div>
-                        <div className='info'>
-                            <small>Do not have an account? <a href="#">Sign up</a></small>
+                        <div className='info-auth'>
+                            <small>Do not have an account? <a href="/login/">Sign in</a></small>
                         </div>
                         {/*{this.state.errorCount !== false && this.state.formValid
                             ? <p className="form-status">Form is

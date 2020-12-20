@@ -1,13 +1,8 @@
 import React, {Component} from "react";
 import axiosInstance from "../../axiosApi";
-import {Link} from "react-router-dom";
-import {} from "react-router-dom";
-import Base from "../Main/Base";
-import {Container, Row, Col, Form, Button, InputGroup} from "react-bootstrap";
-import "./Login.css";
+import {validEmailRegex, validateForm, countErrors} from "./Register"
 
 export async function axiosLogin(email, password) {
-    //event.preventDefault();
     try {
         const response = await axiosInstance.post('auth/token/obtain/', {
             email: email,
@@ -17,67 +12,125 @@ export async function axiosLogin(email, password) {
         localStorage.setItem('access_token', response.data.access);
         localStorage.setItem('refresh_token', response.data.refresh);
         // this.props.history.push('/0/personal_account');
-        return response;
+        // return response;
+        return true;
     } catch (error) {
-        throw error;
+        return false;
+        // throw error;
     }
 }
 
 export class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = {email: "", password: ""};
+        this.state = {
+            formValid: false,
+            errorCount: false,
+            email: "",
+            password: "",
+            errors: {
+                email: "",
+                password: "",
+                message: ""
+            }
+        };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     async handleSubmit(event) {
-        axiosLogin(this.state.email, this.state.password).then(() => {
-                this.props.history.push('/hello/');
+        event.preventDefault();
+        axiosLogin(this.state.email, this.state.password).then((data) => {
+                if (data)
+                    this.props.history.push('/hello/');
+                else {
+                    this.state.errors.message = "Your password or email is not correct!"
+                    this.setState({})
+                    // this.setState({"error": "Your password or email is not correct!"})
+                }
             }
         )
     }
 
-    handleChange(event) {
+    async handleChange(event) {
+        let errors = this.state.errors;
+        switch (event.target.name) {
+            case 'email':
+                errors.email =
+                    validEmailRegex.test(event.target.value)
+                        ? ''
+                        : 'Email is not valid!';
+                break;
+            case 'password':
+                errors.password =
+                    event.target.value.length < 8
+                        ? 'Password must be 8 characters long!'
+                        : '';
+                break;
+            default:
+
+                break;
+        }
+        errors.message = '';
+
         this.setState({[event.target.name]: event.target.value});
+        this.setState({
+            "formValid": await validateForm({
+                "email": this.state.email,
+                "password": this.state.password
+            })
+        })
+        this.setState({
+            "errorCount": await countErrors(
+                this.state.errors)
+        })
     }
 
     render() {
         return (
-            <div class="center bg-secondary p-4 rounded-lg">
-                <h2 className="text-light">Account Login</h2>
-                <h2>
-                    <Col d-flex justify-content-center>
-                        <form>
-                            <div class="d-flex justify-content-center">
-                                <div class="input-group-prepend">
-                                </div>
-                                <input name="email" type="text" className="form-control" placeholder="Email"
-                                       value={this.state.email}
-                                       onChange={this.handleChange}/>
-                            </div>
-                        </form>
-                        <div class="d-flex justify-content-center">
-                            <div class="input-group-prepend">
-                            </div>
-                            <input name="password" type="password" className="form-control" placeholder="Password"
+            <div className="wrapper-auth">
+                <div className="form-wrapper-auth">
+                    <h2>Account Login</h2>
+                    <form className="form-auth" onSubmit={this.handleSubmit}>
+                        <div className='email-auth'>
+                            <label className="label-auth" htmlFor="email">Email</label>
+                            <input name="email" type="text"
+                                   className="input-auth"
+                                   placeholder="example@email.com"
+                                   value={this.state.email}
+                                   onChange={this.handleChange}/>
+                            {this.state.errors.email.length > 0 &&
+                            <span className='error-auth'>{this.state.errors.email}</span>}
+                        </div>
+                        <div className='password-auth'>
+                            <label className="label-auth" htmlFor="password">Password</label>
+                            <input className="input-auth" type='password' name='password'
+                                   placeholder="●●●●●●●●"
                                    value={this.state.password}
                                    onChange={this.handleChange}/>
+                            {this.state.errors.password.length > 0 &&
+                            <span className='error-auth'>{this.state.errors.password}</span>}
+                            <span className='error-auth'>{this.state.errors.message}</span>
                         </div>
-
-                        <Container>
-                            <Container className="d-flex justify-content-center">
-                                <Button type="button" onClick={this.handleSubmit}>
-                                    Login
-                                </Button>
-                            </Container>
-                        </Container>
-                    </Col>
-                </h2>
+                        <div className='submit-auth'>
+                            <button className="button-auth"
+                                    disabled={!this.state.formValid
+                                    || !this.state.errorCount}>
+                                Login
+                            </button>
+                        </div>
+                        <div className='info-auth'>
+                            <small>Do not have an account? <a
+                                href="/register/">Sign up</a>
+                            </small><br/>
+                            <small>Forgotten your password? <a
+                                href="#">Reset</a>
+                            </small>
+                        </div>
+                    </form>
+                </div>
             </div>
-
-        )
-            ;
+        );
     }
 }

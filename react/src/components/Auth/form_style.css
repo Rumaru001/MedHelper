@@ -1,16 +1,4 @@
-/*
-  Colors:
-  https://coolors.co/22223b-4a4e69-eadae4-9a8c98-c9ada7 
-*/
-/*
-YANKEES BLUE: #22223B
-INDEPENDENCE: #4A4E69
-PLATINUM: #EADAE4
-SPANISH GRAY: #9A8C98
-SILVER PINK: #C9ADA7
-*/
-
-.wrapper {
+.wrapper-auth {
     height: 100vh;
     width: 100%;
     display: flex;
@@ -20,7 +8,7 @@ SILVER PINK: #C9ADA7
     background-color: #4A4E69;
 }
 
-.form-wrapper {
+.form-wrapper-auth {
     display: flex;
     flex-direction: column;
     width: 350px;
@@ -33,7 +21,7 @@ SILVER PINK: #C9ADA7
     background-color: #fefefe;
 }
 
-.form-wrapper > h2 {
+.form-wrapper-auth > h2 {
     display: flex;
     justify-content: center;
     /*font-family: "Segoe UI", "Ubuntu", "Roboto", "Open Sans", "Helvetica Neue", sans-serif;*/
@@ -43,19 +31,19 @@ SILVER PINK: #C9ADA7
     color: #222;
 }
 
-.form {
+.form-auth {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
 }
 
-.info {
+.info-auth {
     padding-bottom: 1em;
     padding-left: 0.5em;
     padding-right: 0.5em;
 }
 
-.label {
+.label-auth {
     margin-bottom: 0.5em;
     color: #444;
     font-weight: lighter;
@@ -68,23 +56,13 @@ SILVER PINK: #C9ADA7
     border: 1px solid #d6d1d5;
 }
 
-/*
-
-.email > input {
-    padding: 10px 10px;
-    border-radius: 5px;
-    outline: none;
-    border: 1px solid #d6d1d5;
-}
-*/
-
 .input-auth::placeholder {
     font-size: 1.2em;
     font-weight: lighter;
     color: #bbb;
 }
 
-.button {
+.button-auth {
     min-width: 100%;
     cursor: pointer;
     margin-right: 0.25em;
@@ -96,30 +74,26 @@ SILVER PINK: #C9ADA7
     color: #fefefe;
 }
 
-.button:hover {
+.button-auth:hover {
     background-color: #4A4E69;
     color: #fefefe;
 }
 
-.input.error {
-    border: 1px solid #EADAE4;
-}
-
-.error {
+.error-auth {
     color: #db2269;
     font-size: 0.625em;
     /*    display: relative;*/
 }
 
-.email,
-.password {
+.email-auth,
+.password-auth {
     width: 100%;
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
 }
 
-.submit {
+.submit-auth {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
