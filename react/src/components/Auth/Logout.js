@@ -4,15 +4,8 @@ import { Link } from "react-router-dom";
 import { Button, Container } from "react-bootstrap";
 import "../PersonalAccount/styles.css";
 
-class Logout extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { email: "", password: "" };
-    this.handleLogout = this.handleLogout.bind(this);
-  }
-
-  async handleLogout() {
-    try {
+export async function handleLogout() {
+  try {
       const response = await axiosInstance.post("auth/logout/", {
         refresh_token: localStorage.getItem("refresh_token"),
       });
@@ -24,7 +17,16 @@ class Logout extends Component {
     } catch (e) {
       console.log(e);
     }
+}
+
+
+export class Logout extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { email: "", password: "" };
+    handleLogout = handleLogout.bind(this);
   }
+
 
   render() {
     return (
@@ -32,7 +34,7 @@ class Logout extends Component {
         className={`d-flex justify-content-center child-center child-center ${this.props.className}`}
       >
         <div className="w-75">
-          <Button className="w-100 btn-med_card" onClick={this.handleLogout}>
+          <Button className="w-100 btn-med_card" onClick={handleLogout}>
             Logout
           </Button>
         </div>
@@ -41,5 +43,3 @@ class Logout extends Component {
     );
   }
 }
-
-export default Logout;

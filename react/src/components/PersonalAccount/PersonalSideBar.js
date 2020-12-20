@@ -2,6 +2,7 @@ import React from "react";
 import { Row, Col, InputGroup } from "react-bootstrap";
 import { Devider } from "../Main/Devider";
 import "./styles.css";
+import {Logout} from "../Auth/Logout";
 
 const side_bar_text = {
   text: {
@@ -135,6 +136,9 @@ export class PersonalAccountSideBar extends React.Component {
             ))}
           </Col>
         </Row>
+
+        <Devider />
+
       </>
     );
   }

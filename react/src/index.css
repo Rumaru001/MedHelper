@@ -85,6 +85,12 @@ code {
   opacity: 0.55;
 }
 
+.dropdown-menu{
+  z-index: 3;
+}
+.z-index-text{
+  z-index: 1 !important;
+}
 .dropdown-wrapper {
   position: relative;
   z-index: 100;
@@ -291,10 +297,12 @@ code {
 }
 
 .btn-left {
+  background-color: rgba(23, 162, 184, 0.73);
   border-radius: 0 0 0 15px;
 }
 
 .btn-right {
+  background-color: rgb(53, 182, 91);
   border-radius: 0 0 15px 0;
 }
 

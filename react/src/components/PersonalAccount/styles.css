@@ -1,12 +1,12 @@
 .btn-s {
   border-radius: 30px;
-  background-color: rgba(160, 95, 150, 1);
+  background-color: rgb(160, 95, 150);
   color: #fefefe;
 }
 
 .btn-bg {
   border-radius: 50px;
-  background-color: rgba(115, 122, 133, 0.521);
+  background-color: rgba(115, 122, 133, 0.52);
   color: #ffffff;
 }
 .page-back {
@@ -54,6 +54,19 @@
   background-color: rgba(60, 153, 182, 0.9);
   color: #fefefe;
 }
+
+.btn-med_card-child {
+  justify-content: center;
+  border-radius: 10px;
+  border-color: rgba(152, 12, 167, 0.7);
+  width: 100%;
+  background-color: rgb(161, 72, 147);
+  color: #fefefe;
+}
+.btn-med_card-child:hover {
+  background-color: rgb(161, 72, 147);
+  color: #fefefe;
+}
 .btn-reminders {
   border-radius: 30px;
   background-color: rgb(246, 75, 60);
@@ -94,8 +107,21 @@
   color: #fefefe;
 }
 .btn-s:hover {
-  background-color: rgba(100, 108, 147, 0.9);
+  background-color: rgba(160, 95, 150, 0.9);
   color: #fefefe;
+}
+.btn-settings-nonChange {
+  border-radius: 15px;
+  background-color: rgba(109, 114, 128, 0.44);
+  color: #2a2a2a;
+}
+
+.btn-settings-Change {
+  border-radius: 10px;
+}
+
+.btn-settings-background{
+  background-color: rgba(128, 128, 128, 0.24);
 }
 
 .submit {
