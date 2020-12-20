@@ -74,11 +74,9 @@ export class PersonalAccountSideBar extends React.Component {
             </Col>
           </Col>
         </Row>
-        <Row className="ml-2 mb-3 p-3 my-lg-4 ">
-          <Col>
-            <Devider />
-          </Col>
-        </Row>
+
+        <Devider />
+
         <Row className="btn-bg-text ml-2 mb-3 p-3 pr-1 my-lg-4 mx-auto ">
           <Col>
             <Row className=" d-flex justify-content-left child-left cursor-help">

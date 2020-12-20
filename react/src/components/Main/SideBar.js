@@ -26,8 +26,7 @@ export class SideNavBar extends React.Component {
         <Navbar
           collapseOnSelect
           expand="lg"
-          bg="secondary"
-          className="overflow-auto disable-scrollbars navbar-custom flex-direction-column text-light"
+          className="overflow-auto disable-scrollbars navbar-custom flex-direction-column text-light bg-custom"
         >
           <Navbar.Brand
             href=""

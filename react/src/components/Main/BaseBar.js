@@ -6,9 +6,11 @@ export class BaseBar extends React.Component {
   render() {
     return (
       <div className="h-100 w-100 max-free-height">
-        <Devider />
-        <Navigation />
-        <Devider />
+        <div className="px-4">
+          <Devider />
+          <Navigation />
+          <Devider />
+        </div>
         {this.props.children}
       </div>
     );

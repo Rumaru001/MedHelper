@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Base from "../../components/Main/Base";
+import { Loading } from "../../components/loading";
 import {
   deleteAssignment,
   formatDate,
@@ -38,14 +39,14 @@ export default class MedCardAssignment extends React.Component {
 
   render() {
     return this.state.loading ? (
-      "Loading...."
+      <Loading />
     ) : (
       <>
         <Base
           sidebar={<BaseBar />}
           main={
             <Container className="addassignmnet-container p-4">
-              <div className="w-100">
+              <div className="w-100 p-4 bg-light rounded-custom border-custom">
                 <Row>
                   <Col>
                     <p className="h2 text-center my-4">
@@ -117,12 +118,12 @@ export default class MedCardAssignment extends React.Component {
                     )}
                   </Col>
                 </Row>
-                <Row>
-                  <Col>
+                <Row className="mt-2">
+                  <Col className="pr-1">
                     <Button
                       variant="info"
                       type="submit"
-                      className="w-100 my-5 font-weight-bold w-100 p-3 mx-auto"
+                      className="w-100 mt-3 mb-1 font-weight-bold w-100 p-3 mx-auto btn-left"
                       onClick={() => {
                         deleteAssignment(this.state.assignment.id);
                       }}
@@ -130,15 +131,15 @@ export default class MedCardAssignment extends React.Component {
                       Delete
                     </Button>
                   </Col>
-                  <Col>
+                  <Col className="pl-1">
                     <Link
                       to={`/assignment/${this.state.assignment.id}/edit`}
-                      className="text-decoration-none text-dark"
+                      className="text-decoration-none text-dark "
                     >
                       <Button
                         variant="success"
                         type="submit"
-                        className="w-100 my-5 font-weight-bold w-100 p-3 mx-auto "
+                        className="w-100 mt-3 mb-1 font-weight-bold w-100 p-3  mx-auto btn-right"
                       >
                         Edit
                       </Button>

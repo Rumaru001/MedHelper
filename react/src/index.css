@@ -266,11 +266,37 @@ code {
 }
 
 .flex-column {
-    display: flex;
-    flex-flow: column;
-    height: 100%;
+  display: flex;
+  flex-flow: column;
+  height: 100%;
 }
 .max-free-height {
- 
   flex: 1 1 auto;
+}
+.bg-custom {
+  background-color: #4a4e69;
+}
+
+.rounded-custom {
+  border-radius: 30px;
+}
+
+.rounded-bottom-custom {
+  border-radius: 0 0 30px 30px;
+}
+
+.border-custom {
+  border: #4a4e696c 1px solid;
+}
+
+.btn-left {
+  border-radius: 0 0 0 15px;
+}
+
+.btn-right {
+  border-radius: 0 0 15px 0;
+}
+
+.btn-margin {
+  margin: 5px;
 }

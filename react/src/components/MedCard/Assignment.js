@@ -5,9 +5,7 @@ import { Link, Redirect } from "react-router-dom";
 import OptionDropdown from "./optionButton";
 import axiosInstance from "../../axiosApi";
 
-
 export async function deleteAssignment(id) {
-
   if (confirm(`Do you really want to delete assignment with name ${id}?`)) {
     try {
       let response = await axiosInstance.delete(`assignment/delete/${id}`);
@@ -40,39 +38,39 @@ export class Assignment extends React.Component {
 
   render() {
     return (
-      <Card className="mx-4 my-5 text-left shadow-sm animate__animated animate__backInRight faster">
+      <Card className="mx-4 my-5 text-left shadow-sm animate__animated animate__backInRight faster rounded-custom">
         <Card.Body>
-            <Card.Title>
-              <Link
-                to={`/assignment/${this.props.assignment.id}`}
-                className="text-decoration-none text-dark"
-              >
+          <Card.Title>
+            <Link
+              to={`/assignment/${this.props.assignment.id}`}
+              className="text-decoration-none text-dark"
+            >
               <p className="h3 d-inline-block">{this.props.assignment.name}</p>
+            </Link>
+            <OptionDropdown className="dropdown-wrapper">
+              <Link
+                to={`/assignment/${this.props.assignment.id}/edit`}
+                className="dropdown-item"
+              >
+                Edit
               </Link>
-              <OptionDropdown className="dropdown-wrapper">
-                <Link
-                  to={`/assignment/${this.props.assignment.id}/edit`}
-                  className="dropdown-item"
-                >
-                  Edit
-                </Link>
-                <a
-                  className="dropdown-item"
-                  onClick={() => {
-                    deleteAssignment(this.props.assignment.id), this.props;
-                  }}
-                >
-                  Delete
-                </a>
-              </OptionDropdown>
-            </Card.Title>
+              <a
+                className="dropdown-item"
+                onClick={() => {
+                  deleteAssignment(this.props.assignment.id), this.props;
+                }}
+              >
+                Delete
+              </a>
+            </OptionDropdown>
+          </Card.Title>
           <div className="assignment-text">
             <Card.Text className="mt-2">
               {this.manageTextLenght(this.props.assignment.text)}
             </Card.Text>
           </div>
         </Card.Body>
-        <Card.Footer>
+        <Card.Footer className="rounded-bottom-custom">
           <Container fluid className="m-0">
             <Row className="child-center">
               <Col className="px-1">

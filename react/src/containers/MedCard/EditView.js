@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import Base from "../../components/Main/Base";
 import axiosInstance from "../../axiosApi";
 import { BaseBar } from "../../components/Main/BaseBar";
+import { Loading } from "../../components/loading";
+
+
 
 export default class MedCardEdit extends React.Component {
   constructor(props) {
@@ -116,18 +119,14 @@ export default class MedCardEdit extends React.Component {
 
   render() {
     return this.state.loading ? (
-      <div className="d-flex justify-content-center center_loading">
-        <div className="spinner-border" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      </div>
+      <Loading/>
     ) : (
       <>
         <Base
           sidebar={<BaseBar />}
           main={
             <Container className="vh-100-c addassignmnet-container p-4">
-              <div className="w-100">
+              <div className="w-100 p-4 bg-light rounded-custom border-custom">
                 <Row>
                   <Col>
                     <p className="h2 text-center m-4">Edit Assignment</p>
@@ -140,7 +139,7 @@ export default class MedCardEdit extends React.Component {
                       onSubmit={(e) => {
                         this.handleSubmit(e);
                       }}
-                      className="my-4"
+                      className="mt-4"
                     >
                       <InputGroup className="mb-3">
                         <InputGroup.Prepend className="w-25 text-center">
@@ -302,7 +301,7 @@ export default class MedCardEdit extends React.Component {
                             <Button
                               variant="info"
                               type="submit"
-                              className="w-100 my-5 font-weight-bold w-100 p-3 mx-auto "
+                              className="w-100 mt-5 font-weight-bold w-100 p-3 mx-auto btn-left"
                             >
                               Cancel
                             </Button>
@@ -312,7 +311,7 @@ export default class MedCardEdit extends React.Component {
                           <Button
                             variant="success"
                             type="submit"
-                            className="w-100 my-5 font-weight-bold w-100 p-3 mx-auto "
+                            className="w-100 mt-5 font-weight-bold w-100 p-3 mx-auto btn-right"
                           >
                             Save
                           </Button>

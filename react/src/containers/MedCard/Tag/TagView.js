@@ -4,9 +4,8 @@ import axiosInstance from "../../../axiosApi";
 import { Link } from "react-router-dom";
 import { AddButton } from "../../../components/MedCard/AddButton";
 import { Card, Container, Row, Col, Button } from "react-bootstrap";
-import { Navigation } from "../../../components/Main/Navigation";
-import { Devider } from "../../../components/Main/Devider";
 import { BaseBar } from "../../../components/Main/BaseBar";
+import { Loading } from "../../../components/loading";
 
 export class TagList extends React.Component {
   constructor(props) {
@@ -54,11 +53,7 @@ export class TagList extends React.Component {
 
   render() {
     return this.state.loading ? (
-      <div className="d-flex justify-content-center center_loading">
-        <div className="spinner-border" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      </div>
+      <Loading />
     ) : (
       <>
         <Base
@@ -77,7 +72,7 @@ export class TagList extends React.Component {
                   return (
                     <Card
                       key={i}
-                      className="mx-4 my-5 text-left shadow-sm animate__animated animate__backInRight faster"
+                      className="mx-4 my-5 text-left shadow-sm animate__animated animate__backInRight faster rounded-custom"
                     >
                       <Card.Body>
                         <Card.Title className="m-0">
@@ -97,7 +92,7 @@ export class TagList extends React.Component {
                                 <Button
                                   variant="success"
                                   type="button"
-                                  className="w-100 mx-auto"
+                                  className="w-100 mx-auto btn-left btn-margin"
                                 >
                                   Edit
                                 </Button>
@@ -113,7 +108,7 @@ export class TagList extends React.Component {
                                 <Button
                                   variant="danger"
                                   type="button"
-                                  className="w-100 mx-auto"
+                                  className="w-100 mx-auto btn-right btn-margin"
                                 >
                                   Delete
                                 </Button>
