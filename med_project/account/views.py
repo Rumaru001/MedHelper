@@ -10,7 +10,7 @@ from rest_framework import status, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .serializers import ProfileSerializer
+from .serializers import ProfileSerializer, ProfileSerializerPut
 from .models import User, Profile
 
 
@@ -44,7 +44,6 @@ class LogoutApiView(APIView):
 
 class ChangePasswordView(UpdateAPIView):
     queryset = User.objects.all()
-    # permission_classes = (IsOwner,)
     serializer_class = ChangePasswordSerializer
 
 
@@ -56,24 +55,24 @@ class HelloWorldView(APIView):
 
 
 class ProfileAPI(APIView):
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
-        user = get_object_or_404(User, pk=kwargs['user_id'])
+        user = request.user
         profile_serializer = ProfileSerializer(user.profile)
         profile_serializer.data['email'] = user.email
-        print(profile_serializer.data)
         return Response(profile_serializer.data)
 
     def put(self, request, *args, **kwargs):
-        user = get_object_or_404(User, pk=kwargs['user_id'])
-        profile_serializer = ProfileSerializer(user.profile, data=request.data)
+        user = request.user
+        data = request.data
+        profile_serializer = ProfileSerializerPut(user.profile, data=data)
         if profile_serializer.is_valid():
             profile_serializer.save()
             return Response(profile_serializer.data, status=status.HTTP_200_OK)
         return Response(profile_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, requst, *args, **kwargs):
-        user = get_object_or_404(User, pk=kwargs['user_id'])
+    def delete(self, request, *args, **kwargs):
+        user = request.user
         user.profile.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

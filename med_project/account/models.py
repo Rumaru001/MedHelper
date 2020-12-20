@@ -87,7 +87,7 @@ class Profile(models.Model):
 
     name = models.CharField(max_length=30, blank=True)
     surname = models.CharField(max_length=30, blank=True)
-    contact_number = models.CharField(max_length=10, unique=True, blank=True)
+    contact_number = models.CharField(max_length=10, blank=True)
     sex = models.CharField(max_length=1, choices=SEX_CHOICES, blank=True)
     addres = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
