@@ -145,7 +145,7 @@ export default class MedCardEdit extends React.Component {
                         <InputGroup.Prepend className="w-25 text-center">
                           <InputGroup.Text
                             id="TitleAssignment"
-                            className="nowrap child-center"
+                            className="nowrap child-center btn-settings-nonChange"
                           >
                             <p className="m-0">Name</p>
                           </InputGroup.Text>
@@ -165,7 +165,7 @@ export default class MedCardEdit extends React.Component {
                         <InputGroup.Prepend className="w-25 text-center">
                           <InputGroup.Text
                             id="SpecAssignment"
-                            className="nowrap child-center"
+                            className="nowrap child-center btn-settings-nonChange"
                           >
                             <p className="m-0">Specification</p>
                           </InputGroup.Text>
@@ -192,7 +192,7 @@ export default class MedCardEdit extends React.Component {
                         <InputGroup.Prepend className="w-25 text-center">
                           <InputGroup.Text
                             id="SpecAssignment"
-                            className="nowrap child-center"
+                            className="nowrap child-center btn-settings-nonChange"
                           >
                             <p className="m-0">Tag</p>
                           </InputGroup.Text>
@@ -223,7 +223,7 @@ export default class MedCardEdit extends React.Component {
                         <InputGroup.Prepend className="w-25 text-center">
                           <InputGroup.Text
                             id="textAssignment"
-                            className="nowrap child-center"
+                            className="nowrap child-center btn-settings-nonChange"
                           >
                             <p className="m-0">Text of assignment</p>
                           </InputGroup.Text>
@@ -271,7 +271,7 @@ export default class MedCardEdit extends React.Component {
                         <InputGroup.Prepend className="w-25 text-center">
                           <InputGroup.Text
                             id="file-prepend"
-                            className="nowrap child-center"
+                            className="nowrap child-center btn-settings-nonChange"
                           >
                             <p className="m-0">Upload files</p>
                           </InputGroup.Text>

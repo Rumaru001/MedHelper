@@ -64,7 +64,7 @@ export class Assignment extends React.Component {
               </a>
             </OptionDropdown>
           </Card.Title>
-          <div className="assignment-text">
+          <div className="assignment-text z-index-text">
             <Card.Text className="mt-2">
               {this.manageTextLenght(this.props.assignment.text)}
             </Card.Text>
