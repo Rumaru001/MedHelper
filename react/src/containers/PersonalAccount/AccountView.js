@@ -7,6 +7,7 @@ import { PersonalAccountSideBar } from "../../components/PersonalAccount/Persona
 import "../../components/PersonalAccount/styles.css";
 import { Loading } from "../../components/loading";
 
+
 export default class PersonalAccount extends React.Component {
   constructor(props) {
     super(props);
