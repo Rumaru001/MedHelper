@@ -7,6 +7,7 @@ import {
   formatDate,
 } from "../../components/MedCard/Assignment";
 import axiosInstance from "../../axiosApi";
+import { BaseBar } from "../../components/Main/BaseBar";
 
 export default class MedCardAssignment extends React.Component {
   constructor(props) {
@@ -41,14 +42,7 @@ export default class MedCardAssignment extends React.Component {
     ) : (
       <>
         <Base
-          sidebar={
-            <Link
-              to={`/medical_card`}
-              className="text-light h5 font-weight-bold mx-auto"
-            >
-              <p className="text-decoration-none my-auto">MedCard</p>
-            </Link>
-          }
+          sidebar={<BaseBar />}
           main={
             <Container className="addassignmnet-container p-4">
               <div className="w-100">
