@@ -10,25 +10,6 @@ function range(start, stop, step = 1) {
 }
 
 export class PaginationBar extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      current: props.current,
-      number_of_pages: props.number,
-      objects: this.getObjects(props.number, props.current),
-    };
-  }
-
-  componentDidUpdate() {
-    if (this.props.number != this.state.number_of_pages) {
-      this.setState({
-        number_of_pages: this.props.number,
-        objects: this.getObjects(this.props.number, this.state.current),
-      });
-    }
-  }
-
   getObjects = (number, current) => {
     var number_of_pages = number;
     if (number_of_pages < 7) {
@@ -68,21 +49,13 @@ export class PaginationBar extends React.Component {
   };
 
   handleClick = (new_curr) => {
-    if (new_curr > 0 && new_curr <= this.state.number_of_pages) {
-      this.setState(
-        {
-          ...this.state,
-          current: new_curr,
-          objects: this.getObjects(this.state.number_of_pages, new_curr),
-        },
-        () => {
-          this.props.onClick(this.state.current);
-        }
-      );
+    if (new_curr > 0 && new_curr <= this.props.number) {
+      this.props.onClick(new_curr);
     }
   };
 
   render() {
+    const objects = this.getObjects(this.props.number, this.props.current);
     return (
       <Pagination className={`${this.props.className}`}>
         <Pagination.First
@@ -92,22 +65,22 @@ export class PaginationBar extends React.Component {
         />
         <Pagination.Prev
           onClick={() => {
-            this.handleClick(this.state.current - 1);
+            this.handleClick(this.props.current - 1);
           }}
         />
 
-        {this.state.objects.map((elem) => {
+        {objects.map((elem) => {
           return elem;
         })}
 
         <Pagination.Next
           onClick={() => {
-            this.handleClick(this.state.current + 1);
+            this.handleClick(this.props.current + 1);
           }}
         />
         <Pagination.Last
           onClick={() => {
-            this.handleClick(this.state.number_of_pages);
+            this.handleClick(this.props.number);
           }}
         />
       </Pagination>
