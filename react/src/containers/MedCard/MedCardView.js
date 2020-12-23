@@ -103,10 +103,17 @@ export default class MedCard extends React.Component {
       return !(from <= date) && !(date <= till);
     });
 
+    const page_slice = {
+      start: 0,
+      end: this.state.per_page,
+    };
+
     this.setState({
       ...this.state,
       filteredAssignments: data,
       pages_number: Math.ceil(data.length / this.state.per_page),
+      current_page: 1,
+      page_slice: page_slice,
     });
 
     return data;
@@ -166,6 +173,7 @@ export default class MedCard extends React.Component {
     this.setState({
       ...this.state,
       page_slice: page_slice,
+      current_page: page_number,
     });
   };
 
