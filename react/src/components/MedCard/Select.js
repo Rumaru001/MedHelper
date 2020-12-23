@@ -29,13 +29,16 @@ export class SelectInput extends React.Component {
   };
 
   render() {
-    const { selectedOption } = this.state;
+    const { selectedOption } = {
+      selectedOption: this.state.selectedOption,
+      options: Convert_to(this.props.options),
+    };
     return (
       <>
         <Select
           value={selectedOption}
           onChange={this.handleChange}
-          options={this.state.options}
+          options={Convert_to(this.props.options)}
           isMulti={true}
           isClearable={true}
           placeholder={this.props.placeholder}

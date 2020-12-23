@@ -85,10 +85,10 @@ code {
   opacity: 0.55;
 }
 
-.dropdown-menu{
+.dropdown-menu {
   z-index: 3;
 }
-.z-index-text{
+.z-index-text {
   z-index: 1 !important;
 }
 .dropdown-wrapper {
@@ -308,4 +308,15 @@ code {
 
 .btn-margin {
   margin: 5px;
+}
+
+.page-link {
+  min-width: 40px !important;
+  color: #4a4e69;
+  text-align: center;
+}
+
+.page-item.active .page-link {
+  background-color: #4a4e69;
+  border-color: #4a4e69;
 }
