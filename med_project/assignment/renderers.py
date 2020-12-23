@@ -17,7 +17,10 @@ class AssignmentJSONRenderer(JSONRenderer):
                 d["specification"] = get(d["specification"], "name")
                 d["creator"] = get(d["creator"], 'email')
                 d["user"] = get(d["user"], 'email')
-                d["tag"] = get(d["tag"], 'name')
+                tag = get(d["tag"], 'name')
+
+                d["tag"] = "without tag" if tag == None else tag
+
         except:
             return json.dumps({'detail': "Invalid data from server"})
         return json.dumps(data)
