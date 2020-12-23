@@ -13,16 +13,20 @@ export default class MedCard extends React.Component {
   constructor(props) {
     super(props);
 
+    const assignments_per_page = 5
+
     this.state = {
+      amount_of_assignments: assignments_per_page,
+      per_page: assignments_per_page,
       loading: true,
     };
   }
 
-  async getData() {
+  async getData(size = "") {
     try {
       console.log(localStorage);
 
-      let response = await axiosInstance.get("assignment/");
+      let response = await axiosInstance.get(`assignment/list/${size}`);
 
       const data = response.data.assignments;
 
@@ -34,6 +38,8 @@ export default class MedCard extends React.Component {
       console.log(filters);
       var dateFilter = { startTime: "1900-01-01", endTime: new Date() };
       this.setState({
+        ...this.state,
+        amount_of_assignments: data.length,
         loading: false,
         assignments: data,
         filteredAssignments: data,
@@ -53,7 +59,8 @@ export default class MedCard extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.getData());
+    this.getData(this.state.amount_of_assignments);
+    this.getData();
   }
 
   createFilters = (field, data) => {
@@ -83,17 +90,6 @@ export default class MedCard extends React.Component {
     );
     filters.forEach((filter_elem, index) => {
       data = data.filter((elem) => {
-        // console.log("Filtering", elem[filters_names[index]], filter_elem);
-        // // console.log("Data: ", data);
-        // console.log(
-        //   "result",
-        //   elem[filters_names[index]] === undefined ||
-        //     elem[filters_names[index]] === null
-        //     ? true
-        //     : filter_elem[filters_names[index]].includes(
-        //         elem[filters_names[index]]
-        //       )
-        // );
         return elem[filters_names[index]] === undefined
           ? true
           : filter_elem[filters_names[index]].includes(
@@ -200,7 +196,7 @@ export default class MedCard extends React.Component {
             <>
               <p className="h1 m-4 mt-5 text-center">Assignments</p>
               {this.state.filteredAssignments.length > 0 ? (
-                this.state.filteredAssignments.map((assignment, i) => {
+                this.state.filteredAssignments.slice().map((assignment, i) => {
                   return <Assignment key={i} assignment={assignment} />;
                 })
               ) : (
