@@ -13,6 +13,8 @@ export function Filters(props) {
     props.onDateFilterChange({ [key]: time });
   };
 
+  console.log(props);
+
   return (
     <div className="container py-4">
       <div className="w-100">

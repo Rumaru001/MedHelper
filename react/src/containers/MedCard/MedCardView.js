@@ -1,5 +1,5 @@
 import React from "react";
-
+import { PaginationBar } from "../../components/MedCard/PaginationBar";
 import Base from "../../components/Main/Base";
 import { Assignment } from "../../components/MedCard/Assignment.js";
 import { Filters } from "../../components/MedCard/Filters";
@@ -13,19 +13,22 @@ export default class MedCard extends React.Component {
   constructor(props) {
     super(props);
 
-    const assignments_per_page = 5
+    const assignments_per_page = 5;
 
     this.state = {
-      amount_of_assignments: assignments_per_page,
+      pages_number: 1,
       per_page: assignments_per_page,
+      current_page: 1,
+      page_slice: {
+        start: 0,
+        end: assignments_per_page,
+      },
       loading: true,
     };
   }
 
   async getData(size = "") {
     try {
-      console.log(localStorage);
-
       let response = await axiosInstance.get(`assignment/list/${size}`);
 
       const data = response.data.assignments;
@@ -35,11 +38,11 @@ export default class MedCard extends React.Component {
           [field]: this.createFilters(field, data),
         };
       });
-      console.log(filters);
+
       var dateFilter = { startTime: "1900-01-01", endTime: new Date() };
       this.setState({
         ...this.state,
-        amount_of_assignments: data.length,
+        pages_number: Math.ceil(data.length / this.state.per_page),
         loading: false,
         assignments: data,
         filteredAssignments: data,
@@ -59,12 +62,11 @@ export default class MedCard extends React.Component {
   }
 
   componentDidMount() {
-    this.getData(this.state.amount_of_assignments);
+    this.getData(this.state.per_page);
     this.getData();
   }
 
   createFilters = (field, data) => {
-    console.log(data, field);
     if (data.length < 1) return [];
     return [field] in data[0]
       ? [
@@ -82,12 +84,6 @@ export default class MedCard extends React.Component {
     filters = this.state.filters,
     dateFilters = this.state.dateFilters
   ) => {
-    console.log(
-      "Filtering assignments with next filters",
-      data,
-      filters,
-      dateFilters
-    );
     filters.forEach((filter_elem, index) => {
       data = data.filter((elem) => {
         return elem[filters_names[index]] === undefined
@@ -96,7 +92,6 @@ export default class MedCard extends React.Component {
               elem[filters_names[index]]
             );
       });
-      // console.log("Data: ", data);
     });
 
     var from = new Date(dateFilters.endTime);
@@ -104,32 +99,23 @@ export default class MedCard extends React.Component {
 
     data = data.filter((elem) => {
       var date = new Date(elem.create_date);
-      console.log(date, from <= date, date <= till);
+
       return !(from <= date) && !(date <= till);
     });
 
-    this.setState(
-      {
-        ...this.state,
-        filteredAssignments: data,
-      },
-      () => {
-        console.log(`Assignments updated`, this.state.filteredAssignments);
-      }
-    );
+    this.setState({
+      ...this.state,
+      filteredAssignments: data,
+      pages_number: Math.ceil(data.length / this.state.per_page),
+    });
 
     return data;
   };
 
   filterAssignments = (newFilters) => {
-    console.log(`New Filters`, newFilters);
     newFilters.forEach((filter, index) => {
       if (filter[filters_names[index]].length < 1) {
         newFilters[index] = this.state.defaultFilters[index];
-        console.log(
-          `All object is restore for filter type:`,
-          filters_names[index]
-        );
       }
     });
 
@@ -139,7 +125,6 @@ export default class MedCard extends React.Component {
         filters: newFilters,
       },
       () => {
-        console.log(`FiltersUpdated`, this.state.filters);
         this.customFilter();
       }
     );
@@ -150,15 +135,12 @@ export default class MedCard extends React.Component {
     var dateFromState = this.state.dateFilters;
     dateFromState[key] = dateFilter[key];
 
-    console.log(dateFilter);
-
     this.setState(
       {
         ...this.state,
         dateFilters: dateFromState,
       },
       () => {
-        console.log(`DateFilterUpdated`, this.state.dateFilters);
         this.customFilter();
       }
     );
@@ -173,6 +155,35 @@ export default class MedCard extends React.Component {
       () => {
         this.customFilter();
       }
+    );
+  };
+
+  handlePageClick = (page_number) => {
+    const page_slice = {
+      start: (page_number - 1) * this.state.per_page,
+      end: page_number * this.state.per_page,
+    };
+    this.setState({
+      ...this.state,
+      page_slice: page_slice,
+    });
+  };
+
+  buildMain = () => {
+    return (
+      <>
+        <PaginationBar
+          className="child-center"
+          number={this.state.pages_number}
+          current={this.state.current_page}
+          onClick={this.handlePageClick}
+        />
+        {this.state.filteredAssignments
+          .slice(this.state.page_slice.start, this.state.page_slice.end)
+          .map((assignment, i) => {
+            return <Assignment key={i} assignment={assignment} />;
+          })}
+      </>
     );
   };
 
@@ -195,10 +206,9 @@ export default class MedCard extends React.Component {
           main={
             <>
               <p className="h1 m-4 mt-5 text-center">Assignments</p>
+
               {this.state.filteredAssignments.length > 0 ? (
-                this.state.filteredAssignments.slice().map((assignment, i) => {
-                  return <Assignment key={i} assignment={assignment} />;
-                })
+                this.buildMain()
               ) : (
                 <p className="h4 mt-5 pt-4 text-secondary text-center">
                   No assignments found 🙁

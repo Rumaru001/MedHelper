@@ -5,6 +5,7 @@ export class MedCardFilters extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      data: props.data,
       selected: props.data.map((filter) => {
         var name = Object.keys(filter)[0];
         return { [name]: [] };
@@ -30,8 +31,14 @@ export class MedCardFilters extends React.Component {
             var name = Object.keys(filter)[0];
             //console.log("Filters", filter, name);
             return (
-              <SelectInput key={index}
-                selectedOption={this.state.selected[index][name]}
+              <SelectInput
+                key={index}
+                selectedOption={
+                  this.props.data.map((filter) => {
+                    var name = Object.keys(filter)[0];
+                    return { [name]: [] };
+                  })[index][name]
+                }
                 options={filter[name]}
                 placeholder={name}
                 className="m-2 "
