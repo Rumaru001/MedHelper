@@ -16,7 +16,7 @@ class UserManager(BaseUserManager):
     to create `User` objects.
     """
 
-    def create_user(self, email, password):
+    def create_user(self, email, password, user_type=0):
         """Create and return a `User` with an email and password."""
 
         if email is None:
@@ -25,17 +25,20 @@ class UserManager(BaseUserManager):
         if password is None:
             raise TypeError('Users must have a password.')
 
-        user = self.model(email=self.normalize_email(email))
+        if user_type is None:
+            raise TypeError('Users must have a type.')
+
+        user = self.model(email=self.normalize_email(email), user_type=user_type)
         user.set_password(password)
         user.save()
 
         return user
 
-    def create_superuser(self, email, password):
+    def create_superuser(self, email, password, user_type=0):
         """
         Create and return a `User` with superuser (admin) permissions.
         """
-        user = self.create_user(email, password)
+        user = self.create_user(email, password, user_type)
         user.is_superuser = True
         user.is_staff = True
         user.save()
@@ -44,14 +47,15 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    # USER_TYPE_CHOICES = (
-    #     (1, 'patient'),
-    #     (2, 'doctor'),
-    # )
+    USER_TYPE_CHOICES = (
+        (0, 'admin'),
+        (1, 'patient'),
+        (2, 'doctor'),
+    )
 
     email = models.EmailField(db_index=True, unique=True)
 
-    # user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES)
+    user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=0)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
