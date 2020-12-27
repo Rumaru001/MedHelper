@@ -28,7 +28,8 @@ class UserManager(BaseUserManager):
         if user_type is None:
             raise TypeError('Users must have a type.')
 
-        user = self.model(email=self.normalize_email(email), user_type=user_type)
+        user = self.model(email=self.normalize_email(
+            email), user_type=user_type)
         user.set_password(password)
         user.save()
 
@@ -55,7 +56,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField(db_index=True, unique=True)
 
-    user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=0)
+    user_type = models.PositiveSmallIntegerField(
+        choices=USER_TYPE_CHOICES, default=1)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -82,7 +84,8 @@ def get_upload_path(instance, filename):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, related_name='profile')
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, null=True, related_name='profile')
 
     SEX_CHOICES = (
         ('F', 'Female',),
@@ -99,7 +102,8 @@ class Profile(models.Model):
     height = models.IntegerField(null=True, blank=True)
     blood = models.CharField(max_length=30, blank=True)
 
-    image = models.ImageField(default='profile_img.png', upload_to=get_upload_path, blank=True)
+    image = models.ImageField(
+        default='profile_img.png', upload_to=get_upload_path, blank=True)
 
     class Meta:
         """ Set a table name. """

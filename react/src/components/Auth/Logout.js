@@ -6,19 +6,19 @@ import "../PersonalAccount/styles.css";
 
 export async function handleLogout() {
   try {
-      const response = await axiosInstance.post("auth/logout/", {
-        refresh_token: localStorage.getItem("refresh_token"),
-      });
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("refresh_token");
-      axiosInstance.defaults.headers["Authorization"] = null;
-      window.location.href = "/";
-      return response;
-    } catch (e) {
-      console.log(e);
-    }
+    const response = await axiosInstance.post("auth/logout/", {
+      refresh_token: localStorage.getItem("refresh_token"),
+    });
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("user_type");
+    axiosInstance.defaults.headers["Authorization"] = null;
+    window.location.href = "/";
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
 }
-
 
 export class Logout extends Component {
   constructor(props) {
@@ -26,7 +26,6 @@ export class Logout extends Component {
     this.state = { email: "", password: "" };
     handleLogout = handleLogout.bind(this);
   }
-
 
   render() {
     return (
