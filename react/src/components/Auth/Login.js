@@ -13,7 +13,7 @@ export async function axiosLogin(email, password) {
     console.log(response.data);
     localStorage.setItem("access_token", response.data.access);
     localStorage.setItem("refresh_token", response.data.refresh);
-    localStorage.setItem("user_type", response.data.user_type);
+
     // this.props.history.push('/0/personal_account');
     // return response;
     console.log(localStorage);

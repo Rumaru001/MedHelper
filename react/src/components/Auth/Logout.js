@@ -11,7 +11,6 @@ export async function handleLogout() {
     });
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
-    localStorage.removeItem("user_type");
     axiosInstance.defaults.headers["Authorization"] = null;
     window.location.href = "/";
     return response;

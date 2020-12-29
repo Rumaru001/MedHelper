@@ -4,11 +4,10 @@ import { Link } from "react-router-dom";
 import Base from "../../../components/Main/Base";
 import axiosInstance from "../../../axiosApi";
 import { BaseBar } from "../../../components/Main/BaseBar";
-import { Loading } from "../../../components/loading";
+import { Loading } from "../../../components/Main/loading";
 
 export class TagEdit extends React.Component {
   constructor(props) {
-    console.log(props);
     super(props);
     this.state = {
       id: this.props.match.params.id,
@@ -24,7 +23,6 @@ export class TagEdit extends React.Component {
     state.data = tag;
     state.loading = false;
     this.setState(state);
-    console.log(tag);
     return tag;
   }
 

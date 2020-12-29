@@ -4,7 +4,7 @@ import Base from "../../components/Main/Base";
 import { Assignment } from "../../components/MedCard/Assignment.js";
 import { Filters } from "../../components/MedCard/Filters";
 import axiosInstance from "../../axiosApi";
-import { Loading } from "../../components/loading";
+import { Loading } from "../../components/Main/loading";
 import { BaseBar } from "../../components/Main/BaseBar";
 
 const filters_names = ["specification", "name", "tag", "creator"];
@@ -20,8 +20,6 @@ export default class MedCard extends React.Component {
 
   async getData() {
     try {
-      console.log(localStorage);
-
       let response = await axiosInstance.get("assignment/");
 
       const data = response.data.assignments;
@@ -57,7 +55,6 @@ export default class MedCard extends React.Component {
   }
 
   createFilters = (field, data) => {
-    console.log(data, field);
     if (data.length < 1) return [];
     return [field] in data[0]
       ? [
