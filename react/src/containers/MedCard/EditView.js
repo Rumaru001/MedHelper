@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Base from "../../components/Main/Base";
 import axiosInstance from "../../axiosApi";
 import { BaseBar } from "../../components/Main/BaseBar";
-import { Loading } from "../../components/loading";
+import { Loading } from "../../components/Main/loading";
 
 
 

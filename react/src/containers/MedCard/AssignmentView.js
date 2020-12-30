@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Base from "../../components/Main/Base";
-import { Loading } from "../../components/loading";
+import { Loading } from "../../components/Main/loading";
 import {
   deleteAssignment,
   formatDate,

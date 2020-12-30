@@ -17,3 +17,10 @@ class IsOwner(permissions.BasePermission):
 
 def has_obj_persmission(request, obj):
     return request.user == obj.user
+
+
+class IsDoctor(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if request.user.user_type == 2:
+            return True
+        return False

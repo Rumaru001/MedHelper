@@ -39,6 +39,7 @@ class Register extends Component {
                 email: '',
                 password: '',
                 password2: '',
+                user_type: '1',
             },
             errors: {
                 email: '',
@@ -53,7 +54,6 @@ class Register extends Component {
     handleChange(event) {
         event.preventDefault();
         const {name, value} = event.target;
-
 
         let values = this.state.values;
         let errors = this.state.errors;
@@ -84,10 +84,12 @@ class Register extends Component {
                         ? 'Passwords do not equal!'
                         : '';
                 break;
+            case 'user-type':
+                values.user_type = value
+                break;
             default:
                 break;
         }
-
         this.setState({errors});
         this.setState({"formValid": validateForm(values)})
         this.setState({"errorCount": countErrors(errors)})
@@ -103,7 +105,8 @@ class Register extends Component {
                 const response = await axiosInstance.post('auth/register/', {
                     email: this.state.values.email,
                     password: this.state.values.password,
-                    password2: this.state.values.password2
+                    password2: this.state.values.password2,
+                    user_type: this.state.values.user_type,
                 }).then(
                     this.props.history.push('/login/')
                 )
@@ -145,6 +148,16 @@ class Register extends Component {
                                    onChange={this.handleChange}/>
                             {this.state.errors.password2.length > 0 &&
                             <span className='error-auth'>{this.state.errors.password2}</span>}
+                        </div>
+                        <div className="password-auth">
+                            <label className="label-auth" htmlFor="user-type">User type</label>
+                            <select name="user-type"
+                                    className="input-auth"
+                                    onChange={this.handleChange}>
+                                <option value='1'>Patient</option>
+                                <option value='2'>Doctor</option>
+                                <option value='0'>Admin</option>
+                            </select>
                         </div>
                         <div className='submit-auth'>
                             <button disabled={!this.state.formValid || !this.state.errorCount}

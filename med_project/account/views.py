@@ -1,9 +1,10 @@
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.generics import UpdateAPIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
 from .permissions import IsOwner
 from .serializers import (
-    RegisterSerializer, ChangePasswordSerializer)
+    CustomTokenObtainPairSerializer, RegisterSerializer, ChangePasswordSerializer)
 
 from django.shortcuts import render, get_object_or_404
 from rest_framework import status, permissions
@@ -12,6 +13,10 @@ from rest_framework.response import Response
 
 from .serializers import ProfileSerializer, ProfileSerializerPut
 from .models import User, Profile
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
 
 
 class RegistrationAPIView(APIView):

@@ -1,6 +1,6 @@
 from django.urls import path, include
 from django.views.generic import TemplateView
-from .views import ProfileAPI
+from .views import CustomTokenObtainPairView, ProfileAPI
 
 from django.urls import path
 from django.conf.urls import url
@@ -13,11 +13,13 @@ from .views import (
     ChangePasswordView)
 
 urlpatterns = [
-    path('token/obtain/', jwt_views.TokenObtainPairView.as_view(), name='token_create'),  # override sjwt stock token
-    path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    path('token/obtain/', CustomTokenObtainPairView.as_view(),
+         name='token_create'),  # override sjwt stock token
+    path('token/refresh/', CustomTokenObtainPairView.as_view(), name='token_refresh'),
     path('register/', RegistrationAPIView.as_view(), name='register'),
     path('hello/', HelloWorldView.as_view(), name='hello_world'),
     path('logout/', LogoutApiView.as_view(), name='logout'),
-    path('change_password/', ChangePasswordView.as_view(), name='auth_change_password'),  # <int:pk>/
+    path('change_password/', ChangePasswordView.as_view(),
+         name='auth_change_password'),  # <int:pk>/
     path('users/profile/', ProfileAPI.as_view())
 ]

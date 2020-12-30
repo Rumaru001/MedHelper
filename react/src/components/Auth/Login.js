@@ -10,10 +10,13 @@ export async function axiosLogin(email, password) {
     });
     axiosInstance.defaults.headers["Authorization"] =
       "Bearer " + response.data.access;
+    console.log(response.data);
     localStorage.setItem("access_token", response.data.access);
     localStorage.setItem("refresh_token", response.data.refresh);
+
     // this.props.history.push('/0/personal_account');
     // return response;
+    console.log(localStorage);
     return true;
   } catch (error) {
     return false;

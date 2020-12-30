@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { AddButton } from "../../../components/MedCard/AddButton";
 import { Card, Container, Row, Col, Button } from "react-bootstrap";
 import { BaseBar } from "../../../components/Main/BaseBar";
-import { Loading } from "../../../components/loading";
+import { Loading } from "../../../components/Main/loading";
 
 export class TagList extends React.Component {
   constructor(props) {

@@ -4,7 +4,7 @@ import Base from "../../components/Main/Base";
 import { Assignment } from "../../components/MedCard/Assignment.js";
 import { Filters } from "../../components/MedCard/Filters";
 import axiosInstance from "../../axiosApi";
-import { Loading } from "../../components/loading";
+import { Loading } from "../../components/Main/loading";
 import { BaseBar } from "../../components/Main/BaseBar";
 
 const filters_names = ["specification", "name", "tag", "creator"];
@@ -30,7 +30,6 @@ export default class MedCard extends React.Component {
   async getData(size = "") {
     try {
       let response = await axiosInstance.get(`assignment/list/${size}`);
-
       const data = response.data.assignments;
 
       var filters = filters_names.map((field) => {

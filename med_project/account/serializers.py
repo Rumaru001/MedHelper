@@ -2,8 +2,17 @@ from rest_framework.validators import UniqueValidator
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
-
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import Profile, User
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+
+    @classmethod
+    def get_token(cls, user: User):
+        token = super().get_token(user)
+        token['user_type'] = user.user_type
+        return token
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -26,17 +35,19 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('password', 'password2', 'email')
+        fields = ('password', 'password2', 'email', 'user_type')
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
-            raise serializers.ValidationError({"password": "Password fields didn't match."})
+            raise serializers.ValidationError(
+                {"password": "Password fields didn't match."})
 
         return attrs
 
     def create(self, validated_data):
         user = User.objects.create(
             email=validated_data['email'],
+            user_type=validated_data['user_type'],
         )
 
         user.set_password(validated_data['password'])
@@ -62,21 +73,24 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
-            raise serializers.ValidationError({"password": "Password fields didn't match."})
+            raise serializers.ValidationError(
+                {"password": "Password fields didn't match."})
 
         return attrs
 
     def validate_old_password(self, value):
         user = self.context['request'].user
         if not user.check_password(value):
-            raise serializers.ValidationError({"old_password": "Old password is not correct"})
+            raise serializers.ValidationError(
+                {"old_password": "Old password is not correct"})
         return value
 
     def update(self, instance, validated_data):
         user = self.context['request'].user
 
         if user.pk != instance.pk:
-            raise serializers.ValidationError({"authorize": "You dont have permission for this user."})
+            raise serializers.ValidationError(
+                {"authorize": "You dont have permission for this user."})
 
         instance.set_password(validated_data['password'])
         instance.save()
@@ -110,4 +124,3 @@ class ProfileSerializerPut(serializers.ModelSerializer):
             'id': {'read_only': True},
             'user': {'read_only': True},
         }
-
