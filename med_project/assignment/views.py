@@ -15,7 +15,9 @@ class AssignmentsListView(APIView):
 
     def get(self, request, *args, **kwargs):
 
-        assignments = request.user.assignments.order_by("-create_date").all()
+        size = kwargs.get('size',10^6)
+
+        assignments = request.user.assignments.order_by("-create_date").all()[:size]
         serializer = AssignmentSerializer(assignments, many=True)
         data = {"assignments": serializer.data}
         return Response(data)
