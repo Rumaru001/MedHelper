@@ -44,7 +44,6 @@ class AssignmentView(APIView):
         data['user'] = data.get('user', request.user.id)
         data['creator'] = data.get('creator', request.user.id)
         data['editor'] = data.get('editor', request.user.id)
-        print(data)
 
         try:
             assignment: Assignment = serializer.create(data)

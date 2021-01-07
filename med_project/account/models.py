@@ -56,7 +56,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField(db_index=True, unique=True)
 
-    user_type = models.PositiveSmallIntegerField(
+    user_type = models.IntegerField(
         choices=USER_TYPE_CHOICES, default=1)
 
     is_active = models.BooleanField(default=True)
@@ -108,3 +108,14 @@ class Profile(models.Model):
     class Meta:
         """ Set a table name. """
         db_table = 'profile'
+
+
+class Doctor(models.Model):
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, null=True, related_name='doctor_profile')
+
+    patients = models.ManyToManyField(Profile, related_name="doctors")
+
+    # class Meta:
+    #     """ Set a table name. """
+    #     db_table = 'doctors'

@@ -81,3 +81,12 @@ class ProfileAPI(APIView):
         user = request.user
         user.profile.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class DeleteUserAPI(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, *args, **kwargs):
+        user: User = request.user
+        user.delete()
+        return Response({"detail": "Successful"}, status=status.HTTP_200_OK)
