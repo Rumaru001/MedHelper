@@ -1,3 +1,4 @@
+from django.db.models import fields
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
@@ -106,6 +107,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
+    number_of_requests = fields.IntegerField()
 
     class Meta:
         model = Profile

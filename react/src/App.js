@@ -17,6 +17,7 @@ import { TagEdit } from "./containers/MedCard/Tag/TagEditView";
 import PersonalAccount from "./containers/PersonalAccount/AccountView";
 import Reminders from "./containers/Reminders/RemindersView";
 import SettingsView from "./containers/PersonalAccount/SettingsView";
+import RequestView from "./containers/Requests/RequestList";
 
 class App extends Component {
   render() {
@@ -42,6 +43,7 @@ class App extends Component {
           <Route path={links.assignment.view} component={MedCardAssignment} />
           <Route exact path={links.auth.login} component={Login} />
           <Route path={links.auth.register} component={Register} />
+          <Route path={links.requests} component={RequestView} />
           <Route path="/hello/" component={Hello} />
         </Switch>
       </BrowserRouter>

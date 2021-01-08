@@ -1,45 +1,52 @@
 from .request_actions import BaseRequest, RequestType
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_list_or_404, get_object_or_404, render
 from rest_framework import serializers, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Request
-from account.models import Doctor, Profile, User
+from account.models import Doctor, Profile, User, UserType
+from account.views import get_user_by_type
 from .serializers import RequestSerializer
 
 
-def get_doctor_patient(request):
-    patient: User = request.user
-    doctor = get_object_or_404(User, id=request.data["requested_user_id"])
-    if patient.user_type == User.USER_TYPE_CHOICES[2][0]:
-        patient, doctor = doctor, patient
-    return doctor.doctor_profile, patient.profile
+def get_sender_reciever(request):
+    reciever_id = int(request.data.get('reciever_id'))
+    return get_user_by_type(request.user), get_user_by_type(get_object_or_404(User, id=reciever_id))
 
 
 class RequestAPI(APIView):
     permission_classes = []
 
     def get(self, request, *args, **kwargs):
-        doctor, patient = get_doctor_patient(request)
         try:
-            req = get_object_or_404(
-                Request, docotor=doctor, patient=patient)
+            req = request.user.incoming_requests.all()
         except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        return Response(RequestSerializer(req).data)
+            return Response({"detail": "Requests not found"}, status=status.HTTP_404_NOT_FOUND)
+        return Response(RequestSerializer(req, many=True).data)
 
     def post(self, request, *args, **kwargs):
-        doctor, patient = get_doctor_patient(request)
+        sender, reciever = get_sender_reciever(request)
+        type = request.data["type_of_request"]
 
-        data = {
-            "doctor": doctor,
-            "patient": patient,
-            "type": request.data["type_of_request"]
-        }
+        print(Request.Request_Type(1).name)
+        return Response({})
 
-        serializer = RequestSerializer()
+        if not RequestType[type].value.validate(sender, reciever):
+            return Response({'detail': "Action not allowed"},
+                            status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
         try:
+            data = {
+                "sender": sender.user,
+                "reciever": reciever.user,
+                "type": Request.Request_Type[type]}
+
+            serializer = RequestSerializer()
+
+            if not serializer.validate(data):
+                print(data)
+                raise Exception
+
             req = serializer.create(data)
             req.save()
         except Exception:
@@ -63,8 +70,8 @@ class RequestAPI(APIView):
         action = RequestType[req.get_type_display()].value()  # lol
 
         if answer == True:
-            # print(action)
-            action.make(req.doctor, req.patient)
+            action.make(req.sender, req.reciever)
+
         req.delete()
 
         return Response({"message": "Succesful"}, status=200)

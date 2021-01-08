@@ -1,3 +1,4 @@
+from enum import Enum
 import jwt
 from django.conf import settings
 from datetime import datetime, timedelta
@@ -49,9 +50,9 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     USER_TYPE_CHOICES = (
-        (0, 'admin'),
-        (1, 'patient'),
-        (2, 'doctor'),
+        (0, 'ADMIN'),
+        (1, 'PATIENT'),
+        (2, 'DOCTOR'),
     )
 
     email = models.EmailField(db_index=True, unique=True)
@@ -114,8 +115,24 @@ class Doctor(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, null=True, related_name='doctor_profile')
 
+    SEX_CHOICES = (
+        ('F', 'Female',),
+        ('M', 'Male',),
+    )
+
+    name = models.CharField(max_length=30, blank=True)
+    surname = models.CharField(max_length=35, blank=True)
+    contact_number = models.CharField(max_length=10, blank=True)
+    sex = models.CharField(max_length=1, choices=SEX_CHOICES, blank=True)
+
     patients = models.ManyToManyField(Profile, related_name="doctors")
 
     # class Meta:
     #     """ Set a table name. """
     #     db_table = 'doctors'
+
+
+class UserType(Enum):
+    ADMIN = Profile
+    PATIENT = Profile
+    DOCTOR = Doctor
