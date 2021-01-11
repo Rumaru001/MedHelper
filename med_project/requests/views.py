@@ -48,10 +48,15 @@ class RequestAPI(APIView):
                 print(data)
                 raise Exception
 
-            req = serializer.create(data)
-            req.save()
         except Exception:
             return Response({"detail": "Invalid input data"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+        try:
+            req = serializer.create(data)
+            req.save()
+        except:
+            return Response({"detail": "Request already exists"}, status=status.HTTP_409_CONFLICT)
+
         return Response({"detail": "Succesful"}, status=status.HTTP_201_CREATED)
 
     def put(self, request, *args, **kwargs):

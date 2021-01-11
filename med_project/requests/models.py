@@ -4,6 +4,9 @@ from account.models import User
 
 class Request(models.Model):
 
+    class Meta:
+        unique_together = [["sender", "reciever", "type"]]
+         
     class Request_Type(models.IntegerChoices):
         ADD_DOCTOR = 1
         REMOVE_DOCTOR = 2
