@@ -18,6 +18,7 @@ import PersonalAccount from "./containers/PersonalAccount/AccountView";
 import Reminders from "./containers/Reminders/RemindersView";
 import SettingsView from "./containers/PersonalAccount/SettingsView";
 import RequestView from "./containers/Requests/RequestList";
+import { ListOfDoctors } from "./containers/Lists/ListOfDoctors";
 
 class App extends Component {
   render() {
@@ -44,6 +45,7 @@ class App extends Component {
           <Route exact path={links.auth.login} component={Login} />
           <Route path={links.auth.register} component={Register} />
           <Route path={links.requests} component={RequestView} />
+          <Route path={links.doctors} component={ListOfDoctors} />
           <Route path="/hello/" component={Hello} />
         </Switch>
       </BrowserRouter>

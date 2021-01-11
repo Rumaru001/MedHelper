@@ -3,7 +3,6 @@ from django.views.generic import TemplateView
 from .views import CustomTokenObtainPairView, DeleteUserAPI, DoctorList, ProfileAPI
 
 from django.urls import path
-from django.conf.urls import url
 
 from rest_framework_simplejwt import views as jwt_views
 

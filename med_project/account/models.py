@@ -1,4 +1,5 @@
 from enum import Enum
+from django.shortcuts import get_object_or_404
 import jwt
 from django.conf import settings
 from datetime import datetime, timedelta
@@ -136,3 +137,17 @@ class UserType(Enum):
     ADMIN = Profile
     PATIENT = Profile
     DOCTOR = Doctor
+
+
+def get_user_by_type(user):
+    if user is None:
+        return None
+    user_type = UserType[user.get_user_type_display()].value
+    return get_object_or_404(user_type, user_id=user.id)
+
+
+def get_doctor_patient(user1, user2):
+    user1, user2 = get_user_by_type(user1), get_user_by_type(user2)
+    if isinstance(user1, Doctor) and isinstance(user2, Profile):
+        return user1, user2
+    return user2, user1

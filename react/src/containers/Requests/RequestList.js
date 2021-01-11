@@ -31,14 +31,14 @@ export default class RequestView extends React.Component {
 
   async handleRequest(id, answer) {
     try {
-      let response = await axiosInstance.put(
-        `request/${id}/`,
-        (data = { answer: answer })
-      );
+      let response = await axiosInstance.put(`request/${id}/`, {
+        answer: answer,
+      });
     } catch (error) {
       console.log("Error: ", JSON.stringify(error, null, 4));
       throw error;
     }
+    this.getData();
   }
 
   componentDidMount() {
@@ -78,27 +78,23 @@ export default class RequestView extends React.Component {
                                 type="button"
                                 className="w-100 mx-auto btn-left btn-margin"
                                 onClick={() => {
-                                  this.handleRequest(request.id, true);
+                                  this.handleRequest(request.id, false);
                                 }}
                               >
                                 Reject
                               </Button>
                             </Col>
                             <Col className="px-1">
-                              <a
-                                className="child-center"
+                              <Button
+                                variant="success"
+                                type="button"
+                                className="w-100 mx-auto btn-right btn-margin"
                                 onClick={() => {
-                                  this.handleRequest(request.id, false);
+                                  this.handleRequest(request.id, true);
                                 }}
                               >
-                                <Button
-                                  variant="success"
-                                  type="button"
-                                  className="w-100 mx-auto btn-right btn-margin"
-                                >
-                                  Accept
-                                </Button>
-                              </a>
+                                Accept
+                              </Button>
                             </Col>
                           </Row>
                         </Container>

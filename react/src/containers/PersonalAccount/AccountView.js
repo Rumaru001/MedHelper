@@ -113,6 +113,19 @@ export default class PersonalAccount extends React.Component {
                         </Col>
                       </Button>{" "}
                     </Col>
+                    <Col className="mr-1 m-2 p-2">
+                      <Button
+                        className="btn-settings"
+                        href={links.doctors}
+                        variant="submit"
+                        size="lg"
+                      >
+                        <h2 className="text-lighter">Doctors</h2>
+                        <div>
+                          <h5 className="text-lighter">Some data</h5>
+                        </div>
+                      </Button>{" "}
+                    </Col>
                   </Col>
                   <Col>
                     <Col className=" m-2 p-2">

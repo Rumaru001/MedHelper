@@ -6,7 +6,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .permissions import IsOwner
 from .serializers import (
-    CustomTokenObtainPairSerializer, RegisterSerializer, ChangePasswordSerializer)
+    CustomTokenObtainPairSerializer, DoctorUserSerializer, RegisterSerializer, ChangePasswordSerializer)
 
 from django.shortcuts import render, get_object_or_404
 from rest_framework import status, permissions
@@ -14,13 +14,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from .serializers import ProfileSerializer, ProfileSerializerPut
-from .models import Doctor, User, Profile, UserType
-
-
-def get_user_by_type(user):
-    print(UserType[user.get_user_type_display()].value, user.id)
-    user_type = UserType[user.get_user_type_display()].value
-    return get_object_or_404(user_type, user_id=user.id)
+from .models import Doctor, User, Profile, UserType, get_user_by_type
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
@@ -105,6 +99,9 @@ class DoctorList(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
+        if not isinstance(get_user_by_type(request.user), Profile):
+            return Response({"detail": "You are not a patient"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
         doctors = Doctor.objects.all()
-        filters = DoctorFilter(request.GET, queryset=doctors)
-        return Response(ProfileSerializer(filters.qs, many=True).data)
+        filters = DoctorFilter(request.GET, queryset=doctors, request=request)
+        return Response(DoctorUserSerializer(filters.qs, many=True, context={'request': request}).data)

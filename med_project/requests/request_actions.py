@@ -1,5 +1,5 @@
 from enum import Enum
-from account.models import Profile, Doctor
+from account.models import Profile, Doctor, get_doctor_patient
 
 
 class BaseRequest:
@@ -23,9 +23,9 @@ class AddDoctor(BaseRequest):
         return f"Do you want to add {user} ({user.get_user_type_display()})?"
 
     def make(self, sender, reciever):
-        # print("Hello")
-        sender.patients.add(reciever)
-        sender.save()
+        doctor, patient = get_doctor_patient(sender, reciever)
+        doctor.patients.add(patient)
+        doctor.save()
 
 
 class RemoveDoctor(BaseRequest):
@@ -34,8 +34,9 @@ class RemoveDoctor(BaseRequest):
         return f"Do you want to remove {user} ({user.get_user_type_display()})?"
 
     def make(self, sender, reciever):
-        sender.patients.remove(reciever)
-        sender.save()
+        doctor, patient = get_doctor_patient(sender, reciever)
+        doctor.patients.remove(patient)
+        doctor.save()
 
 
 class RequestType(Enum):

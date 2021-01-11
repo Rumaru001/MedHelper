@@ -29,6 +29,7 @@ const rules = {
       links.assignment.view,
       links.medical_card,
       links.requests,
+      links.doctors,
     ],
   },
   2: {
@@ -42,6 +43,7 @@ const rules = {
       links.assignment.edit,
       links.assignment.view,
       links.requests,
+      links.patients,
     ],
   },
 };

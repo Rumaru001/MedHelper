@@ -4,8 +4,7 @@ from rest_framework import serializers, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Request
-from account.models import Doctor, Profile, User, UserType
-from account.views import get_user_by_type
+from account.models import Doctor, Profile, User, get_user_by_type
 from .serializers import RequestSerializer
 
 
@@ -25,13 +24,15 @@ class RequestAPI(APIView):
         return Response(RequestSerializer(req, many=True).data)
 
     def post(self, request, *args, **kwargs):
-        sender, reciever = get_sender_reciever(request)
+        try:
+            sender, reciever = get_sender_reciever(request)
+        except:
+            return Response({'detail': "Invalid input"},
+                            status=status.HTTP_405_METHOD_NOT_ALLOWED)
         type = request.data["type_of_request"]
 
-        print(Request.Request_Type(1).name)
-        return Response({})
-
-        if not RequestType[type].value.validate(sender, reciever):
+        if not RequestType[Request.Request_Type(
+                type).name].value.validate(sender, reciever):
             return Response({'detail': "Action not allowed"},
                             status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
@@ -39,7 +40,7 @@ class RequestAPI(APIView):
             data = {
                 "sender": sender.user,
                 "reciever": reciever.user,
-                "type": Request.Request_Type[type]}
+                "type": Request.Request_Type[Request.Request_Type(type).name]}
 
             serializer = RequestSerializer()
 
@@ -67,7 +68,8 @@ class RequestAPI(APIView):
         except KeyError:
             return Response({"errors": "Invalid input data"}, status=405)
 
-        action = RequestType[req.get_type_display()].value()  # lol
+        action = RequestType[Request.Request_Type(
+            req.type).name].value()  # lol
 
         if answer == True:
             action.make(req.sender, req.reciever)

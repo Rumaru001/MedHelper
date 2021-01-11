@@ -1,10 +1,11 @@
+from requests.models import Request
 from django.db.models import fields
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from .models import Profile, User
+from .models import Profile, User, get_user_by_type
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -115,6 +116,35 @@ class ProfileSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'id': {'read_only': True},
             'user': {'read_only': True},
+        }
+
+
+class DoctorUserSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    number_of_requests = fields.IntegerField()
+    isAlreadyDoctorOfThisUser = fields.BooleanField()
+
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        user = None
+        request = self.context.get("request", False)
+        if request:
+            user = request.user
+        print(get_user_by_type(user), instance.patients.all())
+        inList = get_user_by_type(user) in instance.patients.all()
+        rep['isAlreadyDoctorOfThisUser'] = inList
+
+        rep['isRequested'] = Request.objects.filter(
+            sender=user, reciever=instance.user, type=2 if inList else 1).count() > 0
+
+        return rep
+
+    class Meta:
+        model = Profile
+        fields = ['user', "name", 'surname', 'sex', 'contact_number']
+        extra_kwargs = {
+            'id': {'read_only': True},
+            'user': {'read_only': True}
         }
 
 

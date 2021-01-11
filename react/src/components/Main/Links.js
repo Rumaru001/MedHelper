@@ -21,4 +21,6 @@ export const links = {
   },
   medical_card: "/medical_card",
   requests: "/request",
+  doctors: "/doctors",
+  patients: "/patients",
 };
