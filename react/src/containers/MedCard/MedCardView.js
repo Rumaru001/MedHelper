@@ -1,5 +1,5 @@
 import React from "react";
-import { PaginationBar } from "../../components/MedCard/PaginationBar";
+import { PaginationBar } from "../../components/Main/PaginationBar";
 import Base from "../../components/Main/Base";
 import { Assignment } from "../../components/MedCard/Assignment.js";
 import { Filters } from "../../components/MedCard/Filters";

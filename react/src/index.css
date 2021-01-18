@@ -275,7 +275,7 @@ code {
 .flex-column {
   display: flex;
   flex-flow: column;
-  height: 100%;
+  height: 100vh;
 }
 .max-free-height {
   flex: 1 1 auto;

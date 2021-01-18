@@ -11,6 +11,7 @@ function range(start, stop, step = 1) {
 
 export class PaginationBar extends React.Component {
   getObjects = (number, current) => {
+    console.log(number, current);
     var number_of_pages = number;
     if (number_of_pages < 7) {
       var ranges = range(1, number_of_pages + 1);
