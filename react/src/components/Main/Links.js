@@ -20,4 +20,7 @@ export const links = {
     register: "/register/",
   },
   medical_card: "/medical_card",
+  requests: "/request",
+  doctors: "/doctors",
+  patients: "/patients",
 };

@@ -7,7 +7,8 @@ import { PersonalAccountSideBar } from "../../components/PersonalAccount/Persona
 import "../../components/PersonalAccount/styles.css";
 import { Loading } from "../../components/Main/loading";
 import { handleLogout, Logout } from "../../components/Auth/Logout";
-import { AddButton } from "../../components/MedCard/AddButton";
+import Pluralize from "pluralize";
+import { links } from "../../components/Main/Links";
 
 export default class PersonalAccount extends React.Component {
   constructor(props) {
@@ -33,6 +34,7 @@ export default class PersonalAccount extends React.Component {
       return data;
     } catch (error) {
       console.log("Error: ", JSON.stringify(error, null, 4));
+
       throw error;
     }
   }
@@ -111,19 +113,36 @@ export default class PersonalAccount extends React.Component {
                         </Col>
                       </Button>{" "}
                     </Col>
+                    <Col className="mr-1 m-2 p-2">
+                      <Button
+                        className="btn-settings"
+                        href={links.doctors}
+                        variant="submit"
+                        size="lg"
+                      >
+                        <h2 className="text-lighter">Doctors</h2>
+                        <div>
+                          <h5 className="text-lighter">Some data</h5>
+                        </div>
+                      </Button>{" "}
+                    </Col>
                   </Col>
                   <Col>
                     <Col className=" m-2 p-2">
                       <Button
                         className="btn-s "
-                        href="/medical_card"
+                        href={links.requests}
                         variant="submit"
                         size="lg"
                       >
-                        <h2 className="text-lighter">MedCard</h2>
+                        <h2 className="text-lighter">Requests</h2>
                         <div>
                           <h5 className="text-lighter">
-                            Visit to a doctor on a 01-12-2020.
+                            {Pluralize(
+                              "request",
+                              this.state.profile.number_of_requests,
+                              true
+                            )}
                           </h5>
                         </div>
                       </Button>{" "}

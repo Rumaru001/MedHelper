@@ -13,6 +13,7 @@ const rules = {
       links.assignment.edit,
       links.assignment.view,
       links.medical_card,
+      links.requests,
     ],
   },
   1: {
@@ -27,6 +28,8 @@ const rules = {
       links.assignment.edit,
       links.assignment.view,
       links.medical_card,
+      links.requests,
+      links.doctors,
     ],
   },
   2: {
@@ -39,6 +42,8 @@ const rules = {
       links.assignment.add,
       links.assignment.edit,
       links.assignment.view,
+      links.requests,
+      links.patients,
     ],
   },
 };

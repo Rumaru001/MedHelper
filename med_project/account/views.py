@@ -1,10 +1,12 @@
+from .filters import DoctorFilter
+from requests.models import Request
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.generics import UpdateAPIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .permissions import IsOwner
 from .serializers import (
-    CustomTokenObtainPairSerializer, RegisterSerializer, ChangePasswordSerializer)
+    CustomTokenObtainPairSerializer, DoctorUserSerializer, RegisterSerializer, ChangePasswordSerializer)
 
 from django.shortcuts import render, get_object_or_404
 from rest_framework import status, permissions
@@ -12,7 +14,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from .serializers import ProfileSerializer, ProfileSerializerPut
-from .models import User, Profile
+from .models import Doctor, User, Profile, UserType, get_user_by_type
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
@@ -63,10 +65,11 @@ class ProfileAPI(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
-        user = request.user
-        profile_serializer = ProfileSerializer(user.profile)
-        profile_serializer.data['email'] = user.email
-        return Response(profile_serializer.data)
+        user: User = request.user
+        profile_serializer = ProfileSerializer(get_user_by_type(user))
+        data = profile_serializer.data
+        data["number_of_requests"] = len(user.incoming_requests.all())
+        return Response(data)
 
     def put(self, request, *args, **kwargs):
         user = request.user
@@ -81,3 +84,24 @@ class ProfileAPI(APIView):
         user = request.user
         user.profile.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class DeleteUserAPI(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, *args, **kwargs):
+        user: User = request.user
+        user.delete()
+        return Response({"detail": "Successful"}, status=status.HTTP_200_OK)
+
+
+class DoctorList(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        if not isinstance(get_user_by_type(request.user), Profile):
+            return Response({"detail": "You are not a patient"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+        doctors = Doctor.objects.all()
+        filters = DoctorFilter(request.GET, queryset=doctors, request=request)
+        return Response(DoctorUserSerializer(filters.qs, many=True, context={'request': request}).data)
