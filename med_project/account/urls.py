@@ -1,6 +1,6 @@
 from django.urls import path, include, re_path
 from django.views.generic import TemplateView
-from .views import CustomTokenObtainPairView, DeleteUserAPI, DoctorList, ProfileAPI
+from .views import CustomTokenObtainPairView, DeleteUserAPI, DoctorList, PatientList, ProfileAPI
 
 from django.urls import path
 
@@ -20,6 +20,7 @@ urlpatterns = [
     path('logout/', LogoutApiView.as_view(), name='logout'),
     path('delete/', DeleteUserAPI.as_view(), name='deleteUser'),
     re_path(r'^doctors/$', DoctorList.as_view(), name='doctors'),
+    re_path(r'^patients/$', PatientList.as_view(), name='patients'),
     path('change_password/', ChangePasswordView.as_view(),
          name='auth_change_password'),  # <int:pk>/
     path('users/profile/', ProfileAPI.as_view())

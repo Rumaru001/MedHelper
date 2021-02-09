@@ -7,6 +7,7 @@ from .models import Specification, Assignment, ExtraData, Tag
 from rest_framework.response import Response
 from .renderers import AssignmentJSONRenderer
 from account.permissions import has_obj_persmission
+from account.models import get_user_by_type, Profile, User
 
 
 class AssignmentsListView(APIView):
@@ -15,9 +16,10 @@ class AssignmentsListView(APIView):
 
     def get(self, request, *args, **kwargs):
 
-        size = kwargs.get('size',10^6)
+        size = kwargs.get('size', 10 ^ 6)
 
-        assignments = request.user.assignments.order_by("-create_date").all()[:size]
+        assignments = request.user.assignments.order_by(
+            "-create_date").all()[:size]
         serializer = AssignmentSerializer(assignments, many=True)
         data = {"assignments": serializer.data}
         return Response(data)
@@ -41,7 +43,18 @@ class AssignmentView(APIView):
         serializer = AssignmentSerializer()
 
         data = request.data
-        data['user'] = data.get('user', request.user.id)
+
+        assignment_user_id = data.pop('user_id', request.user.id)
+        try:
+            user_type = get_user_by_type(
+                get_object_or_404(User, pk=assignment_user_id))
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        print(user_type, assignment_user_id)
+        if not isinstance(user_type, Profile):
+            return Response({"detail": "Valid user type"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+        data['user'] = data.get('user', assignment_user_id)
         data['creator'] = data.get('creator', request.user.id)
         data['editor'] = data.get('editor', request.user.id)
 

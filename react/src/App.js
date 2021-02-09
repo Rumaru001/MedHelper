@@ -19,11 +19,12 @@ import Reminders from "./containers/Reminders/RemindersView";
 import SettingsView from "./containers/PersonalAccount/SettingsView";
 import RequestView from "./containers/Requests/RequestList";
 import { ListOfDoctors } from "./containers/Lists/ListOfDoctors";
+import { ListOfPatients } from "./containers/Lists/ListOfPatients";
 import { Forbidden } from "./components/Main/Fordidden";
 import rules from "./components/Main/rules";
 import jwtDecode from "jwt-decode";
 
-const getUserRole = () => {
+export const getUserRole = () => {
   var token = localStorage.getItem("access_token");
   var decoded = jwtDecode(token);
   return decoded["user_type"];
@@ -76,6 +77,7 @@ class App extends Component {
           />
           <Route_to path={links.requests} component={RequestView} />
           <Route_to path={links.doctors} component={ListOfDoctors} />
+          <Route_to path={links.patients} component={ListOfPatients} />
 
           <Route path="/hello/" component={Hello} />
           <Route exact path={links.auth.login} component={Login} />

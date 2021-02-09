@@ -5,23 +5,18 @@ import Base from "../../components/Main/Base";
 import axiosInstance from "../../axiosApi";
 import { BaseBar } from "../../components/Main/BaseBar";
 import { Loading } from "../../components/Main/loading";
-
-const server = {
-  errors: [],
-  specifications: [],
-  tags: ["a", "b"],
-  fileCounter: 1,
-};
-
-const id = 0;
+import { getUserRole } from "../../App";
+import { links } from "../../components/Main/Links";
 
 export default class MedCardAdd extends React.Component {
   constructor(props) {
     console.log(props);
     super(props);
+
     this.state = {
       files: "Choose files",
       loading: true,
+      user_role: getUserRole(),
     };
   }
 
@@ -53,21 +48,21 @@ export default class MedCardAdd extends React.Component {
   onChange(e) {
     const data = this.state.data;
     data[e.target.name] = e.target.value;
-    this.setState(
-      {
-        ...this.state.data,
-        data: data,
-      },
-      () => {
-        console.log(this.state);
-      }
-    );
+    this.setState({
+      ...this.state.data,
+      data: data,
+    });
   }
 
   async handleSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
+    // console.log(this.state);
     const data = this.state.data;
+    console.log(this.props);
+    const user_id = this.props.location.state.user_id;
+    if (user_id !== undefined) {
+      data.user_id = user_id;
+    }
     console.log(data);
     data.data = {
       files: this.state.files != "Choose files" ? this.state.files : [],
@@ -76,7 +71,9 @@ export default class MedCardAdd extends React.Component {
     try {
       let response = await axiosInstance.post("/assignment/create", data);
       if (response.status >= 200 && response.status < 300) {
-        this.props.history.push("/medical_card");
+        this.props.history.push(
+          this.state.user_role == 1 ? links.medical_card : links.patients
+        );
       }
     } catch (error) {
       console.log("Error: ", JSON.stringify(error, null, 4));
@@ -170,32 +167,36 @@ export default class MedCardAdd extends React.Component {
                         </Form.Control>
                       </InputGroup>
 
-                      <InputGroup className="mb-3 ">
-                        <InputGroup.Prepend className="w-25 text-center">
-                          <InputGroup.Text
-                            id="SpecAssignment"
-                            className="nowrap child-center"
-                          >
-                            <p className="m-0">Tag</p>
-                          </InputGroup.Text>
-                        </InputGroup.Prepend>
+                      {this.state.user_role == 1 ? (
+                        <InputGroup className="mb-3 ">
+                          <InputGroup.Prepend className="w-25 text-center">
+                            <InputGroup.Text
+                              id="SpecAssignment"
+                              className="nowrap child-center"
+                            >
+                              <p className="m-0">Tag</p>
+                            </InputGroup.Text>
+                          </InputGroup.Prepend>
 
-                        <Form.Control
-                          as="select"
-                          onChange={(e) => this.onChange(e)}
-                          defaultValue=""
-                          name="tag"
-                        >
-                          <option value="">Choose here</option>
-                          {this.state.tags.map((element, index) => {
-                            return (
-                              <option key={index} value={element.id}>
-                                {element.name}
-                              </option>
-                            );
-                          })}
-                        </Form.Control>
-                      </InputGroup>
+                          <Form.Control
+                            as="select"
+                            onChange={(e) => this.onChange(e)}
+                            defaultValue=""
+                            name="tag"
+                          >
+                            <option value="">Choose here</option>
+                            {this.state.tags.map((element, index) => {
+                              return (
+                                <option key={index} value={element.id}>
+                                  {element.name}
+                                </option>
+                              );
+                            })}
+                          </Form.Control>
+                        </InputGroup>
+                      ) : (
+                        ""
+                      )}
 
                       <InputGroup className="mb-3">
                         <InputGroup.Prepend className="w-25 text-center">
