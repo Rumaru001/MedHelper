@@ -1,10 +1,8 @@
-from .filters import DoctorFilter
-from requests.models import Request
+from .filters import DoctorFilter, UserFilter
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.generics import UpdateAPIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .permissions import IsOwner
 from .serializers import (
     CustomTokenObtainPairSerializer, DoctorUserSerializer, RegisterSerializer, ChangePasswordSerializer)
 from django.core.paginator import EmptyPage, Paginator
@@ -115,5 +113,28 @@ class DoctorList(APIView):
             page_obj = paginator.get_page(1)
 
         return Response({"obj_list": DoctorUserSerializer(page_obj.object_list, many=True, context={'request': request}).data,
+                         "pages_number": paginator.num_pages,
+                         "current_page": page_obj.number})
+
+
+class PatientList(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        user_type = get_user_by_type(request.user)
+        if not isinstance(user_type, Doctor):
+            return Response({"detail": "Valid user type"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+        patients = user_type.patients
+        filtered = UserFilter(request.GET, queryset=patients, request=request)
+        paginator = Paginator(filtered.qs.order_by(
+            'id'), request.GET.get("per_page", 10))
+        try:
+            page_obj = paginator.get_page(request.GET.get("current_page", 1))
+        except EmptyPage:
+            print("ERROR")
+            page_obj = paginator.get_page(1)
+
+        return Response({"obj_list": ProfileSerializer(page_obj.object_list, many=True, context={'request': request}).data,
                          "pages_number": paginator.num_pages,
                          "current_page": page_obj.number})

@@ -18,3 +18,11 @@ class DoctorFilter(FilterSet):
             queryset = queryset.filter(
                 patients__in=[get_user_by_type(self.request.user)])
         return queryset
+
+class UserFilter(FilterSet):
+    name = CharFilter(field_name="name", lookup_expr="contains")
+    surname = CharFilter(field_name="surname", lookup_expr="contains")
+
+    class Meta:
+        model = Doctor
+        fields = ['sex', 'name', 'surname']
