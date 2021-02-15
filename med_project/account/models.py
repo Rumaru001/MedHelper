@@ -9,6 +9,8 @@ from django.contrib.auth.models import (
 from django.conf import settings
 
 
+
+
 class UserManager(BaseUserManager):
     """
     Django requires that custom users define their own Manager class. By
@@ -113,6 +115,9 @@ class Profile(models.Model):
 
 
 class Doctor(models.Model):
+
+    from assignment.models import Specification
+
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, null=True, related_name='doctor_profile')
 
@@ -125,7 +130,9 @@ class Doctor(models.Model):
     surname = models.CharField(max_length=35, blank=True)
     contact_number = models.CharField(max_length=10, blank=True)
     sex = models.CharField(max_length=1, choices=SEX_CHOICES, blank=True)
-
+    specification = models.ForeignKey(
+        Specification, on_delete=models.SET_NULL, null=True)
+    clinic = models.CharField(max_length=64,blank=True)
     patients = models.ManyToManyField(Profile, related_name="doctors")
 
     # class Meta:
