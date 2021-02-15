@@ -99,16 +99,16 @@ export default class PersonalAccount extends React.Component {
 
                         <Col className="mx-auto p-auto my-2">
                           <Button className="my-2 p-2 btn-reminders-child">
-                            <h5>Some text here to remember</h5>
+                            <h5>Appointment to an ophthalmologist on February 13 at 2:15 p.m.</h5>
                           </Button>
                           <Button className="my-2 p-2 btn-reminders-child">
-                            <h5>And some text here to remember</h5>
+                            <h5>Visit medical center to process data</h5>
                           </Button>
                           <Button className="my-2 p-2 btn-reminders-child">
-                            <h5>You know and here some text to remember</h5>
+                            <h5>Results of urine tests</h5>
                           </Button>
                           <Button className="my-2 p-2 btn-reminders-child">
-                            <h5>You know and here some text to remember</h5>
+                            <h5>Fill your personal data on site</h5>
                           </Button>
                         </Col>
                       </Button>{" "}

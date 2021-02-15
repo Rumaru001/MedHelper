@@ -6,6 +6,7 @@ import axiosInstance from "../../axiosApi";
 import {PersonalAccountSideBar} from "../../components/PersonalAccount/PersonalSideBar";
 import {AddButton} from "../../components/MedCard/AddButton";
 import "../../../src/components/PersonalAccount/styles.css";
+import {Loading} from "../../components/Main/loading";
 
 const server = {
     errors: [],
@@ -51,7 +52,6 @@ export default class PersonalAccountSettings extends React.Component {
 
         super(props);
         this.state = {
-            ...server,
             loading: true,
             file_value: ""
         }
@@ -122,11 +122,7 @@ export default class PersonalAccountSettings extends React.Component {
 
     render() {
         return this.state.loading ? (
-            <div className="d-flex justify-content-center center_loading">
-                <div className="spinner-border" role="status">
-                    <span className="sr-only">Loading...</span>
-                </div>
-            </div>
+          <Loading />
         ) : (
             <>
                 <Base

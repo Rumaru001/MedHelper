@@ -88,6 +88,18 @@
   background-color: rgba(201, 123, 115, 0.87);
   color: #fefefe;
 }
+.btn-reminders-page {
+  justify-content: left;
+  border-radius: 10px;
+  border-color: rgba(42, 63, 87, 0.54);
+  width: 100%;
+  background-color: rgba(42, 63, 87, 0.54);
+  color: #fefefe;
+}
+.btn-reminders-page:hover {
+  background-color: rgba(42, 63, 87, 0.54);
+  color: #fefefe;
+}
 .btn-settings {
   border-radius: 30px;
   background-color: rgb(53, 182, 91);
