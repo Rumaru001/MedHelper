@@ -26,12 +26,31 @@ export default class PersonalAccount extends React.Component {
       const data = response.data;
       let response_assignment = await axiosInstance.get("assignment/last");
       const data_assignment = response_assignment.data.assignment;
+      let response_message = await axiosInstance.get("messages/");
+      const data_messages = response_message.data;
       this.setState({
         profile: data,
         assignment: data_assignment,
+        messages: data_messages,
         loading: false,
       });
       return data;
+    } catch (error) {
+      console.log("Error: ", JSON.stringify(error, null, 4));
+
+      throw error;
+    }
+  }
+
+  async MessageDelete(id, index) {
+    try {
+      let response = await axiosInstance.delete(`messages/delete/${id}/`);
+      const data_messages = this.state.messages;
+      data_messages.splice(index, 1);
+      this.setState({
+        ...this.state,
+        messages: data_messages,
+      });
     } catch (error) {
       console.log("Error: ", JSON.stringify(error, null, 4));
 
@@ -64,8 +83,34 @@ export default class PersonalAccount extends React.Component {
           }
           main={
             <>
-              <Container>
-                <Row className="p-5-c mt-4">
+              <Container className="py-4">
+                <Row>
+                  <Col className="">
+                    {this.state.messages.length > 0
+                      ? this.state.messages.map((message, index) => {
+                          return (
+                            <div
+                              className="message text-white p-2 pl-5 pr-3 mx-auto rounded-custom child-center mb-3"
+                              key={index}
+                            >
+                              <div className="d-inline-block w-100 py-3">
+                                {message.text}
+                              </div>
+                              <div
+                                className="p-3"
+                                onClick={() =>
+                                  this.MessageDelete(message.id, index)
+                                }
+                              >
+                                X
+                              </div>
+                            </div>
+                          );
+                        })
+                      : " "}
+                  </Col>
+                </Row>
+                <Row className="p-5-c">
                   <Col>
                     <Col className="mr-1 m-2 p-2">
                       <Button
@@ -99,7 +144,10 @@ export default class PersonalAccount extends React.Component {
 
                         <Col className="mx-auto p-auto my-2">
                           <Button className="my-2 p-2 btn-reminders-child">
-                            <h5>Appointment to an ophthalmologist on February 13 at 2:15 p.m.</h5>
+                            <h5>
+                              Appointment to an ophthalmologist on February 13
+                              at 2:15 p.m.
+                            </h5>
                           </Button>
                           <Button className="my-2 p-2 btn-reminders-child">
                             <h5>Visit medical center to process data</h5>
