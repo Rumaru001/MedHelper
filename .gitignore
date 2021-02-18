@@ -13,4 +13,5 @@ med_project/med_project/.env
 /node_modules
 .env
 build
+.ipynb_checkpoints
 
