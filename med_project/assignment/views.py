@@ -115,7 +115,7 @@ class LastAssignment(APIView):
         return Response(data)
 
 
-class SpeceficatiomListView(APIView):
+class SpeceficationListView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):

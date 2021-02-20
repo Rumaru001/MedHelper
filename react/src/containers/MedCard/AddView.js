@@ -14,7 +14,7 @@ export default class MedCardAdd extends React.Component {
     super(props);
 
     this.state = {
-      files: "Choose files",
+      extraData: {},
       loading: true,
       user_role: getUserRole(),
     };
@@ -28,7 +28,9 @@ export default class MedCardAdd extends React.Component {
       const tags = response_tags.data;
       this.setState({
         data: {},
-        files: "Choose files",
+        extraData: {
+          cp: "asymptomatic",
+        },
         specifications: specs,
         tags: tags,
         loading: false,
@@ -45,13 +47,14 @@ export default class MedCardAdd extends React.Component {
     this.getData();
   }
 
-  onChange(e) {
-    const data = this.state.data;
+  onChange(e, filed = "data") {
+    const data = this.state[filed];
     data[e.target.name] = e.target.value;
     this.setState({
       ...this.state.data,
-      data: data,
+      [filed]: data,
     });
+    console.log(this.state);
   }
 
   async handleSubmit(e) {
@@ -59,14 +62,12 @@ export default class MedCardAdd extends React.Component {
     // console.log(this.state);
     const data = this.state.data;
     console.log(this.props);
-    const user_id = this.props.location.state.user_id;
+    const user_id = this.props.location.state?.user_id;
     if (user_id !== undefined) {
       data.user_id = user_id;
     }
     console.log(data);
-    data.data = {
-      files: this.state.files != "Choose files" ? this.state.files : [],
-    };
+    data.data = this.state.extraData;
 
     try {
       let response = await axiosInstance.post("/assignment/create", data);
@@ -80,19 +81,6 @@ export default class MedCardAdd extends React.Component {
       throw error;
     }
   }
-
-  handleFileChange = (e) => {
-    var files = e.target.files;
-    this.setState({
-      ...this.state,
-      files:
-        files.length == 1
-          ? files[0].name
-          : files.length < 1
-          ? "Choose files..."
-          : `${files.length} files selected`,
-    });
-  };
 
   render() {
     return this.state.loading ? (
@@ -198,6 +186,83 @@ export default class MedCardAdd extends React.Component {
                         ""
                       )}
 
+                      {this.state.data.specification == "5" ? (
+                        <>
+                          <InputGroup className="mb-3 ">
+                            <InputGroup.Prepend className="w-25 text-center">
+                              <InputGroup.Text
+                                id="ChestPain"
+                                className="nowrap child-center"
+                              >
+                                <p className="m-0">Chest pain type</p>
+                              </InputGroup.Text>
+                            </InputGroup.Prepend>
+
+                            <Form.Control
+                              as="select"
+                              onChange={(e) => this.onChange(e, "extraData")}
+                              defaultValue="asymptomatic"
+                              name="cp"
+                            >
+                              <option>typical angina</option>
+                              <option> atypical angina</option>
+                              <option> non-anginal pain</option>
+                              <option>asymptomatic</option>
+                            </Form.Control>
+                          </InputGroup>
+
+                          <InputGroup className="mb-3 ">
+                            <InputGroup.Prepend className="w-25 text-center">
+                              <InputGroup.Text
+                                id="Angina"
+                                className="nowrap child-center"
+                              >
+                                <p className="m-0">Exercise induced angina?</p>
+                              </InputGroup.Text>
+                            </InputGroup.Prepend>
+
+                            <Form.Check
+                              type="radio"
+                              name="exang"
+                              id="exang-no"
+                              value="0"
+                              label="No"
+                              onChange={(e) => this.onChange(e, "extraData")}
+                            />
+                            <Form.Check
+                              type="radio"
+                              name="exang"
+                              id="exang-yes"
+                              value="1"
+                              onChange={(e) => this.onChange(e, "extraData")}
+                              label="Yes"
+                            />
+                          </InputGroup>
+
+                          <InputGroup className="mb-3 ">
+                            <InputGroup.Prepend className="w-25 text-center">
+                              <InputGroup.Text
+                                id="MaxRate"
+                                className="nowrap child-center"
+                              >
+                                <p className="m-0">
+                                  Maximum heart rate achieved{" "}
+                                </p>
+                              </InputGroup.Text>
+                            </InputGroup.Prepend>
+
+                            <Form.Control
+                              name="thalach"
+                              onChange={(e) => this.onChange(e, "extraData")}
+                              type="number"
+                              maxLength="400"
+                            />
+                          </InputGroup>
+                        </>
+                      ) : (
+                        " "
+                      )}
+
                       <InputGroup className="mb-3">
                         <InputGroup.Prepend className="w-25 text-center">
                           <InputGroup.Text
@@ -216,33 +281,6 @@ export default class MedCardAdd extends React.Component {
                           required
                           placeholder="Enter description on assignment"
                         />
-                      </InputGroup>
-
-                      <InputGroup className="mb-3">
-                        <InputGroup.Prepend className="w-25 text-center">
-                          <InputGroup.Text
-                            id="file-prepend"
-                            className="nowrap child-center"
-                          >
-                            <p className="m-0">Upload files</p>
-                          </InputGroup.Text>
-                        </InputGroup.Prepend>
-                        <div className="custom-file hover_effect">
-                          <Form.File
-                            className="position-relative custom-file-input"
-                            name="files"
-                            id="files"
-                            onChange={(e) => this.handleFileChange(e)}
-                            aria-describedby="file-prepend"
-                            multiple
-                          />
-                          <label
-                            className="custom-file-label text-secondary"
-                            htmlFor="files"
-                          >
-                            {this.state.files}
-                          </label>
-                        </div>
                       </InputGroup>
 
                       <Row>

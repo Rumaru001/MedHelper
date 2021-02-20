@@ -37,6 +37,32 @@ export default class MedCardAssignment extends React.Component {
     this.getAssignment();
   }
 
+  getExtraData() {
+    var data = this.state.assignment.data.data;
+    var keys = Object.keys(data);
+
+    if (keys.length > 0) {
+      const dict = {
+        cp: "Chain pain type",
+        exang: "Exercise induced angina",
+        thalach: "Maximum heart rate",
+      };
+      console.log(data);
+      return (
+        <div className="pl-5">
+          {keys.map((key, index) => {
+            return (
+              <p key={index}>
+                <b>{dict[key]}:</b> {data[key]}
+              </p>
+            );
+          })}
+        </div>
+      );
+    }
+    return <p>None</p>;
+  }
+
   render() {
     return this.state.loading ? (
       <Loading />
@@ -99,23 +125,8 @@ export default class MedCardAssignment extends React.Component {
                 </Row>
                 <Row>
                   <Col>
-                    <p className="h5 mt-5  mb-4 text-justify">Files:</p>
-                    {this.state.assignment.data.data.files.length < 1 ? (
-                      <p className="">No files</p>
-                    ) : (
-                      this.state.assignment.data.data.files.map((file) => {
-                        return (
-                          <Link
-                            to={`/files/${id}/${file}`}
-                            className="text-decoration-none"
-                          >
-                            <div className="file-assignment-view bg-gray my-4 p-3 pl-4 text-dark">
-                              <p className="m-0">{file}</p>
-                            </div>
-                          </Link>
-                        );
-                      })
-                    )}
+                    <p className="h5 mt-5  mb-4 text-justify">Extra data:</p>
+                    {this.getExtraData()}
                   </Col>
                 </Row>
                 <Row className="mt-2">

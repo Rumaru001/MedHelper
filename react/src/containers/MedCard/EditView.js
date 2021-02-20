@@ -6,37 +6,32 @@ import axiosInstance from "../../axiosApi";
 import { BaseBar } from "../../components/Main/BaseBar";
 import { Loading } from "../../components/Main/loading";
 
-
-
 export default class MedCardEdit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       data: {},
+      extraData: {},
       id: props.match.params.id,
       loading: true,
     };
   }
 
-  onChange(e) {
-    const data = this.state.data;
+  onChange(e, filed = "data") {
+    const data = this.state[filed];
     data[e.target.name] = e.target.value;
-    this.setState(
-      {
-        ...this.state.data,
-        data: data,
-      },
-      console.log(this.state)
-    );
+    this.setState({
+      ...this.state.data,
+      [filed]: data,
+    });
+    console.log(this.state);
   }
 
   async handleSubmit(e) {
     e.preventDefault();
     console.log(this.state);
     const data = this.state.data;
-    data.data = {
-      files: this.state.files !== "Choose files" ? this.state.files : [],
-    };
+    data.data = this.state.extraData;
     console.log(data);
     try {
       let response = await axiosInstance.put(
@@ -66,7 +61,10 @@ export default class MedCardEdit extends React.Component {
       this.setState({
         ...this.state,
         assignment: assignment,
-        files: "Choose files",
+        extraData: assignment.data.data,
+        data: {
+          specification: assignment.specification.id,
+        },
         specifications: specs,
         tags: tags,
         loading: false,
@@ -83,43 +81,9 @@ export default class MedCardEdit extends React.Component {
     this.getData();
   }
 
-  handleFileChange = (e) => {
-    var files = e.target.files;
-    this.setState({
-      ...this.state,
-      file_value:
-        files.length == 1
-          ? files[0].name
-          : files.length < 1
-          ? "Choose files..."
-          : `${files.length} files selected`,
-    });
-  };
-
-  deleteFile = (index) => {
-    if (
-      confirm(
-        `Are you sure that you want to delete ${this.state.assignment.files[index]}?`
-      )
-    ) {
-      console.log(this.state);
-      const assignment = { ...this.state.assignment };
-      assignment.files.splice(index, 1);
-      this.setState(
-        {
-          ...this.state,
-          assignment: assignment,
-        },
-        () => {
-          console.log(this.state);
-        }
-      );
-    }
-  };
-
   render() {
     return this.state.loading ? (
-      <Loading/>
+      <Loading />
     ) : (
       <>
         <Base
@@ -219,6 +183,86 @@ export default class MedCardEdit extends React.Component {
                         </Form.Control>
                       </InputGroup>
 
+                      {this.state.data.specification == "5" ? (
+                        <>
+                          <InputGroup className="mb-3 ">
+                            <InputGroup.Prepend className="w-25 text-center">
+                              <InputGroup.Text
+                                id="ChestPain"
+                                className="nowrap child-center btn-settings-nonChange"
+                              >
+                                <p className="m-0">Chest pain type</p>
+                              </InputGroup.Text>
+                            </InputGroup.Prepend>
+
+                            <Form.Control
+                              as="select"
+                              onChange={(e) => this.onChange(e, "extraData")}
+                              defaultValue={this.state.extraData.cp}
+                              name="cp"
+                            >
+                              <option>typical angina</option>
+                              <option> atypical angina</option>
+                              <option> non-anginal pain</option>
+                              <option>asymptomatic</option>
+                            </Form.Control>
+                          </InputGroup>
+
+                          <InputGroup className="mb-3 ">
+                            <InputGroup.Prepend className="w-25 text-center">
+                              <InputGroup.Text
+                                id="Angina"
+                                className="nowrap child-center btn-settings-nonChange"
+                              >
+                                <p className="m-0">Exercise induced angina?</p>
+                              </InputGroup.Text>
+                            </InputGroup.Prepend>
+
+                            <Form.Check
+                              type="radio"
+                              name="exang"
+                              id="exang-no"
+                              value="0"
+                              label="No"
+                              onChange={(e) => this.onChange(e, "extraData")}
+                              defaultChecked={this.state.extraData.exang == 0}
+                            />
+                            <Form.Check
+                              type="radio"
+                              name="exang"
+                              id="exang-yes"
+                              value="1"
+                              onChange={(e) => this.onChange(e, "extraData")}
+                              defaultChecked={this.state.extraData.exang == 1}
+                              label="Yes"
+                            />
+                          </InputGroup>
+
+                          <InputGroup className="mb-3 ">
+                            <InputGroup.Prepend className="w-25 text-center">
+                              <InputGroup.Text
+                                id="MaxRate"
+                                className="nowrap child-center btn-settings-nonChange"
+                              >
+                                <p className="m-0">
+                                  Maximum heart rate achieved{" "}
+                                </p>
+                              </InputGroup.Text>
+                            </InputGroup.Prepend>
+
+                            <Form.Control
+                              name="thalach"
+                              onChange={(e) => this.onChange(e, "extraData")}
+                              type="number"
+                              defaultValue={this.state.extraData.thalach}
+                              maxLength="400"
+                            />
+                          </InputGroup>
+                        </>
+                      ) : (
+                        " "
+                      )}
+
                       <InputGroup className="mb-3">
                         <InputGroup.Prepend className="w-25 text-center">
                           <InputGroup.Text
@@ -238,61 +282,6 @@ export default class MedCardEdit extends React.Component {
                           placeholder="Enter description on assignment"
                           defaultValue={this.state.assignment.text}
                         />
-                      </InputGroup>
-
-                      <p className="h5 mt-5  mb-4 text-justify">Files:</p>
-                      {this.state.assignment.data.data.files.map(
-                        (file, index) => {
-                          return (
-                            <div className="file-assignment-view bg-gray my-4 p-3 pl-4 text-dark d-flex child-center">
-                              <Link
-                                to={`/files/${id}/${file}`}
-                                className="text-decoration-none w-50"
-                              >
-                                <p className="m-0 text-dark">{file}</p>
-                              </Link>
-
-                              <Button
-                                variant="danger"
-                                type="button"
-                                className="ml-auto"
-                                onClick={() => {
-                                  this.deleteFile(index);
-                                }}
-                              >
-                                Remove
-                              </Button>
-                            </div>
-                          );
-                        }
-                      )}
-
-                      <InputGroup className="mb-3">
-                        <InputGroup.Prepend className="w-25 text-center">
-                          <InputGroup.Text
-                            id="file-prepend"
-                            className="nowrap child-center btn-settings-nonChange"
-                          >
-                            <p className="m-0">Upload files</p>
-                          </InputGroup.Text>
-                        </InputGroup.Prepend>
-
-                        <div className="custom-file hover_effect">
-                          <Form.File
-                            className="position-relative custom-file-input"
-                            name="files"
-                            id="files"
-                            onChange={(e) => this.handleFileChange(e)}
-                            aria-describedby="file-prepend"
-                            multiple
-                          />
-                          <label
-                            className="custom-file-label text-secondary"
-                            htmlFor="files"
-                          >
-                            {this.state.files}
-                          </label>
-                        </div>
                       </InputGroup>
 
                       <Row>
