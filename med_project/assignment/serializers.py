@@ -63,7 +63,9 @@ class AssignmentSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         self.validate(validated_data)
-        data = ExtraData.objects.create(**{"data": validated_data.pop("data")})
+        e = validated_data.pop("data")
+        print(e)
+        data = ExtraData.objects.create(**{"data": e})
         specification = get_object_or_404(
             Specification, pk=int(validated_data.pop("specification")))
 
@@ -83,6 +85,7 @@ class AssignmentSerializer(serializers.ModelSerializer):
         extraData = validated_data.pop("data", False)
         if extraData:
             eData = instance.data
-            eData.data['files'] = extraData['files']
+            eData.data = extraData
+            eData.save()
         instance.save()
         Assignment.objects.filter(pk=instance.pk).update(**validated_data)
