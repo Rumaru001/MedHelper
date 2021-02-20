@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col, InputGroup } from "react-bootstrap";
 import { Devider } from "../Main/Devider";
 import "./styles.css";
-import {Logout} from "../Auth/Logout";
+import { getUserRole } from "../../App";
 
 const side_bar_text = {
   text: {
@@ -48,6 +48,7 @@ export class PersonalAccountSideBar extends React.Component {
                       <h3 className="justify-content-center child-center text-lighter text-responsive">
                         {this.props.profile.name} {this.props.profile.surname}
                       </h3>
+                      <h5>{getUserRole() == 2 ? "Doctor" : "Patient"}</h5>
                     </div>
                   </div>
                 </Row>
@@ -138,7 +139,6 @@ export class PersonalAccountSideBar extends React.Component {
         </Row>
 
         <Devider />
-
       </>
     );
   }

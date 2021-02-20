@@ -9,6 +9,7 @@ import { Loading } from "../../components/Main/loading";
 import { handleLogout, Logout } from "../../components/Auth/Logout";
 import Pluralize from "pluralize";
 import { links } from "../../components/Main/Links";
+import { getUserRole } from "../../App";
 
 export default class PersonalAccount extends React.Component {
   constructor(props) {
@@ -112,35 +113,42 @@ export default class PersonalAccount extends React.Component {
                 </Row>
                 <Row className="p-5-c">
                   <Col>
-                    <Col className="mr-1 m-2 p-2">
-                      <Button
-                        className="btn-med_card "
-                        href="/medical_card"
-                        variant="submit"
-                        size="lg"
-                      >
-                        <h2 className="text-lighter">MedCard</h2>
-                        <h5 className="text-lighter">
-                          <p>{this.state.assignment.name}</p>
-                          <p>
-                            {this.manageTextLength(this.state.assignment.text)}
-                          </p>
-                        </h5>
-                      </Button>{" "}
-                    </Col>
-                    <Col className="mr-1 m-2 p-2">
-                      <Button
-                        className="btn-reminders"
-                        href="/reminders"
-                        variant="submit"
-                      >
-                        <h1 className="divider">
-                          <hr />
-                        </h1>
-                        <h2 className="text-lighter">Reminders</h2>
-                        <h1 className="divider">
-                          <hr />
-                        </h1>
+                    {getUserRole() == 2 ? (
+                      ""
+                    ) : (
+                      <>
+                        <Col className="mr-1 m-2 p-2">
+                          <Button
+                            className="btn-med_card "
+                            href="/medical_card"
+                            variant="submit"
+                            size="lg"
+                          >
+                            <h2 className="text-lighter">MedCard</h2>
+                            <h5 className="text-lighter">
+                              <p>{this.state.assignment.name}</p>
+                              <p>
+                                {this.manageTextLength(
+                                  this.state.assignment.text
+                                )}
+                              </p>
+                            </h5>
+                          </Button>{" "}
+                        </Col>
+                        <Col className="mr-1 m-2 p-2">
+                          <Button
+                            className="btn-reminders"
+                            href="/reminders"
+                            variant="submit"
+                          >
+                            <h1 className="divider">
+                              <hr />
+                            </h1>
+                            <h2 className="text-lighter">Reminders</h2>
+                            <h1 className="divider">
+                              <hr />
+                            </h1>
+
 
                         <Col className="mx-auto p-auto my-2">
                           <Button className="my-2 p-2 btn-reminders-child">
@@ -158,17 +166,22 @@ export default class PersonalAccount extends React.Component {
                           <Button className="my-2 p-2 btn-reminders-child">
                             <h5>Fill your personal data on site</h5>
                           </Button>
+
                         </Col>
-                      </Button>{" "}
-                    </Col>
+                      </>
+                    )}
                     <Col className="mr-1 m-2 p-2">
                       <Button
                         className="btn-settings"
-                        href={links.doctors}
+                        href={
+                          getUserRole() == 2 ? links.patients : links.doctors
+                        }
                         variant="submit"
                         size="lg"
                       >
-                        <h2 className="text-lighter">Doctors</h2>
+                        <h2 className="text-lighter">
+                          {getUserRole() == 2 ? "Patients" : "Doctors"}
+                        </h2>
                         <div>
                           <h5 className="text-lighter">Some data</h5>
                         </div>
