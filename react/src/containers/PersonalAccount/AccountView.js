@@ -98,7 +98,7 @@ export default class PersonalAccount extends React.Component {
                                 {message.text}
                               </div>
                               <div
-                                className="p-3"
+                                className="p-3 hover_effect"
                                 onClick={() =>
                                   this.MessageDelete(message.id, index)
                                 }
@@ -149,24 +149,24 @@ export default class PersonalAccount extends React.Component {
                               <hr />
                             </h1>
 
-
-                        <Col className="mx-auto p-auto my-2">
-                          <Button className="my-2 p-2 btn-reminders-child">
-                            <h5>
-                              Appointment to an ophthalmologist on February 13
-                              at 2:15 p.m.
-                            </h5>
-                          </Button>
-                          <Button className="my-2 p-2 btn-reminders-child">
-                            <h5>Visit medical center to process data</h5>
-                          </Button>
-                          <Button className="my-2 p-2 btn-reminders-child">
-                            <h5>Results of urine tests</h5>
-                          </Button>
-                          <Button className="my-2 p-2 btn-reminders-child">
-                            <h5>Fill your personal data on site</h5>
-                          </Button>
-
+                            <Col className="mx-auto p-auto my-2">
+                              <Button className="my-2 p-2 btn-reminders-child">
+                                <h5>
+                                  Appointment to an ophthalmologist on February
+                                  13 at 2:15 p.m.
+                                </h5>
+                              </Button>
+                              <Button className="my-2 p-2 btn-reminders-child">
+                                <h5>Visit medical center to process data</h5>
+                              </Button>
+                              <Button className="my-2 p-2 btn-reminders-child">
+                                <h5>Results of urine tests</h5>
+                              </Button>
+                              <Button className="my-2 p-2 btn-reminders-child">
+                                <h5>Fill your personal data on site</h5>
+                              </Button>
+                            </Col>
+                          </Button>{" "}
                         </Col>
                       </>
                     )}

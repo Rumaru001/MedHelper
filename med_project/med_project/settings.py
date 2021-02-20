@@ -49,8 +49,10 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
-
+    'background_task',
     'corsheaders',
+
+    'recommendation.apps.RecommendationConfig',
     "requests",
     "popup_messeges",
     "assignment",
