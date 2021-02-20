@@ -52,6 +52,7 @@ INSTALLED_APPS = [
 
     'corsheaders',
     "requests",
+    "popup_messeges",
     "assignment",
     "account.apps.AccountConfig",
 ]
