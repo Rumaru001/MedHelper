@@ -15,3 +15,34 @@ urlpatterns = [
     path('api/messages/', include('popup_messeges.urls'))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+def run():
+    from background_task import background
+    from recommendation.views import HeartDisease
+    from popup_messeges.models import Message
+
+    time = 60
+
+    @background(schedule=time)
+    def pr():
+        print('Creating model')
+        model = HeartDisease()
+        print("Model created\nPreparing data and suggesting recommandations")
+
+        res = model.predict()
+        print(res)
+
+        for user_id, flag in res:
+            if flag:
+                Message(
+                    user_id=user_id, text="Recommandation: you should visit a cardiologist").save()
+        print(
+            f"Recomandation system finished successfully \nlen: {len(res)}")
+
+    from datetime import datetime, timedelta
+    # pr(repeat=60, repeat_until=datetime.now() + timedelta(seconds=185))
+    pr()
+
+
+run()

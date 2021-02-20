@@ -43,6 +43,8 @@ class Assignment(models.Model):
     editor = models.ForeignKey(User, related_name="modificated_assignments",
                                on_delete=models.DO_NOTHING)
 
+    used_for_prediction = models.BooleanField(default=False)
+
     def save(self, *args, **kwargs):
         self.editing_date = timezone.now()
         return super(Assignment, self).save(*args, **kwargs)

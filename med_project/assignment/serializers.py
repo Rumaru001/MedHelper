@@ -85,7 +85,10 @@ class AssignmentSerializer(serializers.ModelSerializer):
         extraData = validated_data.pop("data", False)
         if extraData:
             eData = instance.data
+            flag = eData.data == extraData
             eData.data = extraData
             eData.save()
+            instance.used_for_prediction = flag
+            print(flag, instance.used_for_prediction)
         instance.save()
         Assignment.objects.filter(pk=instance.pk).update(**validated_data)
