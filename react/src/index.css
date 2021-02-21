@@ -170,7 +170,7 @@ code {
     width: 25%;
     min-height: 10vh !important;
     z-index: 100;
-    padding: 48px 0 0;
+    padding: 25px 0 0;
   }
 
   .flex-direction-column {
@@ -210,6 +210,9 @@ code {
 }
 
 @media (max-width: 992px) {
+  .navbar-custom {
+    padding-left: 30px;
+  }
   #sidebar-wrapper {
     width: 0;
     padding: 0 !important;
@@ -340,7 +343,13 @@ code {
 }
 
 .message {
-  width: 90%;
+  width: 92%;
   min-height: 50px;
   background-color: #4a4e69;
+}
+
+.menu-options {
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1.7rem;
 }

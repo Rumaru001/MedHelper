@@ -111,13 +111,13 @@ export default class PersonalAccount extends React.Component {
                       : " "}
                   </Col>
                 </Row>
-                <Row className="p-5-c">
+                <Row className="p-5-c mt-0 pt-0">
                   <Col>
                     {getUserRole() == 2 ? (
                       ""
                     ) : (
                       <>
-                        <Col className="mr-1 m-2 p-2">
+                        <Col className="p-0 menu-options">
                           <Button
                             className="btn-med_card "
                             href="/medical_card"
@@ -135,7 +135,7 @@ export default class PersonalAccount extends React.Component {
                             </h5>
                           </Button>{" "}
                         </Col>
-                        <Col className="mr-1 m-2 p-2">
+                        <Col className="p-0 menu-options">
                           <Button
                             className="btn-reminders"
                             href="/reminders"
@@ -170,7 +170,7 @@ export default class PersonalAccount extends React.Component {
                         </Col>
                       </>
                     )}
-                    <Col className="mr-1 m-2 p-2">
+                    <Col className="p-0 menu-options">
                       <Button
                         className="btn-settings"
                         href={
@@ -189,7 +189,7 @@ export default class PersonalAccount extends React.Component {
                     </Col>
                   </Col>
                   <Col>
-                    <Col className=" m-2 p-2">
+                    <Col className="p-0 menu-options">
                       <Button
                         className="btn-s "
                         href={links.requests}
@@ -209,7 +209,7 @@ export default class PersonalAccount extends React.Component {
                       </Button>{" "}
                     </Col>
 
-                    <Col className=" m-2 p-2">
+                    <Col className="p-0 menu-options">
                       <Button
                         className="btn-settings"
                         href="/personal_account/settings/"
@@ -224,7 +224,7 @@ export default class PersonalAccount extends React.Component {
                         </div>
                       </Button>{" "}
                     </Col>
-                    <Col className=" m-2 p-3">
+                    <Col className="p-0 menu-options">
                       <Button
                         className="btn-ex"
                         variant="submit"

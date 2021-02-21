@@ -116,6 +116,7 @@ export default class MedCardEdit extends React.Component {
                         </InputGroup.Prepend>
 
                         <Form.Control
+                          className="h-auto"
                           type="text"
                           placeholder="Name of assignment"
                           name="name"
@@ -136,6 +137,7 @@ export default class MedCardEdit extends React.Component {
                         </InputGroup.Prepend>
 
                         <Form.Control
+                          className="h-auto"
                           as="select"
                           required
                           name="specification"
@@ -163,6 +165,7 @@ export default class MedCardEdit extends React.Component {
                         </InputGroup.Prepend>
 
                         <Form.Control
+                          className="h-auto"
                           as="select"
                           onChange={(e) => this.onChange(e)}
                           name="tag"
@@ -196,6 +199,7 @@ export default class MedCardEdit extends React.Component {
                             </InputGroup.Prepend>
 
                             <Form.Control
+                              className="h-auto"
                               as="select"
                               onChange={(e) => this.onChange(e, "extraData")}
                               defaultValue={this.state.extraData.cp}
@@ -217,25 +221,38 @@ export default class MedCardEdit extends React.Component {
                                 <p className="m-0">Exercise induced angina?</p>
                               </InputGroup.Text>
                             </InputGroup.Prepend>
-
-                            <Form.Check
-                              type="radio"
-                              name="exang"
-                              id="exang-no"
-                              value="0"
-                              label="No"
-                              onChange={(e) => this.onChange(e, "extraData")}
-                              defaultChecked={this.state.extraData.exang == 0}
-                            />
-                            <Form.Check
-                              type="radio"
-                              name="exang"
-                              id="exang-yes"
-                              value="1"
-                              onChange={(e) => this.onChange(e, "extraData")}
-                              defaultChecked={this.state.extraData.exang == 1}
-                              label="Yes"
-                            />
+                            <div className="form-control h-auto child-center">
+                              <div className="w-50 child-center">
+                                <Form.Check
+                                  type="radio"
+                                  name="exang"
+                                  id="exang-no"
+                                  value="0"
+                                  label="No"
+                                  onChange={(e) =>
+                                    this.onChange(e, "extraData")
+                                  }
+                                  defaultChecked={
+                                    this.state.extraData.exang == 0
+                                  }
+                                />
+                              </div>
+                              <div className="w-50 child-center">
+                                <Form.Check
+                                  type="radio"
+                                  name="exang"
+                                  id="exang-yes"
+                                  value="1"
+                                  onChange={(e) =>
+                                    this.onChange(e, "extraData")
+                                  }
+                                  defaultChecked={
+                                    this.state.extraData.exang == 1
+                                  }
+                                  label="Yes"
+                                />
+                              </div>
+                            </div>
                           </InputGroup>
 
                           <InputGroup className="mb-3 ">
@@ -251,6 +268,7 @@ export default class MedCardEdit extends React.Component {
                             </InputGroup.Prepend>
 
                             <Form.Control
+                              className="h-auto"
                               name="thalach"
                               onChange={(e) => this.onChange(e, "extraData")}
                               type="number"
@@ -274,6 +292,7 @@ export default class MedCardEdit extends React.Component {
                         </InputGroup.Prepend>
 
                         <Form.Control
+                          className="h-auto"
                           as="textarea"
                           rows={this.state.assignment.text.length / 50}
                           onChange={(e) => this.onChange(e)}

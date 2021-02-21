@@ -39,7 +39,7 @@ export class PersonalAccountSideBar extends React.Component {
               src={side_bar_text.urls.avatar}
             />
           </Col>
-          <Col className="justify-content-left child-left">
+          <Col className="justify-content-left child-left mt-2">
             <Col>
               <Row className="justify-content-left child-left">
                 <Row className="">
@@ -48,11 +48,11 @@ export class PersonalAccountSideBar extends React.Component {
                       <h3 className="justify-content-center child-center text-lighter text-responsive">
                         {this.props.profile.name} {this.props.profile.surname}
                       </h3>
-                      <h5>{getUserRole() == 2 ? "Doctor" : "Patient"}</h5>
                     </div>
                   </div>
                 </Row>
               </Row>
+
               <Row className="ml-1  justify-content-left child-left">
                 <Row className="text-light">
                   <div className="d-flex">
@@ -69,6 +69,15 @@ export class PersonalAccountSideBar extends React.Component {
                       <h3 className="text-responsive text-lighter">
                         {this.props.profile.sex}
                       </h3>
+                    </div>
+                  </div>
+                </Row>
+              </Row>
+              <Row className="justify-content-left child-left mt-2">
+                <Row className="">
+                  <div className="d-flex">
+                    <div className="container rounded bg-transparent text-light font-weight-light">
+                      <h5>{getUserRole() == 2 ? "Doctor" : "Patient"}</h5>
                     </div>
                   </div>
                 </Row>
