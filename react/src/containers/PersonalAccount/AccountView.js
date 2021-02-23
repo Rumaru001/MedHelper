@@ -135,41 +135,9 @@ export default class PersonalAccount extends React.Component {
                             </h5>
                           </Button>{" "}
                         </Col>
-                        <Col className="p-0 menu-options">
-                          <Button
-                            className="btn-reminders"
-                            href="/reminders"
-                            variant="submit"
-                          >
-                            <h1 className="divider">
-                              <hr />
-                            </h1>
-                            <h2 className="text-lighter">Reminders</h2>
-                            <h1 className="divider">
-                              <hr />
-                            </h1>
-
-                            <Col className="mx-auto p-auto my-2">
-                              <Button className="my-2 p-2 btn-reminders-child">
-                                <h5>
-                                  Appointment to an ophthalmologist on February
-                                  13 at 2:15 p.m.
-                                </h5>
-                              </Button>
-                              <Button className="my-2 p-2 btn-reminders-child">
-                                <h5>Visit medical center to process data</h5>
-                              </Button>
-                              <Button className="my-2 p-2 btn-reminders-child">
-                                <h5>Results of urine tests</h5>
-                              </Button>
-                              <Button className="my-2 p-2 btn-reminders-child">
-                                <h5>Fill your personal data on site</h5>
-                              </Button>
-                            </Col>
-                          </Button>{" "}
-                        </Col>
                       </>
                     )}
+
                     <Col className="p-0 menu-options">
                       <Button
                         className="btn-settings"
@@ -185,6 +153,17 @@ export default class PersonalAccount extends React.Component {
                         <div>
                           <h5 className="text-lighter">Some data</h5>
                         </div>
+                      </Button>{" "}
+                    </Col>
+                    <Col className="p-0 menu-options">
+                      <Button
+                        className="btn-ex"
+                        variant="submit"
+                        size="lg"
+                        onClick={handleLogout}
+                      >
+                        <h2 className="text-lighter">Logout</h2>
+                        <h5 className="text-lighter">Logout from site</h5>
                       </Button>{" "}
                     </Col>
                   </Col>
@@ -224,17 +203,43 @@ export default class PersonalAccount extends React.Component {
                         </div>
                       </Button>{" "}
                     </Col>
-                    <Col className="p-0 menu-options">
-                      <Button
-                        className="btn-ex"
-                        variant="submit"
-                        size="lg"
-                        onClick={handleLogout}
-                      >
-                        <h2 className="text-lighter">Logout</h2>
-                        <h5 className="text-lighter">Logout from site</h5>
-                      </Button>{" "}
-                    </Col>
+                    {getUserRole() == 2 ? (
+                      ""
+                    ) : (
+                      <Col className="p-0 menu-options">
+                        <Button
+                          className="btn-reminders"
+                          href="/reminders"
+                          variant="submit"
+                        >
+                          <h1 className="divider">
+                            <hr />
+                          </h1>
+                          <h2 className="text-lighter">Reminders</h2>
+                          <h1 className="divider">
+                            <hr />
+                          </h1>
+
+                          <Col className="mx-auto p-auto my-2">
+                            <Button className="my-2 p-2 btn-reminders-child">
+                              <h5>
+                                Appointment to an ophthalmologist on February 13
+                                at 2:15 p.m.
+                              </h5>
+                            </Button>
+                            <Button className="my-2 p-2 btn-reminders-child">
+                              <h5>Visit medical center to process data</h5>
+                            </Button>
+                            <Button className="my-2 p-2 btn-reminders-child">
+                              <h5>Results of urine tests</h5>
+                            </Button>
+                            <Button className="my-2 p-2 btn-reminders-child">
+                              <h5>Fill your personal data on site</h5>
+                            </Button>
+                          </Col>
+                        </Button>{" "}
+                      </Col>
+                    )}
                   </Col>
                 </Row>
               </Container>
