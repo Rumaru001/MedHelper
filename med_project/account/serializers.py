@@ -5,7 +5,8 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from .models import Profile, User, get_user_by_type
+from .models import Doctor, Profile, User, get_user_by_type
+from assignment.serializers import SpecificationSerializer
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -119,6 +120,33 @@ class ProfileSerializer(serializers.ModelSerializer):
         }
 
 
+class DocotorSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    number_of_requests = fields.IntegerField()
+    specification = SpecificationSerializer()
+
+    class Meta:
+        model = Doctor
+        fields = "__all__"
+        extra_kwargs = {
+            'id': {'read_only': True},
+            'user': {'read_only': True},
+        }
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    number_of_requests = fields.IntegerField()
+
+    class Meta:
+        model = Profile
+        fields = "__all__"
+        extra_kwargs = {
+            'id': {'read_only': True},
+            'user': {'read_only': True},
+        }
+
+
 class DoctorUserSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     number_of_requests = fields.IntegerField()
@@ -156,3 +184,17 @@ class ProfileSerializerPut(serializers.ModelSerializer):
             'id': {'read_only': True},
             'user': {'read_only': True},
         }
+
+
+class DoctorSerializerPut(serializers.ModelSerializer):
+    class Meta:
+        model = Doctor
+        fields = ['name', 'surname', 'contact_number', 'sex', 'specification']
+        extra_kwargs = {
+            'id': {'read_only': True},
+            'user': {'read_only': True},
+            'specification': {'required': False}
+        }
+
+    def is_valid(self, raise_exception):
+        return super().is_valid(raise_exception=raise_exception)
