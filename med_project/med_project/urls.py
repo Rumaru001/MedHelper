@@ -44,5 +44,5 @@ def run():
     # pr(repeat=60, repeat_until=datetime.now() + timedelta(seconds=185))
     pr()
 
-
-run()
+# uncomment to shadule ml recomendations
+# run()

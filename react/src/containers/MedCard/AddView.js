@@ -117,6 +117,7 @@ export default class MedCardAdd extends React.Component {
                         </InputGroup.Prepend>
 
                         <Form.Control
+                          className="h-auto"
                           type="text"
                           placeholder="Name of assignment"
                           name="name"
@@ -136,6 +137,7 @@ export default class MedCardAdd extends React.Component {
                         </InputGroup.Prepend>
 
                         <Form.Control
+                          className="h-auto"
                           as="select"
                           name="specification"
                           onChange={(e) => this.onChange(e)}
@@ -167,6 +169,7 @@ export default class MedCardAdd extends React.Component {
                           </InputGroup.Prepend>
 
                           <Form.Control
+                            className="h-auto"
                             as="select"
                             onChange={(e) => this.onChange(e)}
                             defaultValue=""
@@ -199,6 +202,7 @@ export default class MedCardAdd extends React.Component {
                             </InputGroup.Prepend>
 
                             <Form.Control
+                              className="h-auto"
                               as="select"
                               onChange={(e) => this.onChange(e, "extraData")}
                               defaultValue="asymptomatic"
@@ -252,6 +256,7 @@ export default class MedCardAdd extends React.Component {
                             </InputGroup.Prepend>
 
                             <Form.Control
+                              className="h-auto"
                               name="thalach"
                               onChange={(e) => this.onChange(e, "extraData")}
                               type="number"
@@ -274,6 +279,7 @@ export default class MedCardAdd extends React.Component {
                         </InputGroup.Prepend>
 
                         <Form.Control
+                          className="h-auto"
                           as="textarea"
                           rows={3}
                           name="text"
