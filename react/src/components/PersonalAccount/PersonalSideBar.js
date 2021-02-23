@@ -112,38 +112,64 @@ export class PersonalAccountSideBar extends React.Component {
                 </div>
               </Row>
             </Row>
-            {Object.keys(side_bar_text.text).map((key, index) => (
-              <Row
-                className=" d-flex justify-content-left child-left cursor-help"
-                key={index}
-              >
+
+            {getUserRole() == 2 ? (
+              <Row className=" d-flex justify-content-left child-left cursor-help">
                 <InputGroup.Text
                   id="TitleAssignment"
                   className="bg-transparent border-0 w-22 m-1 p-1 text-lighter text-center"
                 >
                   <img
-                    title={side_bar_text.text[key]}
-                    alt={side_bar_text.text[key]}
+                    title="Email"
+                    alt="Email"
                     style={{ width: "40px", height: "40px" }}
-                    src={side_bar_text.urls[key]}
+                    src={side_bar_text.urls.addres}
                   />
                 </InputGroup.Text>
 
                 <Row className="ml-2 justify-content-left child-left">
                   <div className="container rounded bg-transparent text-light font-weight-light">
-                    <h3 className="text-responsive text-lighter">
+                    <h3 className="text-responsive text-lighter ">
                       {" "}
-                      {this.props.profile[key]}
-                      {side_bar_text.text[key] === "Weight"
-                        ? " kg"
-                        : side_bar_text.text[key] === "Height"
-                        ? " cm"
-                        : ""}
+                      {this.props.profile.address}
                     </h3>
                   </div>
                 </Row>
               </Row>
-            ))}
+            ) : (
+              Object.keys(side_bar_text.text).map((key, index) => (
+                <Row
+                  className=" d-flex justify-content-left child-left cursor-help"
+                  key={index}
+                >
+                  <InputGroup.Text
+                    id="TitleAssignment"
+                    className="bg-transparent border-0 w-22 m-1 p-1 text-lighter text-center"
+                  >
+                    <img
+                      title={side_bar_text.text[key]}
+                      alt={side_bar_text.text[key]}
+                      style={{ width: "40px", height: "40px" }}
+                      src={side_bar_text.urls[key]}
+                    />
+                  </InputGroup.Text>
+
+                  <Row className="ml-2 justify-content-left child-left">
+                    <div className="container rounded bg-transparent text-light font-weight-light">
+                      <h3 className="text-responsive text-lighter">
+                        {" "}
+                        {this.props.profile[key]}
+                        {side_bar_text.text[key] === "Weight"
+                          ? " kg"
+                          : side_bar_text.text[key] === "Height"
+                          ? " cm"
+                          : ""}
+                      </h3>
+                    </div>
+                  </Row>
+                </Row>
+              ))
+            )}
           </Col>
         </Row>
 
