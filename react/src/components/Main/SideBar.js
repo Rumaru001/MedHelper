@@ -32,7 +32,10 @@ export class SideNavBar extends React.Component {
             href=""
             className={`${this.state.isLogoCentered} toggeled-logo`}
           >
-            <Link to="/" className="text-light h3 font-weight-bold logo">
+            <Link
+              to="/personal_account/"
+              className="text-light h3 font-weight-bold logo"
+            >
               <Row>
                 <img
                   title="Profile photo"

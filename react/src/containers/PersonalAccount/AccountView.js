@@ -35,6 +35,7 @@ export default class PersonalAccount extends React.Component {
         messages: data_messages,
         loading: false,
       });
+      // console.log(response);
       return data;
     } catch (error) {
       console.log("Error: ", JSON.stringify(error, null, 4));
@@ -60,7 +61,7 @@ export default class PersonalAccount extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.getData());
+    this.getData();
   }
 
   manageTextLength = (text) => {
@@ -113,43 +114,30 @@ export default class PersonalAccount extends React.Component {
                 </Row>
                 <Row className="p-5-c mt-0 pt-0">
                   <Col>
-                    {getUserRole() == 2 ? (
-                      ""
-                    ) : (
-                      <>
-                        <Col className="p-0 menu-options">
-                          <Button
-                            className="btn-med_card "
-                            href="/medical_card"
-                            variant="submit"
-                            size="lg"
-                          >
-                            <h2 className="text-lighter">MedCard</h2>
-                            <h5 className="text-lighter">
-                              <p>{this.state.assignment.name}</p>
-                              <p>
-                                {this.manageTextLength(
-                                  this.state.assignment.text
-                                )}
-                              </p>
-                            </h5>
-                          </Button>{" "}
-                        </Col>
-                      </>
-                    )}
-
                     <Col className="p-0 menu-options">
                       <Button
-                        className="btn-settings"
-                        href={
-                          getUserRole() == 2 ? links.patients : links.doctors
-                        }
+                        className="btn-med_card "
+                        href="/medical_card"
                         variant="submit"
                         size="lg"
                       >
-                        <h2 className="text-lighter">
-                          {getUserRole() == 2 ? "Patients" : "Doctors"}
-                        </h2>
+                        <h2 className="text-lighter">MedCard</h2>
+                        <h5 className="text-lighter">
+                          <p>{this.state.assignment.name}</p>
+                          <p>
+                            {this.manageTextLength(this.state.assignment.text)}
+                          </p>
+                        </h5>
+                      </Button>{" "}
+                    </Col>
+                    <Col className="p-0 menu-options">
+                      <Button
+                        className="btn-settings"
+                        href={links.doctors}
+                        variant="submit"
+                        size="lg"
+                      >
+                        <h2 className="text-lighter">Doctors</h2>
                         <div>
                           <h5 className="text-lighter">Some data</h5>
                         </div>
@@ -203,43 +191,40 @@ export default class PersonalAccount extends React.Component {
                         </div>
                       </Button>{" "}
                     </Col>
-                    {getUserRole() == 2 ? (
-                      ""
-                    ) : (
-                      <Col className="p-0 menu-options">
-                        <Button
-                          className="btn-reminders"
-                          href="/reminders"
-                          variant="submit"
-                        >
-                          <h1 className="divider">
-                            <hr />
-                          </h1>
-                          <h2 className="text-lighter">Reminders</h2>
-                          <h1 className="divider">
-                            <hr />
-                          </h1>
 
-                          <Col className="mx-auto p-auto my-2">
-                            <Button className="my-2 p-2 btn-reminders-child">
-                              <h5>
-                                Appointment to an ophthalmologist on February 13
-                                at 2:15 p.m.
-                              </h5>
-                            </Button>
-                            <Button className="my-2 p-2 btn-reminders-child">
-                              <h5>Visit medical center to process data</h5>
-                            </Button>
-                            <Button className="my-2 p-2 btn-reminders-child">
-                              <h5>Results of urine tests</h5>
-                            </Button>
-                            <Button className="my-2 p-2 btn-reminders-child">
-                              <h5>Fill your personal data on site</h5>
-                            </Button>
-                          </Col>
-                        </Button>{" "}
-                      </Col>
-                    )}
+                    <Col className="p-0 menu-options">
+                      <Button
+                        className="btn-reminders"
+                        href="/reminders"
+                        variant="submit"
+                      >
+                        <h1 className="divider">
+                          <hr />
+                        </h1>
+                        <h2 className="text-lighter">Reminders</h2>
+                        <h1 className="divider">
+                          <hr />
+                        </h1>
+
+                        <Col className="mx-auto p-auto my-2">
+                          <Button className="my-2 p-2 btn-reminders-child">
+                            <h5>
+                              Appointment to an ophthalmologist on February 13
+                              at 2:15 p.m.
+                            </h5>
+                          </Button>
+                          <Button className="my-2 p-2 btn-reminders-child">
+                            <h5>Visit medical center to process data</h5>
+                          </Button>
+                          <Button className="my-2 p-2 btn-reminders-child">
+                            <h5>Results of urine tests</h5>
+                          </Button>
+                          <Button className="my-2 p-2 btn-reminders-child">
+                            <h5>Fill your personal data on site</h5>
+                          </Button>
+                        </Col>
+                      </Button>{" "}
+                    </Col>
                   </Col>
                 </Row>
               </Container>

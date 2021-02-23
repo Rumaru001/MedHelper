@@ -4,7 +4,7 @@ from rest_framework.generics import UpdateAPIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import (
-    CustomTokenObtainPairSerializer, DoctorUserSerializer, RegisterSerializer, ChangePasswordSerializer)
+    CustomTokenObtainPairSerializer, DocotorSerializer, DoctorSerializerPut, DoctorUserSerializer, RegisterSerializer, ChangePasswordSerializer)
 from django.core.paginator import EmptyPage, Paginator
 from django.shortcuts import render, get_object_or_404
 from rest_framework import status, permissions
@@ -83,6 +83,34 @@ class ProfileAPI(APIView):
     def delete(self, request, *args, **kwargs):
         user = request.user
         user.profile.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class DoctorAPI(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, *args, **kwargs):
+        user: User = request.user
+        profile_serializer = DocotorSerializer(get_user_by_type(user))
+        data = profile_serializer.data
+        data["number_of_requests"] = len(user.incoming_requests.all())
+        return Response(data)
+
+    def put(self, request, *args, **kwargs):
+        user = request.user
+        data = request.data
+        print(data)
+        profile_serializer = DoctorSerializerPut(
+            get_user_by_type(user), data=data)
+        if profile_serializer.is_valid(False):
+            profile_serializer.save()
+            return Response(profile_serializer.data, status=status.HTTP_200_OK)
+        print(profile_serializer.errors)
+        return Response(profile_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, *args, **kwargs):
+        user = request.user
+        get_user_by_type(user).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 

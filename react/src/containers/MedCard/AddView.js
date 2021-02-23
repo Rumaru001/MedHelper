@@ -110,7 +110,7 @@ export default class MedCardAdd extends React.Component {
                         <InputGroup.Prepend className="w-25 text-center">
                           <InputGroup.Text
                             id="TitleAssignment"
-                            className="nowrap child-center"
+                            className="nowrap child-center btn-settings-nonChange"
                           >
                             <p className="m-0">Title</p>
                           </InputGroup.Text>
@@ -130,7 +130,7 @@ export default class MedCardAdd extends React.Component {
                         <InputGroup.Prepend className="w-25 text-center">
                           <InputGroup.Text
                             id="SpecAssignment"
-                            className="nowrap child-center"
+                            className="nowrap child-center btn-settings-nonChange"
                           >
                             <p className="m-0">Specification</p>
                           </InputGroup.Text>
@@ -162,7 +162,7 @@ export default class MedCardAdd extends React.Component {
                           <InputGroup.Prepend className="w-25 text-center">
                             <InputGroup.Text
                               id="SpecAssignment"
-                              className="nowrap child-center"
+                              className="nowrap child-center btn-settings-nonChange"
                             >
                               <p className="m-0">Tag</p>
                             </InputGroup.Text>
@@ -195,7 +195,7 @@ export default class MedCardAdd extends React.Component {
                             <InputGroup.Prepend className="w-25 text-center">
                               <InputGroup.Text
                                 id="ChestPain"
-                                className="nowrap child-center"
+                                className="nowrap child-center btn-settings-nonChange"
                               >
                                 <p className="m-0">Chest pain type</p>
                               </InputGroup.Text>
@@ -216,38 +216,47 @@ export default class MedCardAdd extends React.Component {
                           </InputGroup>
 
                           <InputGroup className="mb-3 ">
-                            <InputGroup.Prepend className="w-25 text-center">
+                            <InputGroup.Prepend className="w-25 text-center ">
                               <InputGroup.Text
                                 id="Angina"
-                                className="nowrap child-center"
+                                className="nowrap child-center btn-settings-nonChange"
                               >
                                 <p className="m-0">Exercise induced angina?</p>
                               </InputGroup.Text>
                             </InputGroup.Prepend>
-
-                            <Form.Check
-                              type="radio"
-                              name="exang"
-                              id="exang-no"
-                              value="0"
-                              label="No"
-                              onChange={(e) => this.onChange(e, "extraData")}
-                            />
-                            <Form.Check
-                              type="radio"
-                              name="exang"
-                              id="exang-yes"
-                              value="1"
-                              onChange={(e) => this.onChange(e, "extraData")}
-                              label="Yes"
-                            />
+                            <div className="form-control h-auto child-center ">
+                              <div className="w-50 child-center">
+                                <Form.Check
+                                  type="radio"
+                                  name="exang"
+                                  id="exang-no"
+                                  value="0"
+                                  label="No"
+                                  onChange={(e) =>
+                                    this.onChange(e, "extraData")
+                                  }
+                                />
+                              </div>
+                              <div className="w-50 child-center">
+                                <Form.Check
+                                  type="radio"
+                                  name="exang"
+                                  id="exang-yes"
+                                  value="1"
+                                  onChange={(e) =>
+                                    this.onChange(e, "extraData")
+                                  }
+                                  label="Yes"
+                                />
+                              </div>
+                            </div>
                           </InputGroup>
 
                           <InputGroup className="mb-3 ">
-                            <InputGroup.Prepend className="w-25 text-center">
+                            <InputGroup.Prepend className="w-25 text-center ">
                               <InputGroup.Text
                                 id="MaxRate"
-                                className="nowrap child-center"
+                                className="nowrap child-center btn-settings-nonChange"
                               >
                                 <p className="m-0">
                                   Maximum heart rate achieved{" "}
@@ -272,7 +281,7 @@ export default class MedCardAdd extends React.Component {
                         <InputGroup.Prepend className="w-25 text-center">
                           <InputGroup.Text
                             id="textAssignment"
-                            className="nowrap child-center"
+                            className="nowrap child-center btn-settings-nonChange"
                           >
                             <p className="m-0">Text of assignment</p>
                           </InputGroup.Text>

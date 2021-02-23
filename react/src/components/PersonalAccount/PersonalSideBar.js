@@ -22,6 +22,9 @@ const side_bar_text = {
     weight: "https://www.flaticon.com/premium-icon/icons/svg/2343/2343398.svg",
     height: "https://www.flaticon.com/premium-icon/icons/svg/3251/3251160.svg",
     blood: "https://www.flaticon.com/svg/static/icons/svg/1188/1188130.svg",
+
+    specification:
+      "https://cdn4.iconfinder.com/data/icons/health-care-and-first-responders-with-masks/64/doctor-asian-male-coronavirus-256.png",
   },
 };
 
@@ -114,28 +117,52 @@ export class PersonalAccountSideBar extends React.Component {
             </Row>
 
             {getUserRole() == 2 ? (
-              <Row className=" d-flex justify-content-left child-left cursor-help">
-                <InputGroup.Text
-                  id="TitleAssignment"
-                  className="bg-transparent border-0 w-22 m-1 p-1 text-lighter text-center"
-                >
-                  <img
-                    title="Email"
-                    alt="Email"
-                    style={{ width: "40px", height: "40px" }}
-                    src={side_bar_text.urls.addres}
-                  />
-                </InputGroup.Text>
+              <>
+                <Row className=" d-flex justify-content-left child-left cursor-help">
+                  <InputGroup.Text
+                    id="TitleAssignment"
+                    className="bg-transparent border-0 w-22 m-1 p-1 text-lighter text-center"
+                  >
+                    <img
+                      title="Email"
+                      alt="Email"
+                      style={{ width: "40px", height: "40px" }}
+                      src={side_bar_text.urls.contact_number}
+                    />
+                  </InputGroup.Text>
 
-                <Row className="ml-2 justify-content-left child-left">
-                  <div className="container rounded bg-transparent text-light font-weight-light">
-                    <h3 className="text-responsive text-lighter ">
-                      {" "}
-                      {this.props.profile.address}
-                    </h3>
-                  </div>
+                  <Row className="ml-2 justify-content-left child-left">
+                    <div className="container rounded bg-transparent text-light font-weight-light">
+                      <h3 className="text-responsive text-lighter ">
+                        {" "}
+                        {this.props.profile.contact_number}
+                      </h3>
+                    </div>
+                  </Row>
                 </Row>
-              </Row>
+                <Row className=" d-flex justify-content-left child-left cursor-help">
+                  <InputGroup.Text
+                    id="TitleAssignment"
+                    className="bg-transparent border-0 w-22 m-1 p-1 text-lighter text-center"
+                  >
+                    <img
+                      title="Email"
+                      alt="Email"
+                      style={{ width: "40px", height: "40px" }}
+                      src={side_bar_text.urls.specification}
+                    />
+                  </InputGroup.Text>
+
+                  <Row className="ml-2 justify-content-left child-left">
+                    <div className="container rounded bg-transparent text-light font-weight-light">
+                      <h3 className="text-responsive text-lighter ">
+                        {" "}
+                        {this.props.profile.specification.name}
+                      </h3>
+                    </div>
+                  </Row>
+                </Row>
+              </>
             ) : (
               Object.keys(side_bar_text.text).map((key, index) => (
                 <Row

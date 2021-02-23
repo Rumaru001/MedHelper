@@ -15,8 +15,10 @@ import { TagList } from "./containers/MedCard/Tag/TagView";
 import { TagAdd } from "./containers/MedCard/Tag/TagAddView";
 import { TagEdit } from "./containers/MedCard/Tag/TagEditView";
 import PersonalAccount from "./containers/PersonalAccount/AccountView";
+import PersonalAccountDoctor from "./containers/PersonalAccount/AccountViewDoctor";
 import Reminders from "./containers/Reminders/RemindersView";
 import SettingsView from "./containers/PersonalAccount/SettingsView";
+import SettingsViewDoctor from "./containers/PersonalAccount/SettingsViewDoctor";
 import RequestView from "./containers/Requests/RequestList";
 import { ListOfDoctors } from "./containers/Lists/ListOfDoctors";
 import { ListOfPatients } from "./containers/Lists/ListOfPatients";
@@ -51,6 +53,14 @@ function Route_to(props) {
   );
 }
 
+function Route_by_user(props) {
+  return getUserRole() == 2 ? (
+    <Route_to path={props.path} component={props.component.B} />
+  ) : (
+    <Route_to path={props.path} component={props.component.A} />
+  );
+}
+
 class App extends Component {
   render() {
     return (
@@ -60,13 +70,13 @@ class App extends Component {
           <Route_to path={links.tag.add} component={TagAdd} />
           <Route_to path={links.tag.edit} component={TagEdit} />
           <Route_to path={links.medical_card} component={MedCard} />
-          <Route_to
+          <Route_by_user
             path={links.personal_account.settings}
-            component={SettingsView}
+            component={{ A: SettingsView, B: SettingsViewDoctor }}
           />
-          <Route_to
+          <Route_by_user
             path={links.personal_account.page}
-            component={PersonalAccount}
+            component={{ A: PersonalAccount, B: PersonalAccountDoctor }}
           />
           <Route_to path={links.reminders} component={Reminders} />
           <Route_to path={links.assignment.add} component={MedCardAdd} />
