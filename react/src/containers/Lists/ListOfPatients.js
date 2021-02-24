@@ -265,7 +265,7 @@ export class ListOfPatients extends React.Component {
                             </h1>
                             <div className="card-body pb-0">
                               <h5 className="card-title">
-                                {patient.name + " name " + patient.surname}
+                                {patient.name + " " + patient.surname}
                               </h5>
                               <p className="card-text">
                                 b-day: {patient.birth_date}

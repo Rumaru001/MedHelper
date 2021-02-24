@@ -40,7 +40,12 @@ const checkAccess = (rules, role, action) => {
 };
 
 function render_component(path, Component_) {
-  return checkAccess(rules, getUserRole(), path) ? Component_ : Forbidden;
+  try {
+    var user_role = getUserRole();
+  } catch (error) {
+    return Login;
+  }
+  return checkAccess(rules, user_role, path) ? Component_ : Forbidden;
 }
 
 function Route_to(props) {

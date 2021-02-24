@@ -151,6 +151,7 @@ class DoctorUserSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     number_of_requests = fields.IntegerField()
     isAlreadyDoctorOfThisUser = fields.BooleanField()
+    specification = SpecificationSerializer()
 
     def to_representation(self, instance):
         rep = super().to_representation(instance)
@@ -169,10 +170,12 @@ class DoctorUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['user', "name", 'surname', 'sex', 'contact_number']
+        fields = ['user', "name", 'surname', 'sex',
+                  'contact_number', 'specification']
         extra_kwargs = {
             'id': {'read_only': True},
-            'user': {'read_only': True}
+            'user': {'read_only': True},
+            'specification': {'read_only': True}
         }
 
 

@@ -291,11 +291,16 @@ export class ListOfDoctors extends React.Component {
                               src="https://cdn.searchenginejournal.com/wp-content/uploads/2020/08/white-american-doctor-google-5f30ffa223b8a-760x400.png"
                               alt="Card image cap"
                             />
-                            <div className="card-body">
+                            <div className="card-body pb-0">
                               <h5 className="card-title">
-                                {doctor.name + " name " + doctor.surname}
+                                {doctor.name + " " + doctor.surname}
                               </h5>
-                              <p className="card-text">spec</p>
+                              <p className="card-text ">
+                                <p className="p-0 m-0">
+                                  {doctor.specification.name}
+                                </p>
+                                <p className="p-0 m-0">Sex: {doctor.sex}</p>
+                              </p>
                             </div>
                           </Link>
                           {doctor.isRequested ? (
