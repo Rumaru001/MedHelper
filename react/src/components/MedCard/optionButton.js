@@ -50,7 +50,11 @@ export default class OptionDropdown extends React.Component {
           id="dropdown-custom-components"
           //onClick={this.animation}
         >
-          <img src={optionsIcon} className="optionsIcon my-auto" alt="options" />
+          <img
+            src={optionsIcon}
+            className="optionsIcon my-auto"
+            alt="options"
+          />
         </Dropdown.Toggle>
         <Dropdown.Menu
           as={CustomMenu}
