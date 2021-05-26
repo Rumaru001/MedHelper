@@ -32,20 +32,20 @@ export const getUserRole = () => {
   return decoded["user_type"];
 };
 
-const checkAccess = (rules, role, action) => {
+export const checkAccess = (rules, role, action) => {
   var str = action.replace(/[0-9]+/, ":id").replace(/\/$/, "");
   var reg = new RegExp(str);
   var res = reg.test(rules[role].static);
   return res;
 };
 
-function render_component(path, Component_) {
+export function render_component(path, Component_) {
   try {
-    var user_role = getUserRole();
+    var user_role = defaultFunctions.getUserRole();
   } catch (error) {
     return Login;
   }
-  return checkAccess(rules, user_role, path) ? Component_ : Forbidden;
+  return defaultFunctions.checkAccess(rules, user_role, path) ? Component_ : Forbidden;
 }
 
 function Route_to(props) {
@@ -53,13 +53,13 @@ function Route_to(props) {
     <Route
       exect={props.exect ? true : false}
       path={props.path}
-      component={render_component(props.path, props.component)}
+      component={defaultFunctions.render_component(props.path, props.component)}
     />
   );
 }
 
 function Route_by_user(props) {
-  return getUserRole() == 2 ? (
+  return defaultFunctions.getUserRole() == 2 ? (
     <Route_to path={props.path} component={props.component.B} />
   ) : (
     <Route_to path={props.path} component={props.component.A} />
@@ -105,3 +105,6 @@ class App extends Component {
 }
 
 export default App;
+export const defaultFunctions= {
+  App, render_component, checkAccess, getUserRole
+};

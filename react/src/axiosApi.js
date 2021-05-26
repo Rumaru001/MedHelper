@@ -1,5 +1,4 @@
 import axios from "axios";
-import Login from "./components/Auth/Login";
 
 const baseURL = "http://127.0.0.1:8000/api/";
 

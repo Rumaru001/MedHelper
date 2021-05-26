@@ -8,6 +8,7 @@ export async function axiosLogin(email, password) {
       email: email,
       password: password,
     });
+    console.log(1)
     axiosInstance.defaults.headers["Authorization"] =
       "Bearer " + response.data.access;
     console.log(response.data);
@@ -45,13 +46,16 @@ export class Login extends Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-    axiosLogin(this.state.email, this.state.password).then((data) => {
-      if (data) this.props.history.push("/personal_account/");
-      else {
-        this.state.errors.message = "Your password or email is not correct!";
-        this.setState({});
-      }
-    });
+    module.exports
+      .axiosLogin(this.state.email, this.state.password)
+      .then((data) => {
+        if (data) {
+          this.props.history.push("/personal_account/");
+        } else {
+          this.state.errors.message = "Your password or email is not correct!";
+          this.setState({});
+        }
+      });
   }
 
   async handleChange(event) {
@@ -147,3 +151,8 @@ export class Login extends Component {
     );
   }
 }
+
+module.exports = {
+  axiosLogin: axiosLogin,
+  Login: Login,
+};
